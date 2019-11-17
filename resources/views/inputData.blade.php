@@ -1,6 +1,6 @@
-@extends('layouts.cms')
+@include('layouts.cms')
 @section('content')
-        <!-- END: Left Aside -->
+ <!-- END: Left Aside -->
         <div class="m-grid__item m-grid__item--fluid m-wrapper">
           <!-- BEGIN: Subheader -->
           <div class="m-subheader ">
@@ -283,9 +283,4 @@
         </div>
       </div>
               <!--End::Section-->
-                  <!--End::Section-->
-      
-              </div>
-            </div>
-          </div>
 @endsection

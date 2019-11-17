@@ -16,7 +16,7 @@ a:hover {
 
 @media screen and (min-width: 1200px) {
 	.m-header--fixed .m-header {
-		z-index: 9999;
+		z-index: 1000;
 	}
 }
 
