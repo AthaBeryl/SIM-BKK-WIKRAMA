@@ -82,7 +82,14 @@
 ></script>
 
 <!--end::Global Theme Bundle -->
-
+{{-- Data table --}}
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
+<script>
+$(document).ready( function () {
+    $('#table_id').DataTable();
+} );
+</script>
+{{-- End Data Table --}}
 <!--begin::Page Vendors -->
 <script
   src="assets/vendors/custom/fullcalendar/fullcalendar.bundle.js"
@@ -93,6 +100,8 @@
 
 <!--begin::Page Scripts -->
 <script src="assets/app/js/dashboard.js" type="text/javascript"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highcharts/6.0.6/highcharts.js" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js" charset="utf-8"></script>
 
 <!--end::Page Scripts -->
 </body>

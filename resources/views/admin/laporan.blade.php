@@ -139,26 +139,20 @@
                                   <ul class="m-nav">
 
                                     <li class="m-nav__item">
-                                      <a href="" class="m-nav__link">
-                                        <i
-                                          class="m-nav__link-icon la la-close"
-                                        ></i>
-                                        <span class="m-nav__link-text"
-                                          >Remove Data</span
-                                        >
-                                      </a>
+                                        <a href="{{route('export.siswa')}}" class="m-nav__link">
+                                            <i
+                                              class="m-nav__link-icon la la-download"
+                                            ></i>
+                                            <span class="m-nav__link-text"
+                                              >Export Data Alumni</span
+                                            >
+                                          </a>
                                     </li>
 
                                     <li
                                       class="m-nav__separator m-nav__separator--fit"
                                     ></li>
-                                    <li class="m-nav__item">
-                                      <a
-                                        href="#"
-                                        class="btn btn-outline-danger m-btn m-btn--pill m-btn--wide btn-sm"
-                                        >Cancel</a
-                                      >
-                                    </li>
+
                                   </ul>
                                 </div>
                               </div>
@@ -231,129 +225,164 @@
                         </div>
                       </div>
                     </div>
+
                   </div>
+
                 </div>
 
-                <!--end:: Widgets/Activity-->
-              </div>
-                          </div>
 
-            <!--End::Section-->
-            <div class="row">
-              <div class="col-xl-12">
-                <div class="m-portlet m-portlet--mobile ">
+                <!--end:: Widgets/Activity-->
+
+
+              </div>
+              <div class="col-xl-6">
+                <!--begin:: Widgets/Top Products-->
+                <div
+                  class="m-portlet m-portlet--bordered-semi m-portlet--full-height "
+                >
                   <div class="m-portlet__head">
                     <div class="m-portlet__head-caption">
                       <div class="m-portlet__head-title">
                         <h3 class="m-portlet__head-text">
-                          Data Alumni
+                          Jabatan Alumni
                         </h3>
                       </div>
                     </div>
                     <div class="m-portlet__head-tools">
                       <ul class="m-portlet__nav">
-                        <li class="m-portlet__nav-item">
-                          <div
-                            class="m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push"
-                            m-dropdown-toggle="hover"
-                            aria-expanded="true"
-                          >
-                            <a
-                              href="#"
-                              class="m-portlet__nav-link btn btn-lg btn-secondary  m-btn m-btn--icon m-btn--icon-only m-btn--pill  m-dropdown__toggle"
-                            >
-                              <i class="la la-ellipsis-h m--font-brand"></i>
-                            </a>
-                            <div class="m-dropdown__wrapper">
-                              <span
-                                class="m-dropdown__arrow m-dropdown__arrow--right m-dropdown__arrow--adjust"
-                              ></span>
-                              <div class="m-dropdown__inner">
-                                <div class="m-dropdown__body">
-                                  <div class="m-dropdown__content">
-                                    <ul class="m-nav">
-                                      <li
-                                        class="m-nav__section m-nav__section--first"
-                                      >
-                                        <span class="m-nav__section-text"
-                                          >Admin</span
-                                        >
-                                      </li>
+                        <li
+                          class="m-portlet__nav-item m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push"
+                          m-dropdown-toggle="hover"
+                          aria-expanded="true"
+                        >
 
-                                      <li class="m-nav__item">
-                                        <a href="{{route('export.siswa')}}" class="m-nav__link">
-                                          <i
-                                            class="m-nav__link-icon la la-download"
-                                          ></i>
-                                          <span class="m-nav__link-text"
-                                            >Export Data Alumni</span
-                                          >
-                                        </a>
-                                      </li>
-                                      <li class="m-nav__item">
-                                        <a href="" class="m-nav__link">
-                                          <i
-                                            class="m-nav__link-icon la la-upload"
-                                          ></i>
-                                          <span class="m-nav__link-text"
-                                            >import Data Alumni</span
-                                          >
-                                        </a>
-                                      </li>
-
-                                    </ul>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
                         </li>
                       </ul>
                     </div>
                   </div>
                   <div class="m-portlet__body">
-                    <!--begin: Datatable -->
-                    {{-- <div class="m_datatable" id="m_datatable_latest_orders"></div> --}}
-                    <!--begin: Datatable -->
+                    <!--begin::Widget5-->
+                    <div class="m-widget4">
+                      <div
+                        class="m-widget4__chart m-portlet-fit--sides m--margin-top-10 m--margin-top-20"
+                      >
+                      <!-- begin charts -->
 
-                    <table id="table_id" class="display">
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Nisn</th>
-                                <th>Nis</th>
-                                <th>Nama</th>
-                                <th>Jurusan</th>
-                                <th>Rayon</th>
-                                <th>Masuk</th>
-                                <th>Lulus</th>
-                                <th>Alamat</th>
-                                <th>Email</th>
-                                <th>No Telepon</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Null</td>
-                                <td>null</td>
-                                <td>null</td>
-                                <td>null</td>
-                                <td>null</td>
-                                <td>null</td>
-                                <td>null</td>
-                                <td>null</td>
-                                <td>null</td>
-                                <td>null</td>
-                                <td>null</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                        {!!$jabatan->container()!!}
 
-                    <!--end: Datatable -->
-                    <!--end: Datatable -->
+                      <!-- end charts -->
+                      </div>
+                      {{-- @foreach($jurusan as $j)
+                      <div class="m-widget4__item">
+                         <div class="m-widget4__img m-widget4" style="">
+                          <img
+                            src="images-assets/kerja.ico"
+                            alt=""
+                          />
+                        </div>
+
+                        <div class="m-widget4__info">
+                          <span class="m-widget4__title">
+                            {{$j->jurusan}} </span
+                          ><br />
+                          <span class="m-widget4__sub">
+                           Jumlah Alumni
+                          </span>
+                        </div>
+                        <span class="m-widget4__ext">
+                          <span class="m-widget4__number m--font-danger"
+                            >{{$siswa->where('jurusan',$j->short)->count()}}</span
+                          >
+                        </span>
+                      </div>
+                      @endforeach --}}
+
+                    </div>
+
+                    <!--end::Widget 5-->
                   </div>
+
+                </div>
+
+
+
+                          </div>
+                          <div class="col-xl-6">
+                            <!--begin:: Widgets/Top Products-->
+                            <div
+                              class="m-portlet m-portlet--bordered-semi m-portlet--full-height "
+                            >
+                              <div class="m-portlet__head">
+                                <div class="m-portlet__head-caption">
+                                  <div class="m-portlet__head-title">
+                                    <h3 class="m-portlet__head-text">
+                                      Tempat Kerja Alumni
+                                    </h3>
+                                  </div>
+                                </div>
+                                <div class="m-portlet__head-tools">
+                                  <ul class="m-portlet__nav">
+                                    <li
+                                      class="m-portlet__nav-item m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push"
+                                      m-dropdown-toggle="hover"
+                                      aria-expanded="true"
+                                    >
+
+                                    </li>
+                                  </ul>
+                                </div>
+                              </div>
+                              <div class="m-portlet__body">
+                                <!--begin::Widget5-->
+                                <div class="m-widget4">
+                                  <div
+                                    class="m-widget4__chart m-portlet-fit--sides m--margin-top-10 m--margin-top-20"
+                                  >
+                                  <!-- begin charts -->
+
+                                    {!!$kerja->container()!!}
+
+                                  <!-- end charts -->
+                                  </div>
+                                  {{-- @foreach($jurusan as $j)
+                                  <div class="m-widget4__item">
+                                     <div class="m-widget4__img m-widget4" style="">
+                                      <img
+                                        src="images-assets/kerja.ico"
+                                        alt=""
+                                      />
+                                    </div>
+
+                                    <div class="m-widget4__info">
+                                      <span class="m-widget4__title">
+                                        {{$j->jurusan}} </span
+                                      ><br />
+                                      <span class="m-widget4__sub">
+                                       Jumlah Alumni
+                                      </span>
+                                    </div>
+                                    <span class="m-widget4__ext">
+                                      <span class="m-widget4__number m--font-danger"
+                                        >{{$siswa->where('jurusan',$j->short)->count()}}</span
+                                      >
+                                    </span>
+                                  </div>
+                                  @endforeach --}}
+
+                                </div>
+
+                                <!--end::Widget 5-->
+                              </div>
+
+                            </div>
+
+
+
+                                      </div>
+            <!--End::Section-->
+            <div class="row">
+
+
 
                 </div>
               </div>
@@ -364,4 +393,6 @@
         </div>
 {!!$jejakAlumni->script()!!}
 {!!$jejakJurusan->script()!!}
+{!!$jabatan->script()!!}
+{!!$kerja->script()!!}
 @endsection

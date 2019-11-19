@@ -6,7 +6,7 @@
           <div class="m-subheader ">
             <div class="d-flex align-items-center">
               <div class="mr-auto">
-                <h3 class="m-subheader__title ">Data Alumni</h3>
+                <h3 class="m-subheader__title ">Data Jurusan</h3>
               </div>
               <div>
                 <span
@@ -37,7 +37,7 @@
            <div class="container">
            <div class="row">
                <div class="col-xl-12 mb-4">
-                <div class="btn btn-primary" data-toggle="modal" data-target="#exampleModalScrollable">Masukkan Data Alumni</div>
+                <div class="btn btn-primary" data-toggle="modal" data-target="#exampleModalScrollable">Masukkan Data Jurusan</div>
                 </div>
 
                 <div class="col-xl-12">
@@ -46,7 +46,7 @@
                       <div class="m-portlet__head-caption">
                         <div class="m-portlet__head-title">
                           <h3 class="m-portlet__head-text">
-                            Data Alumni
+                            Data Jurusan 
                           </h3>
                         </div>
                       </div>
@@ -96,7 +96,7 @@
                                               class="m-nav__link-icon la la-download"
                                             ></i>
                                             <span class="m-nav__link-text"
-                                              >Export Data Alumni</span
+                                              >Export Data Jurusan</span
                                             >
                                           </a>
                                         </li>
@@ -106,7 +106,7 @@
                                               class="m-nav__link-icon la la-upload"
                                             ></i>
                                             <span class="m-nav__link-text"
-                                              >import Data Alumni</span
+                                              >import Data Jurusan</span
                                             >
                                           </a>
                                         </li>
@@ -148,8 +148,29 @@
                     </div>
                     <div class="m-portlet__body">
                       <!--begin: Datatable -->
-                      <div class="m_datatable" id="m_datatable_latest_orders"></div>
-  
+            
+                      <table id="table_id" class="display">
+                          <thead>
+                              <tr>
+                                  <th>No</th>
+                                  <th>Short</th>
+                                  <th>Jurusan</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              <tr>
+                                  <td>1</td>
+                                  <td>RPL</td>
+                                  <td>Rekayasa Perangkat Lunak</td>
+                              </tr>
+                              <tr>
+                                  <td>2</td>
+                                  <td>MMD</td>
+                                  <td>Multimedia</td>
+                              </tr>
+                          </tbody>
+                      </table>
+
                       <!--end: Datatable -->
                     </div>
                   </div>
@@ -162,118 +183,26 @@
         <div class="modal-dialog modal-dialog-scrollable" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalScrollableTitle">Data Alumni</h5>
+              <h5 class="modal-title" id="exampleModalScrollableTitle">Data Jurusan</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
             <div class="modal-body">
               <!-- Body Input -->
-                                  <!-- Nisn -->
+                                  <!-- short -->
                                   <div class="form-group m-form__group row">
-                                        <label class="form-control-label col-lg-3 mt-4">NIS</label>
+                                        <label id="short" class="form-control-label col-lg-3 mt-4">short</label>
                                         <div class="col-lg-9 mt-4">
-                                          <input type="text" class="form-control m-input" placeholder="">
-                                        </div>
-                                        <label class="form-control-label col-lg-3 mt-4">NISN</label>
-                                        <div class="col-lg-9 mt-4">
-                                          <input type="text" class="form-control m-input" placeholder="">
-                                        </div>
-                                      
-                                        <!-- Nama -->
-                                        <label class="form-control-label col-lg-3 mt-4">Nama</label>
-                                        <div class="col-lg-9 mt-4">
-                                          <input type="text" class="form-control m-input" placeholder="">
+                                          <input type="text" name="short" id="short" class="form-control m-input" placeholder="">
                                         </div>
                                         <!-- Jurusan -->
-                                        <label class="form-control-label col-lg-3 mt-4">Jurusan</label>
-                                    <div class="col-lg-9 mt-4">
-                                      <div class="m-form__control">
-                                        <select class="form-control m-bootstrap-select m_selectpicker">
-                                          <option>----Pilih Jurusan-----</option>
-                                          <option>RPL</option>
-                                          <option>MMD</option>
-                                          <option>TBG</option>
-                                          <option>HTL</option>
-                                        </select>
-                                      </div>
-                                    </div>
-                                        <!-- Rayon -->
-                                        <label class="form-control-label col-lg-3 mt-4">Rayon</label>
-                                    <div class="col-lg-9 mt-4">
-                                      <div class="m-form__control">
-                                        <select class="form-control m-bootstrap-select m_selectpicker">
-                                          <option>----Pilih Rayon-----</option>
-                                          <option>Cicurug</option>
-                                          <option>Cibedug</option>
-                                          <option>Cibinong</option>
-                                          <option>Cisarua</option>
-                                        </select>
-                                      </div>
-                                    </div>
-                                      
-                                      <!-- JK -->
-                                      
-                                        <label class="form-control-label col-lg-3 mt-4">Jenis Kelamin</label>
-                                        <div class="col-lg-9 mt-4">
-                                          <div class="m-radio-inline">
-                                            <label class="m-radio m-radio--solid m-radio--primary">
-                                              <input type="radio" name="status" value="1" checked>Laki-Laki
-                                              <span></span>
-                                            </label>
-                                            <label class="m-radio m-radio--solid m-radio--primary">
-                                              <input type="radio" name="status" value="2"> Perempuan
-                                              <span></span>
-                                            </label>
-                                          </div>
-                                        </div>
-                                    
-                                      <!-- Tgl Masuk -->
-                                    <label class="form-control-label col-lg-3 mt-4">Tahun Masuk</label>
-                                    <div class="col-lg-9 mt-4">
-                                      <div class="input-group m-input-group">
-                                        <input type="number" class="form-control" id="" placeholder="Masukkan Tahun Masuk" />
-                                      </div>
-                                    </div>
-                                      <!-- Tgl Keluar -->
-                                      <label class="form-control-label col-lg-3 mt-4">Tahun Lulus</label>
-                                      <div class="col-lg-9 mt-4">
-                                        <div class="input-group m-input-group">
-                                          <input type="number" class="form-control" id="" placeholder="Masukkan Tahun Lulus" />
-                                        </div>
-                                      </div>
-                                    <!-- Alamat -->
-                                
-                                        <label class="form-control-label col-lg-3 mt-4">Alamat</label>
-                                        <div class="col-lg-9 mt-4">
-                                          <input type="text" class="form-control m-input" placeholder="">
-                                        </div>
-                                        <!-- Email -->  
-                                      
-                                        <label class="form-control-label col-lg-3 mt-4">Email</label>
-                                        <div class="col-lg-9 mt-4">
-                                          <input type="email" class="form-control m-input" placeholder="">
-                                        </div>
                                         
-                                        <!-- Nao telp -->
-                                        <label class="form-control-label col-lg-3 mt-4">Nomor Telepon</label>
-                                        <div class="col-lg-9 mt-4">
-                                          <input type="number" class="form-control m-input" placeholder="">
-                                        </div>
+                                            <label id="jurusan" class="form-control-label col-lg-3 mt-4">jurusan</label>
+                                            <div class="col-lg-9 mt-4">
+                                              <input type="text" name="jurusan" id="jurusan" class="form-control m-input" placeholder="">
+                                            </div>
                                         
-                                        <!-- stat -->
-                                        <label class="form-control-label col-lg-3 mt-4">Status</label>
-                                    <div class="col-lg-9 mt-4">
-                                      <div class="m-form__control">
-                                        <select class="form-control m-bootstrap-select m_selectpicker">
-                                          <option>----Pilih Status-----</option>
-                                          <option>Bekerja</option>
-                                          <option>Kuliah</option>
-                                          <option>Pengangguran</option>
-                                        </select>
-                                      </div>
-                                    </div>
-                                  </div>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

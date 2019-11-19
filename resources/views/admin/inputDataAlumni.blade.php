@@ -148,7 +148,41 @@
                     </div>
                     <div class="m-portlet__body">
                       <!--begin: Datatable -->
-                      <div class="m_datatable" id="m_datatable_latest_orders"></div>
+                      <table id="table_id" class="display">
+                          <thead>
+                              <tr>
+                                  <th>No</th>
+                                  <th>Nisn</th>
+                                  <th>Nis</th>
+                                  <th>Nama</th>
+                                  <th>Jurusan</th>
+                                  <th>Rayon</th>
+                                  <th>Masuk</th>
+                                  <th>Lulus</th>
+                                  <th>Alamat</th>
+                                  <th>Email</th>
+                                  <th>No Telepon</th>
+                                  <th>Status</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              <tr>
+                                  <td>1</td>
+                                  <td>Null</td>
+                                  <td>null</td>
+                                  <td>null</td>
+                                  <td>null</td>
+                                  <td>null</td>
+                                  <td>null</td>
+                                  <td>null</td>
+                                  <td>null</td>
+                                  <td>null</td>
+                                  <td>null</td>
+                                  <td>null</td>
+                              </tr>
+                          </tbody>
+                      </table>
+  
   
                       <!--end: Datatable -->
                     </div>

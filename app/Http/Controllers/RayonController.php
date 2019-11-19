@@ -14,7 +14,7 @@ class RayonController extends Controller
      */
     public function index()
     {
-        //
+        return view('formrayon');
     }
 
     /**
@@ -24,7 +24,7 @@ class RayonController extends Controller
      */
     public function create()
     {
-        //
+       
     }
 
     /**

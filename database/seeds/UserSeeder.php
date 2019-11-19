@@ -15,6 +15,7 @@ class UserSeeder extends Seeder
         'name'=>'admin',
         'email'=>'berylheldy@asgira.com',
         'password'=>encrypt('admin123'),
+        'role'=>'admin'
         ]);
     }
 }
