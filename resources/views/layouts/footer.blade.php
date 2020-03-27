@@ -1,4 +1,5 @@
 <!-- begin::Footer -->
+@if(auth::user()->role == 'admin')
 <footer class="m-grid__item		m-footer ">
     <div
       class="m-container m-container--fluid m-container--full-height m-page__container"
@@ -70,7 +71,7 @@
 </div>
 
 <!-- end::Scroll Top -->
-
+@endif
 <!--begin::Global Theme Bundle -->
 <script
   src="assets/vendors/base/vendors.bundle.js"
@@ -108,3 +109,4 @@ $(document).ready( function () {
 
 <!-- end::Body -->
 </html>
+

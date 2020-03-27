@@ -6,5 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Status extends Model
 {
-    //
+    public function status(){
+        return $this->hasOne(Siswa::class);
+    }
 }

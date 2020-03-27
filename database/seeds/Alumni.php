@@ -13,24 +13,25 @@ class Alumni extends Seeder
     public function run()
     {
          $faker = Faker::create('id_ID');
-         
+
     	for($i = 1; $i <= 350; $i++){
     	$gender = $faker->randomElement(['male', 'female']);
     	$thn = $faker->randomElement(['2013','2014','2015','2016','2017']);
     	      // insert data ke table pegawai menggunakan Faker
     		DB::table('siswas')->insert([
+                'user_id'=> $i+1,
     			'nisn' => '19812'. 100+$i,
-    			'nis' => '1170'. 1200+$i,
-    			'nama'=> $faker->name($gender),
-    			'jurusan'=> $faker->randomElement(['RPL','TKJ','OTKP','TBG','MMD','HTL','BDP']),
-    			'rayon'=> $faker->randomElement(['CISARUA','CICURUG','SUKASARI','WIKRAMA','TAJUR']).' '.$faker->numberBetween($min = 1, $max = 5) ,
+    			'nis' => '1170'. 6000+$i,
+    			// 'nama'=> $faker->name($gender),
+    			'jurusan_id'=> $faker->numberBetween($min = 1,$max = 7),
+    			'rayon_id'=> $faker->numberBetween($min = 1,$max = 25),
     			'jk'=> $gender,
     			'masuk'=> $thn,
     			'lulus'=> $thn+3,
     			'alamat'=> $faker->streetAddress,
-    			'email'=> $faker->freeEmail,
+    			// 'email'=> $faker->freeEmail,
     			'telp'=> $faker->phoneNumber,
-    			'status'=> $faker->randomElement(['kerja','kuliah','wirausaha','Belum Input']),
+    			'status_id'=> $faker->randomElement(['1','2','3','4']),
     		]);
     	}
     }

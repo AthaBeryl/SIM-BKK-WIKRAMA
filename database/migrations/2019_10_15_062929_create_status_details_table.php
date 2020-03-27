@@ -14,10 +14,13 @@ class CreateStatusDetailsTable extends Migration
     public function up()
     {
         Schema::create('status_details', function (Blueprint $table) {
-            $table->integer('nis')->primary();
-            $table->string('jabatan',40)->default('Belum Diisi')->nullable();
-            $table->string('namaInstansi',40)->default('Belum Diisi')->nullable();
-            $table->longtext('alamatInstansi')->nullable();
+            $table->bigIncrements('id');
+            $table->integer('nis');
+            $table->integer('status_id');
+            $table->string('jabatan',40)->nullable();
+            $table->bigInteger('id_instansi')->nullable();
+            $table->bigInteger('pendapatan')->nullable();
+            $table->string('durasi_kontrak',100)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
