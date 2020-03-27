@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Jurusan;
+use DataTables;
+use App\Preset;
 use Illuminate\Http\Request;
 
 class JurusanController extends Controller
@@ -12,9 +14,16 @@ class JurusanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function __construct()
+    {
+        $this->middleware(['auth','admin']);
+    }
+
     public function index()
     {
-        return view('formjurusan');
+        $preset = preset::where('status','active')->first();
+        return view('admin.formjurusan',compact('preset'));
     }
 
     /**
@@ -22,9 +31,15 @@ class JurusanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function json()
+    {
+        return Datatables::of(Jurusan::all())->make(true);
+    }
+
     public function create()
     {
-        
+
     }
 
     /**
@@ -35,7 +50,9 @@ class JurusanController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Jurusan::updateOrCreate(['id' => $request->id],
+            ['short' => $request->short, 'jurusan' => $request->jurusan]);
+        return response()->json();
     }
 
     /**
@@ -55,9 +72,10 @@ class JurusanController extends Controller
      * @param  \App\Jurusan  $jurusan
      * @return \Illuminate\Http\Response
      */
-    public function edit(Jurusan $jurusan)
+    public function edit($id)
     {
-        //
+        $data = Jurusan::find($id);
+        return response()->json($data);
     }
 
     /**
@@ -78,8 +96,9 @@ class JurusanController extends Controller
      * @param  \App\Jurusan  $jurusan
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Jurusan $jurusan)
+    public function destroy($id)
     {
-        //
+        Jurusan::find($id)->delete();
+        return response()->json();
     }
 }

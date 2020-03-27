@@ -6,7 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable;
 
@@ -16,8 +16,22 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password','username','role','foto','email'
     ];
+
+    public function data()
+    {
+        return $this->hasOne(Siswa::class);
+    }
+     public function latestData()
+    {
+        return $this->hasOne(dataStatus::class)->latest();
+    }
+
+    public function datasiswa()
+    {
+        return $this->hasOne(DataSiswa::class);
+    }
 
     /**
      * The attributes that should be hidden for arrays.

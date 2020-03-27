@@ -1,5 +1,8 @@
-@extends('layouts.cms')
+@include('layouts.footer')@extends('layouts.header')
+@section('dataAlumni','m-menu__item--active')
+@section('title','SIMBKK | Data Alumni')
 @section('content')
+
         <!-- END: Left Aside -->
         <div class="m-grid__item m-grid__item--fluid m-wrapper">
           <!-- BEGIN: Subheader -->
@@ -322,4 +325,5 @@
               </div>
             </div>
           </div>
+@include('layouts.footer')
 @endsection

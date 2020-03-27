@@ -18,5 +18,7 @@ class DatabaseSeeder extends Seeder
         $this->call(RayonSeeder::class);
         $this->call(StatusSeeder::class);
         $this->call(StatusDetailSeeder::class);
+        $this->call(Instansi::class);
+        $this->call(Preset::class);
     }
 }

@@ -3,17 +3,21 @@
   <!-- begin::Head -->
   <head>
     <meta charset="utf-8" />
-    <title>Sim BKK</title>
+    <title>@yield('title')</title>
     <meta name="description" content="Latest updates and statistic charts" />
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no"
     />
 {{-- Data Table --}}
+<script src="//code.jquery.com/jquery.js"></script>
+    <script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
 {{-- End Table --}}
     <!--begin::Web font -->
     <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js"></script>
+    <script src="{{asset('js/jscolor.js')}}"></script>
     <script>
       WebFont.load({
         google: {
@@ -61,18 +65,37 @@
     <!--end::Page Vendors Styles -->
     <link
       rel="shortcut icon"
-      href="assets/demo/default/media/img/logo/favicon.ico"
+      href="{{asset('image/config/logo/'.$preset->dashboardLogo)}}"
     />
 
     <!--begin::Customize Css -->
     <link href="assets/customize.css" rel="stylesheet" type="text/css" />
+  <style>
+  .bodyBackround{
+    background-color:  {{$preset->bodyBackround}};
+  }
+  .m-aside-menu.m-aside-menu--skin-light .m-menu__nav > .m-menu__item.m-menu__item--active > .m-menu__heading .m-menu__link-text,
+.m-aside-menu.m-aside-menu--skin-light .m-menu__nav > .m-menu__item.m-menu__item--active > .m-menu__link .m-menu__link-text,
+.m-aside-menu.m-aside-menu--skin-light .m-menu__nav > .m-menu__item.m-menu__item--active > .m-menu__heading .m-menu__link-icon,
+.m-aside-menu.m-aside-menu--skin-light .m-menu__nav > .m-menu__item.m-menu__item--active > .m-menu__link .m-menu__link-icon,
+.m-aside-left--minimize .m-aside-menu.m-aside-menu--skin-light .m-menu__nav > .m-menu__item.m-menu__item--expanded > .m-menu__link > .m-menu__link-icon,
+.m-aside-left--minimize .m-aside-menu.m-aside-menu--skin-light .m-menu__nav > .m-menu__item.m-menu__item--active > .m-menu__link > .m-menu__link-icon,
+.m-aside-menu.m-aside-menu--skin-dark .m-menu__nav > .m-menu__item.m-menu__item--active > .m-menu__heading .m-menu__link-text,
+.m-aside-menu.m-aside-menu--skin-dark .m-menu__nav > .m-menu__item.m-menu__item--active > .m-menu__link .m-menu__link-text,
+.m-aside-menu.m-aside-menu--skin-dark .m-menu__nav > .m-menu__item.m-menu__item--active > .m-menu__heading .m-menu__link-icon,
+.m-aside-menu.m-aside-menu--skin-dark .m-menu__nav > .m-menu__item.m-menu__item--active > .m-menu__link .m-menu__link-icon,
+.m-aside-left--minimize .m-aside-menu.m-aside-menu--skin-dark .m-menu__nav > .m-menu__item.m-menu__item--expanded > .m-menu__link > .m-menu__link-icon,
+.m-aside-left--minimize .m-aside-menu.m-aside-menu--skin-dark .m-menu__nav > .m-menu__item.m-menu__item--active > .m-menu__link > .m-menu__link-icon {
+	color: {{$preset->iconActive}};
+}
+  </style>
   </head>
 
   <!-- end::Head -->
 
   <!-- begin::Body -->
   <body
-    class="m-page--fluid m--skin- m-content--skin-light2 m-header--fixed m-header--fixed-mobile m-aside-left--enabled m-aside-left--skin-dark m-aside-left--fixed m-aside-left--offcanvas m-footer--push m-aside--offcanvas-default"
+    class="m-page--fluid m--skin-  m-header--fixed m-header--fixed-mobile m-aside-left--enabled m-aside-left--skin-dark m-aside-left--fixed m-aside-left--offcanvas m-footer--push m-aside--offcanvas-default bodyBackround"
   >
     <!-- begin:: Page -->
     <div class="m-grid m-grid--hor m-grid--root m-page">
@@ -84,15 +107,15 @@
         m-minimize-mobile-offset="200"
       >
         <div class="m-container m-container--fluid m-container--full-height">
-          <div class="m-stack m-stack--ver m-stack--desktop">
+          <div class="m-stack m-stack--ver m-stack--desktop" >
             <!-- BEGIN: Brand -->
-            <div class="m-stack__item m-brand  m-brand--skin-light ">
+            <div class="m-stack__item m-brand  m-brand--skin-light" style="background-color: {{$preset->headerKiri}}">
               <div class="m-stack m-stack--ver m-stack--general">
                 <div class="m-stack__item m-stack__item--middle m-brand__logo">
                   <a href="index.html" class="m-brand__logo-wrapper">
                     <img
                       alt=""
-                      src="assets/demo/default/media/img/logo/logo.svg"
+                      src="{{asset('image/config/logo/wk.png')}}" style="max-width:150px;height:50px;object-fit:cover "
                     />
                   </a>
                 </div>
@@ -128,7 +151,7 @@
                   <!-- END -->
 
                   <!-- BEGIN: Topbar Toggler -->
-                  <a
+                  <a 
                     id="m_aside_header_topbar_mobile_toggle"
                     href="javascript:;"
                     class="m-brand__icon m--visible-tablet-and-mobile-inline-block"
@@ -146,151 +169,145 @@
               class="m-stack__item m-stack__item--fluid m-header-head"
               id="m_header_nav"
             >
-              <!-- BEGIN: Topbar -->
-              <div
-                id="m_header_topbar"
-                class="m-topbar m-stack m-stack--ver m-stack--general m-stack--fluid"
-              >
-                <div class="m-stack__item m-topbar__nav-wrapper">
-                  <ul class="m-topbar__nav m-nav m-nav--inline flex">
-                    {{-- <li id="view-frontend" class="m-nav__item">
-                      <a href="#" class="m-menu__link">
-                        <span class=" m-menu__link-text">View Frontend</span>
-                        <i class="m-menu__link-icon la la-external-link"></i>
-                      </a>
-                    </li> --}}
-                    <li
-                      id="avatar"
-                      class="m-nav__item m-topbar__user-profile m-topbar__user-profile--img  m-dropdown m-dropdown--medium m-dropdown--arrow m-dropdown--header-bg-fill m-dropdown--align-right m-dropdown--mobile-full-width m-dropdown--skin-light"
-                      m-dropdown-toggle="click"
-                    >
-                      <a href="#" class="m-nav__link m-dropdown__toggle">
-                        <span class="m-topbar__username">Administrator</span>
-                        <span class="m-topbar__userpic">
-                          <img
-                            src="assets/app/media/img/users/user4.jpg"
+               <!-- BEGIN: Topbar -->
+               <div
+               id="m_header_topbar"
+               class="m-topbar m-stack m-stack--ver m-stack--general m-stack--fluid"
+             >
+               <div class="m-stack__item m-topbar__nav-wrapper">
+                 <ul class="m-topbar__nav m-nav m-nav--inline flex">
+                   <li id="view-frontend" class="m-nav__item">
+                     <a href="#" class="m-menu__link">
+                       <!-- <span class=" m-menu__link-text">View Frontend</span> -->
+                       <!-- <i class="m-menu__link-icon la la-external-link"></i> -->
+                     </a>
+                   </li>
+                   <li
+                     id="avatar"
+                     class="m-nav__item m-topbar__user-profile m-topbar__user-profile--img  m-dropdown m-dropdown--medium m-dropdown--arrow m-dropdown--header-bg-fill m-dropdown--align-right m-dropdown--mobile-full-width m-dropdown--skin-light"
+                     m-dropdown-toggle="click"
+                   >
+                     <a href="#" class="m-nav__link m-dropdown__toggle">
+                       <span class="m-topbar__username">{{ Auth::user()->name }}</span>
+                       <span class="m-topbar__userpic">
+                        <img style="object-fit: cover; height: 40px ; width: 40px"
+                        src="{{asset('image/profiles/'.auth::user()->foto)}}"
                             class="m--img-rounded m--marginless"
                             alt=""
                           />
-                        </span>
-                      </a>
-                      <div class="m-dropdown__wrapper">
-                        <span
-                          class="m-dropdown__arrow m-dropdown__arrow--right m-dropdown__arrow--adjust"
-                        ></span>
-                        <div class="m-dropdown__inner">
-                          <div
-                            class="m-dropdown__header m--align-center"
-                            style="background: url(assets/app/media/img/bg/bg-9.jpg); background-size: cover;"
-                          >
-                            <div class="m-card-user m-card-user--skin-light">
-                              <div class="m-card-user__pic">
-                                <img
-                                  src="assets/app/media/img/users/user4.jpg"
-                                  class="m--img-rounded m--marginless"
-                                  alt=""
-                                />
-                              </div>
-                              <div class="m-card-user__details">
-                                <span
-                                  class="m-card-user__name m--font-weight-500"
-                                  >Administrator</span
-                                >
-                                <a href="" class="m-card-user__email m-link"
-                                  >admin@4visionmedia.com</a
-                                >
-                              </div>
-                            </div>
-                          </div>
-                          <div class="m-dropdown__body">
-                            <div class="m-dropdown__content">
-                              <ul class="m-nav m-nav--skin-light">
-                                <li class="m-nav__section m--hide">
-                                  <span class="m-nav__section-text"
-                                    >Section</span
-                                  >
-                                </li>
-                                <li class="m-nav__item">
-                                  <a href="#!" class="m-nav__link">
-                                    <i class="m-nav__link-icon la la-user"></i>
-                                    <span class="m-nav__link-text"
-                                      >My Profile</span
-                                    >
-                                  </a>
-                                </li>
-                                <li class="m-nav__item">
-                                  <a href="#!" class="m-nav__link">
-                                    <i
-                                      class="m-nav__link-icon la la-share-alt"
-                                    ></i>
-                                    <span class="m-nav__link-title">
-                                      <span class="m-nav__link-wrap">
-                                        <span class="m-nav__link-text"
-                                          >Activity</span
-                                        >
-                                        <span class="m-nav__link-badge"
-                                          ><span
-                                            class="m-badge m-badge--success"
-                                            >2</span
-                                          ></span
-                                        >
-                                      </span>
-                                    </span>
-                                  </a>
-                                </li>
-                                <li class="m-nav__item">
-                                  <a href="#!" class="m-nav__link">
-                                    <i
-                                      class="m-nav__link-icon la la-comments"
-                                    ></i>
-                                    <span class="m-nav__link-text"
-                                      >Messages</span
-                                    >
-                                  </a>
-                                </li>
-                                <li
-                                  class="m-nav__separator m-nav__separator--fit"
-                                ></li>
-                                <li class="m-nav__item">
-                                  <a href="#!" class="m-nav__link">
-                                    <i
-                                      class="m-nav__link-icon la la-question-circle"
-                                    ></i>
-                                    <span class="m-nav__link-text">FAQ</span>
-                                  </a>
-                                </li>
-                                <li class="m-nav__item">
-                                  <a href="#!" class="m-nav__link">
-                                    <i
-                                      class="m-nav__link-icon la la-life-bouy"
-                                    ></i>
-                                    <span class="m-nav__link-text"
-                                      >Support</span
-                                    >
-                                  </a>
-                                </li>
-                                <li
-                                  class="m-nav__separator m-nav__separator--fit"
-                                ></li>
-                                <li class="m-nav__item">
-                                  <a href="login.html" class="m-nav__link">
-                                    <i
-                                      class="m-nav__link-icon la la-sign-out"
-                                    ></i>
-                                    <span class="m-nav__link-text">Logout</span>
-                                  </a>
-                                </li>
-                              </ul>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-              </div>
+                       </span>
+                     </a>
+                     <div class="m-dropdown__wrapper">
+                       <span
+                         class="m-dropdown__arrow m-dropdown__arrow--right m-dropdown__arrow--adjust"
+                       ></span>
+                       <div class="m-dropdown__inner">
+                         <div
+                           class="m-dropdown__header m--align-center"
+                           style="background: url({{asset('assets/app/media/img/bg/bg-9.jpg')}}); background-size: cover;"
+                         >
+                           <div class="m-card-user m-card-user--skin-light">
+                             <div class="m-card-user__pic">
+                               <img
+                             src="{{asset('image/profiles/'.auth::user()->foto)}}"
+                                 class="m--img-rounded m--marginless"
+                                 alt=""style="object-fit: cover; height: 70px ; width: 70px"
+                               />
+                             </div>
+                             <div class="m-card-user__details">
+                               <span
+                                 class="m-card-user__name m--font-weight-500"
+                             >{{ Auth::user()->name }}</span
+                               >
+                               <a href="" class="m-card-user__email m-link"
+                                 >{{ Auth::user()->email}}</a
+                               >
+                             </div>
+                           </div>
+                         </div>
+                         <div class="m-dropdown__body">
+                           <div class="m-dropdown__content">
+                             <ul class="m-nav m-nav--skin-light">
+                               <li class="m-nav__section m--hide">
+                                 <span class="m-nav__section-text"
+                                   >Section</span
+                                 >
+                               </li>
+                               {{-- <li class="m-nav__item">
+                               <a href="#" class="m-nav__link" data-toggle="modal" data-target="#myprofile">
+                                   <i class="m-nav__link-icon la la-user"></i>
+                                   <span class="m-nav__link-text"
+                                     >My Profile</span
+                                   >
+                                 </a>
+                               </li> --}}
+                               <li class="m-nav__item">
+                               <a href="{{route('profiles')}}" class="m-nav__link">
+                                <i class="m-nav__link-icon la la-user"></i>
+                                <span class="m-nav__link-text"
+                                  >My Profile</span>
+                                   </a>
+                                 </li>
+                               <!-- <li class="m-nav__item">
+                                 <a href="#!" class="m-nav__link">
+                                   <i
+                                     class="m-nav__link-icon la la-comments"
+                                   ></i>
+                                   <span class="m-nav__link-text"
+                                     >Messages</span
+                                   >
+                                 </a>
+                               </li> -->
+                               <!-- <li
+                                 class="m-nav__separator m-nav__separator--fit"
+                               ></li> -->
+                               <!-- <li class="m-nav__item">
+                                 <a href="#!" class="m-nav__link">
+                                   <i
+                                     class="m-nav__link-icon la la-question-circle"
+                                   ></i>
+                                   <span class="m-nav__link-text">FAQ</span>
+                                 </a>
+                               </li> -->
+                               <!-- <li class="m-nav__item">
+                                 <a href="#!" class="m-nav__link">
+                                   <i
+                                     class="m-nav__link-icon la la-life-bouy"
+                                   ></i>
+                                   <span class="m-nav__link-text"
+                                     >Support</span
+                                   >
+                                 </a>
+                               </li> -->
+                               <li
+                                 class="m-nav__separator m-nav__separator--fit"
+                               ></li>
+                               <li class="m-nav__item">
+                                   <a href="{{route('logout')}}" class="m-nav__link"
+                                   onclick="event.preventDefault();
+                                                        document.getElementById('logout-form').submit();">
 
-              <!-- END: Topbar -->
+                                       <i
+                                         class="m-nav__link-icon la la-sign-out"
+                                       ></i>
+                                       <span class="m-nav__link-text">Logout</span>
+
+                                       <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                           @csrf
+                                       </form>
+                                     </a>
+                               </li>
+                             </ul>
+                           </div>
+                         </div>
+                       </div>
+                     </div>
+                   </li>
+                 </ul>
+               </div>
+             </div>
+
+             <!-- END: Topbar -->
             </div>
           </div>
         </div>
@@ -324,10 +341,11 @@
           >
             <ul class="m-menu__nav  m-menu__nav--dropdown-submenu-arrow ">
               <li
-                class="m-menu__item  m-menu__item--active"
+                class="m-menu__item @yield('dashboard')" 
                 aria-haspopup="true"
               >
-            <a href="{{url('/admin')}}" class="m-menu__link "
+             
+            <a href="{{url('/home')}}" class="m-menu__link "
                   ><i class="m-menu__link-icon la la-dashboard"></i
                   ><span class="m-menu__link-title"
                     ><span class="m-menu__link-wrap">
@@ -339,8 +357,9 @@
                   ></a
                 >
               </li>
+              @if(auth::user()->role == 'admin')
                <li class="m-menu__section ">
-                <h4 class="m-menu__section-text">Admin</h4>
+                <h4 class="m-menu__section-text">Pengelolaan Alumni</h4>
                 <i class="m-menu__section-icon flaticon-more-v2"></i>
               </li>
               <!-- <li class="m-menu__item" aria-haspopup="true">
@@ -349,19 +368,26 @@
                   ><span class="m-menu__link-text">Input Data Alumni</span></
                 >
               </li> -->
-              <li class="m-menu__item" aria-haspopup="true">
-                <a href="{{route('inputAlumni')}}" class="m-menu__link m-menu__toggle"
+
+              {{-- sub-aside admin --}}
+                              
+              <li class="m-menu__item @yield('dataAlumni')" aria-haspopup="true">
+                <a href="{{url('/inputalumni')}}" class="m-menu__link m-menu__toggle" 
                   ><i class="m-menu__link-icon la la-graduation-cap"></i
                   ><span class="m-menu__link-text"> Data Alumni</span></a
                 >
               </li>
-              <li class="m-menu__item" aria-haspopup="true">
+              <li class="m-menu__section ">
+                <h4 class="m-menu__section-text">Data Master</h4>
+                <i class="m-menu__section-icon flaticon-more-v2"></i>
+              </li>
+              <li class="m-menu__item @yield('dataJurusan')" aria-haspopup="true">
                 <a href="{{url('/inputjurusan')}}" class="m-menu__link m-menu__toggle"
                   ><i class="m-menu__link-icon la la-book"></i
                   ><span class="m-menu__link-text"> Data Jurusan</span></a
                 >
               </li>
-              <li class="m-menu__item" aria-haspopup="true">
+              <li class="m-menu__item @yield('dataRayon')" aria-haspopup="true">
                 <a href="{{url('/inputrayon')}}" class="m-menu__link m-menu__toggle"
                   ><i class="m-menu__link-icon la la-archive"></i
                   ><span class="m-menu__link-text"> Data Rayon</span></a
@@ -373,24 +399,19 @@
                   ><span class="m-menu__link-text"> Data Status</span></a
                 >
               </li> -->
-              {{-- <li class="m-menu__item" aria-haspopup="true">
-                <a href="{{route('inputrayon')}}" class="m-menu__link m-menu__toggle"
-                  ><i class="m-menu__link-icon la la-user-plus"></i
-                  ><span class="m-menu__link-text"> Data Rayon</span></a
+              <li class="m-menu__item @yield('dataInstansi')" aria-haspopup="true">
+                <a href="{{url('/inputinstansi')}}" class="m-menu__link m-menu__toggle"
+                  ><i class="m-menu__link-icon la la-building"></i
+                  ><span class="m-menu__link-text"> Data Instansi</span></a
                 >
-              </li> --}}
-              {{-- <li class="m-menu__item" aria-haspopup="true">
+              </li>
+              {{-- <li class="m-menu__item @yield('dataStatus')" aria-haspopup="true">
                 <a href="{{route('inputstatus')}}" class="m-menu__link m-menu__toggle"
                   ><i class="m-menu__link-icon la la-user-plus"></i
                   ><span class="m-menu__link-text"> Status</span></a
                 >
               </li> --}}
-              <li class="m-menu__item" aria-haspopup="true">
-                <a href="{{route('dataAlumni')}}" class="m-menu__link m-menu__toggle"
-                  ><i class="m-menu__link-icon la la-bar-chart"></i
-                  ><span class="m-menu__link-text">Laporan</span></a
-                >
-              </li>
+              
               {{-- <li class="m-menu__section ">
                 <h4 class="m-menu__section-text">Module</h4>
                 <i class="m-menu__section-icon flaticon-more-v2"></i>
@@ -473,14 +494,18 @@
                 <h4 class="m-menu__section-text">Optional</h4>
                 <i class="m-menu__section-icon flaticon-more-v2"></i>
               </li> --}}
+              <li class="m-menu__section ">
+                <h4 class="m-menu__section-text">Laporan</h4>
+                <i class="m-menu__section-icon flaticon-more-v2"></i>
+              </li>
               <li
-                class="m-menu__item  m-menu__item--submenu"
+                class="m-menu__item m-menu__item--submenu  @yield('laporan')"
                 aria-haspopup="true"
                 m-menu-submenu-toggle="hover"
               >
                 <a href="javascript:;" class="m-menu__link m-menu__toggle"
-                  ><i class="m-menu__link-icon la la-list"></i
-                  ><span class="m-menu__link-text">Dropdown Menu</span
+                  ><i class="m-menu__link-icon la la-bar-chart"></i
+                  ><span class="m-menu__link-text">Jejak Alumni</span
                   ><i class="m-menu__ver-arrow la la-angle-right"></i
                 ></a>
                 <div class="m-menu__submenu ">
@@ -501,196 +526,114 @@
                       aria-haspopup="true"
                       m-menu-submenu-toggle="hover"
                     >
-                      <a href="javascript:;" class="m-menu__link m-menu__toggle"
-                        ><i class="m-menu__link-bullet m-menu__link-bullet--dot"
-                          ><span></span></i
-                        ><span class="m-menu__link-text">Dropdown</span
-                        ><i class="m-menu__ver-arrow la la-angle-right"></i
-                      ></a>
-                      <div class="m-menu__submenu ">
-                        <span class="m-menu__arrow"></span>
-                        <ul class="m-menu__subnav">
-                          <li class="m-menu__item " aria-haspopup="true">
-                            <a
-                              target="_blank"
-                              href="javascript:;"
-                              class="m-menu__link "
-                              ><i
-                                class="m-menu__link-bullet m-menu__link-bullet--dot"
-                                ><span></span></i
-                              ><span class="m-menu__link-text"
-                                >Sub Dropdown - 1</span
-                              ></a
-                            >
-                          </li>
-                          <li class="m-menu__item " aria-haspopup="true">
-                            <a
-                              target="_blank"
-                              href="javascript:;"
-                              class="m-menu__link "
-                              ><i
-                                class="m-menu__link-bullet m-menu__link-bullet--dot"
-                                ><span></span></i
-                              ><span class="m-menu__link-text"
-                                >Sub Dropdown - 2</span
-                              ></a
-                            >
-                          </li>
-                          <li class="m-menu__item " aria-haspopup="true">
-                            <a
-                              target="_blank"
-                              href="javascript:;"
-                              class="m-menu__link "
-                              ><i
-                                class="m-menu__link-bullet m-menu__link-bullet--dot"
-                                ><span></span></i
-                              ><span class="m-menu__link-text"
-                                >Sub Dropdown - 3</span
-                              ></a
-                            >
-                          </li>
-                          <li class="m-menu__item " aria-haspopup="true">
-                            <a
-                              target="_blank"
-                              href="javascript:;"
-                              class="m-menu__link "
-                              ><i
-                                class="m-menu__link-bullet m-menu__link-bullet--dot"
-                                ><span></span></i
-                              ><span class="m-menu__link-text"
-                                >Sub Dropdown - 4</span
-                              ></a
-                            >
-                          </li>
-                          <li class="m-menu__item " aria-haspopup="true">
-                            <a
-                              target="_blank"
-                              href="javascript:;"
-                              class="m-menu__link "
-                              ><i
-                                class="m-menu__link-bullet m-menu__link-bullet--dot"
-                                ><span></span></i
-                              ><span class="m-menu__link-text"
-                                >Sub Dropdown - 5</span
-                              ></a
-                            >
-                          </li>
-                          <li class="m-menu__item " aria-haspopup="true">
-                            <a
-                              target="_blank"
-                              href="javascript:;"
-                              class="m-menu__link "
-                              ><i
-                                class="m-menu__link-bullet m-menu__link-bullet--dot"
-                                ><span></span></i
-                              ><span class="m-menu__link-text"
-                                >Sub Dropdown - 6</span
-                              ></a
-                            >
-                          </li>
-                        </ul>
-                      </div>
-                    </li>
-                    <li
-                      class="m-menu__item  m-menu__item--submenu"
-                      aria-haspopup="true"
-                      m-menu-submenu-toggle="hover"
-                    >
-                      <a href="javascript:;" class="m-menu__link m-menu__toggle"
-                        ><i class="m-menu__link-bullet m-menu__link-bullet--dot"
-                          ><span></span></i
-                        ><span class="m-menu__link-text">Dropdown</span
-                        ><i class="m-menu__ver-arrow la la-angle-right"></i
-                      ></a>
-                      <div class="m-menu__submenu ">
-                        <span class="m-menu__arrow"></span>
-                        <ul class="m-menu__subnav">
-                          <li class="m-menu__item " aria-haspopup="true">
-                            <a
-                              target="_blank"
-                              href="javascript:;"
-                              class="m-menu__link "
-                              ><i
-                                class="m-menu__link-bullet m-menu__link-bullet--dot"
-                                ><span></span></i
-                              ><span class="m-menu__link-text"
-                                >Sub Dropdown - 1</span
-                              ></a
-                            >
-                          </li>
-                          <li class="m-menu__item " aria-haspopup="true">
-                            <a
-                              target="_blank"
-                              href="javascript:;"
-                              class="m-menu__link "
-                              ><i
-                                class="m-menu__link-bullet m-menu__link-bullet--dot"
-                                ><span></span></i
-                              ><span class="m-menu__link-text"
-                                >Sub Dropdown - 2</span
-                              ></a
-                            >
-                          </li>
-                          <li class="m-menu__item " aria-haspopup="true">
-                            <a
-                              target="_blank"
-                              href="javascript:;"
-                              class="m-menu__link "
-                              ><i
-                                class="m-menu__link-bullet m-menu__link-bullet--dot"
-                                ><span></span></i
-                              ><span class="m-menu__link-text"
-                                >Sub Dropdown - 3</span
-                              ></a
-                            >
-                          </li>
-                          <li class="m-menu__item " aria-haspopup="true">
-                            <a
-                              target="_blank"
-                              href="javascript:;"
-                              class="m-menu__link "
-                              ><i
-                                class="m-menu__link-bullet m-menu__link-bullet--dot"
-                                ><span></span></i
-                              ><span class="m-menu__link-text"
-                                >Sub Dropdown - 4</span
-                              ></a
-                            >
-                          </li>
-                          <li class="m-menu__item " aria-haspopup="true">
-                            <a
-                              target="_blank"
-                              href="javascript:;"
-                              class="m-menu__link "
-                              ><i
-                                class="m-menu__link-bullet m-menu__link-bullet--dot"
-                                ><span></span></i
-                              ><span class="m-menu__link-text"
-                                >Sub Dropdown - 5</span
-                              ></a
-                            >
-                          </li>
-                          <li class="m-menu__item " aria-haspopup="true">
-                            <a
-                              target="_blank"
-                              href="javascript:;"
-                              class="m-menu__link "
-                              ><i
-                                class="m-menu__link-bullet m-menu__link-bullet--dot"
-                                ><span></span></i
-                              ><span class="m-menu__link-text"
-                                >Sub Dropdown - 6</span
-                              ></a
-                            >
-                          </li>
-                        </ul>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
+                    <li class="m-menu__item" aria-haspopup="true">
+                <a href="{{route('dataAlumni')}}" class="m-menu__link m-menu__toggle"
+                  ><i class="m-menu__link-icon la la-bar-chart"></i
+                  ><span class="m-menu__link-text">Seluruh Jurusan</span></a
+                >
               </li>
+              <!-- //foreaech -->      
+                        </ul>
+                      </div>
+                    </li>
+                    <li class="m-menu__section ">
+                <h4 class="m-menu__section-text">Website Configuration</h4>
+                <i class="m-menu__section-icon flaticon-more-v2"></i>
+              </li>
+              <li class="m-menu__item @yield('config')" aria-haspopup="true">
+                <a href="{{route('config')}}" class="m-menu__link m-menu__toggle"
+                  ><i class="m-menu__link-icon la la-sliders"></i
+                  ><span class="m-menu__link-text">Website Configuration</span></a
+                >
+              </li>
+                    <li class="m-menu__item @yield('color')" aria-haspopup="true">
+                <a href="{{route('preset')}}" class="m-menu__link m-menu__toggle"
+                  ><i class="m-menu__link-icon la la-gears"></i
+                  ><span class="m-menu__link-text">Color Preset</span></a
+                >
+              </li>
+              
+              <li class="m-menu__item" aria-haspopup="true">
+                <a href="javascript:;" class="m-menu__link m-menu__toggle"
+                  ><i class="m-menu__link-icon la la-flag-o"></i
+                  ><span class="m-menu__link-text">Login Image</span></a
+                >
+              </li>
+             
+                   
+                        
+                   
+          
+                @endif
+                @if(auth::user()->role == 'alumni')
+                <li class="m-menu__section ">
+                        <h4 class="m-menu__section-text">Alumni</h4>
+                        <i class="m-menu__section-icon flaticon-more-v2"></i>
+                      </li>
+              </li>
+
+              {{-- sub-aside alumni --}}
+
+              <li class="m-menu__item" aria-haspopup="true">
+                <a href="#" class="m-menu__link m-menu__toggle"
+                  ><i class="m-menu__link-icon la la-info-circle"></i
+                  ><span class="m-menu__link-text">Example</span></a
+                >
+              </li>
+              @endif
             </ul>
           </div>
 
           <!-- END: Aside Menu -->
         </div>
+{{--Modal Profile  --}}
+    <!-- Modal Password -->
+    <div class="modal fade" id="myprofile" tabindex="-1" role="dialog" aria-labelledby="myprofileLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="myprofileLabel">Profile Saya</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body form-horizontal">
+                <img src="images-assets/alumni.jpg" alt="Foto-Profile-Alumni"
+                class="m--marginless kanan-row1"
+                width="50%"
+                style="border-radius:20px;s"
+                >
+                <div class="row mt-4">
+                  <div class="col-md-12">
+                <div class="form-group">
+                <h3 style="font-weight:bold;font-size:20px;">Muhammad Yaumil Ramadhani</h3>
+                </div>
+                  </div>
+                <div class="col-md-12">
+                <div class="form-group">
+                  <label for=""style="font-weight:bold;">Nisn</label>
+                  <p style="font-weight:bold;">11203940304</p>
+                </div>
+                </div>
+                <div class="col-md-12">
+                <div class="form-group">
+                  <label for=""style="font-weight:bold;">Nis</label>
+                  <p style="font-weight:bold;">11706259</p>
+                </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="exampleFormControlFile1">Upload Foto</label>
+                        <input type="file" class="form-control-file" id="exampleFormControlFile1">
+                      </div>
+                </div>
+                  </div>
+                </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-info">Simpan Perubahan</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      @yield('content')

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Rayon;
+use DataTables;
+use App\Preset;
 use Illuminate\Http\Request;
 
 class RayonController extends Controller
@@ -12,9 +14,16 @@ class RayonController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function __construct()
+    {
+        $this->middleware(['auth','admin']);
+    }
+
     public function index()
     {
-        return view('formrayon');
+        $preset = preset::where('status','active')->first();
+        return view("admin.formrayon",compact('preset'));
     }
 
     /**
@@ -22,9 +31,15 @@ class RayonController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function json()
+    {
+        return Datatables::of(Rayon::all())->make(true);
+    }
+
     public function create()
     {
-       
+
     }
 
     /**
@@ -35,7 +50,9 @@ class RayonController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Rayon::updateOrCreate(['id' => $request->id],
+                ['pembimbing' => $request->pembimbing, 'rayon' => $request->rayon]);
+        return response()->json();
     }
 
     /**
@@ -55,9 +72,10 @@ class RayonController extends Controller
      * @param  \App\Rayon  $rayon
      * @return \Illuminate\Http\Response
      */
-    public function edit(Rayon $rayon)
+    public function edit($id)
     {
-        //
+        $data = Rayon::find($id);
+        return response()->json($data);
     }
 
     /**
@@ -69,7 +87,7 @@ class RayonController extends Controller
      */
     public function update(Request $request, Rayon $rayon)
     {
-        //
+
     }
 
     /**
@@ -78,8 +96,9 @@ class RayonController extends Controller
      * @param  \App\Rayon  $rayon
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Rayon $rayon)
+    public function destroy($id)
     {
-        //
+        Rayon::find($id)->delete();
+        return response()->json();
     }
 }
