@@ -1,7 +1,86 @@
 /* Base */
 html {
   overflow-x: hidden; }
+  .zoom {
+    padding: 50px;
+    background-color: green;
+    transition: transform .2s; /* Animation */
+    width: 200px;
+    height: 200px;
+    margin: 0 auto;
+  }
+  
+  .zoom:hover {
+    transform: scale(1.5); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+  }
+      html {
+    position: relative;
+    min-height: 100%;
+  }
+  body {
+    /* Margin bottom by footer height */
+    margin-bottom: 300px;
+  }
+  .footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: 300px;
+  }
 
+  /* Taller footer on small screens */
+  @media (max-width: 34em) {
+      body {
+        margin-bottom: 500px;
+      }
+      .footer {
+        height: 500px;
+      }
+  }
+  @media (max-width: 480px){
+    .tales{
+      width:120%;
+      height: 500px;
+    }
+      }
+      .tales{
+      width:120%;
+      height: 500px;
+    }
+    .hover-login:hover{
+      background-color: 19%, 0%, 20%, 3%;
+    }
+    .mt-6{
+      margin-top: 85px;
+    }
+  /* Sticky footer style and color
+  -------------------------------------------------- */
+  footer {
+    padding-top: 30px;
+    background-color: #292c2f;
+    color: #bbb;
+  }
+  
+  footer a {
+    color: #999;
+    text-decoration:none;
+  }
+  
+  footer a:hover, footer a:focus {
+    color: #aaa;
+    text-decoration:none;
+    border-bottom:1px dotted #999;
+  }
+  
+  footer .form-control {
+      background-color: #1f2022;
+      box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.1);
+      border: none;
+      resize: none;
+      color: #d1d2d2;
+      padding: 0.7em 1em;
+  }
 body {
   line-height: 1.7;
   color: gray;
@@ -223,7 +302,8 @@ h1, h2, h3, h4, h5,
 /* Navbar */
 .site-logo {
   font-size: 2rem;
-  color: #000; }
+  color: #000; 
+}
 
 .site-navbar {
   margin-bottom: 0px;

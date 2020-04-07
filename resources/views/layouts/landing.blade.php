@@ -48,13 +48,11 @@
       <div class="site-mobile-menu-body"></div>
     </div>
 
-
-    
     <div class="header-top">
       <div class="container">
         <div class="row align-items-center">
           <div class="col-12 col-lg-6 d-flex">
-            <a href="index.html" class="site-logo">
+            <a href="{{url('/')}}" class="site-logo">
               @yield('title')
             </a>
 
@@ -83,10 +81,7 @@
           </div>
         </div>
       </div>
-      
-
-
-      
+          
       <div class="site-navbar py-2 js-sticky-header site-navbar-target d-none pl-0 d-lg-block" role="banner">
 
       <div class="container">
@@ -96,25 +91,20 @@
             <nav class="site-navigation position-relative text-right" role="navigation">
               <ul class="site-menu main-menu js-clone-nav mr-auto d-none pl-0 d-lg-block">
                 <li class="active">
-                  <a href="index.html" class="nav-link text-left">Beranda</a>
+                  <a href="/" class="nav-link text-left">Beranda</a>
                 </li>
                 <li>
-                  <a href="{{route('login')}}" class="nav-link text-left">Login</a>
+                  <a href="{{url('login')}}" class="nav-link text-left">Login</a>
                 </li>
                 <li>
-                  <a href="categories.html" class="nav-link text-left">Informasi Lowongan Kerja</a>
+                  <a href="{{url('/form-full-lowongan')}}" class="nav-link text-left">Informasi Lowongan Kerja</a>
                 </li>
                 <li>
-                  <a href="categories.html" class="nav-link text-left">Informasi Sekolah</a>
+                  <a href="{{url('/form-full-sekolah')}}" class="nav-link text-left">Informasi Sekolah</a>
                 </li>
                 <li>
-                    <a href="categories.html" class="nav-link text-left">Pesan</a>
+                    <a href="#pesan" class="nav-link text-left">Pesan</a>
                 </li>
-                <li>
-                  <a href="categories.html" class="nav-link text-left">Tentang Kami</a>
-                </li>
-                <li><a href="contact.html" class="nav-link text-left">Kontak</a></li>
-              </ul>                                                
             </nav>
 
           </div>
@@ -166,80 +156,14 @@
               </div>
           </div>
       </div>
-      <p>
+      <p class="mt-2">
           <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
           Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart text-danger" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank" >Colorlib</a>
           <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
           </p>
   </footer>
-  </div>
-  <style>
-    .zoom {
-  padding: 50px;
-  background-color: green;
-  transition: transform .2s; /* Animation */
-  width: 200px;
-  height: 200px;
-  margin: 0 auto;
-}
 
-.zoom:hover {
-  transform: scale(1.5); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
-}
-    html {
-  position: relative;
-  min-height: 100%;
-}
-body {
-  /* Margin bottom by footer height */
-  margin-bottom: 300px;
-}
-.footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  /* Set the fixed height of the footer here */
-  height: 300px;
-}
-
-/* Taller footer on small screens */
-@media (max-width: 34em) {
-    body {
-      margin-bottom: 500px;
-    }
-    .footer {
-      height: 500px;
-    }
-}
-
-/* Sticky footer style and color
--------------------------------------------------- */
-footer {
-  padding-top: 30px;
-  background-color: #292c2f;
-  color: #bbb;
-}
-
-footer a {
-  color: #999;
-  text-decoration:none;
-}
-
-footer a:hover, footer a:focus {
-  color: #aaa;
-  text-decoration:none;
-  border-bottom:1px dotted #999;
-}
-
-footer .form-control {
-    background-color: #1f2022;
-    box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.1);
-    border: none;
-    resize: none;
-    color: #d1d2d2;
-    padding: 0.7em 1em;
-}
-  </style>
+  
     <!-- .site-wrap -->
     <!-- loader -->
     <div id="loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#ff5e15"/></svg></div>

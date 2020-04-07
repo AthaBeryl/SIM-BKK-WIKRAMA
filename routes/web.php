@@ -10,14 +10,8 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-<<<<<<< HEAD
 Auth::routes(['verify' => true]);
 Route::get('/auth',function(){
-=======
-
-Auth::routes(['verify' => true]);
-Route::get('/',function(){
->>>>>>> 3c195432512f8106361d9939229b6825dc42d807
  return view('welcome');
 })->middleware('auth');
 Route::get('/home','HomeController@index')->name('home');
@@ -28,6 +22,7 @@ Route::get('/laporan','LaporanController@index')->name('dataAlumni');
 Route::get('/input', function () {
     return view('forminput');
 });
+
 //IO
 Route::get('siswa/export/','HomeController@export')->name('export.siswa');
 Route::post('import', 'LaporanController@import')->name('import.siswa');
@@ -78,8 +73,11 @@ Route::post('/preset/edit','PresetController@edit')->name('presetColor.submit');
 //web Config
 Route::get('/config','ConfigController@index')->name('config');
 Route::post('/config/edit','ConfigController@edit')->name('config.submit');
-<<<<<<< HEAD
 //landing page
 Route::get('/','LandingsController@index');
-=======
->>>>>>> 3c195432512f8106361d9939229b6825dc42d807
+// Form Lowongan
+Route::get('/form-single-lowongan','LandingsController@form_single_lowongan');
+Route::get('/form-full-lowongan','LandingsController@form_full_lowongan');
+// Form Sekolah
+Route::get('/form-single-sekolah','LandingsController@form_single_sekolah');
+Route::get('/form-full-sekolah','LandingsController@form_full_sekolah');

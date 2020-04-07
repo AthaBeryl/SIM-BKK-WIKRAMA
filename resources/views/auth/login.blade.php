@@ -51,6 +51,7 @@
                                     Login
                                 </button>
                             </div>
+                            <a href="/" class="container-login100-form-btn btn btn-outline-primary mt-4">Back</a>
                         </form>
         {{-- Carrousel --}}
                                     <div id="carouselExampleControls" class="login100-more carousel slide" data-ride="carousel">
