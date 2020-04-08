@@ -408,17 +408,18 @@
           </div>
 
           <!-- stat -->
-          <!-- <label class="form-control-label col-lg-3 mt-4">Status</label>
+          <!-- <label class="form-control-label col-lg-3 mt-4">Status</label> -->
           <div class="col-lg-9 mt-4">
             <div class="m-form__control">
               <select name="status" id="status" class="form-control">
-                <option selected style="display: none">----Pilih Status-----</option>
+                <!-- <option selected style="display: none">----Pilih Status-----</option> -->
+                <option value="4" selected>Belum Memilih</option>
                 @foreach($status as $s)
                   <option value="{{$s->id}}">{{$s->status}}</option>
                 @endforeach
               </select>
             </div>
-          </div> -->
+          </div>
         </div>
       </div>
       <div class="modal-footer">

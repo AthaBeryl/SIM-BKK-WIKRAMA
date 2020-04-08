@@ -405,6 +405,35 @@
                   ><span class="m-menu__link-text"> Data Instansi</span></a
                 >
               </li>
+
+              <!-- landing page -->
+
+              <li class="m-menu__section ">
+                <h4 class="m-menu__section-text">Landing Page</h4>
+                <i class="m-menu__section-icon flaticon-more-v2"></i>
+              </li>
+
+              <li class="m-menu__item @yield('infosekolah')" aria-haspopup="true">
+                <a href="{{url('/infosekolah')}}" class="m-menu__link m-menu__toggle"
+                  ><i class="m-menu__link-icon la la-university"></i
+                  ><span class="m-menu__link-text"> Informasi Sekolah</span></a
+                >
+              </li>
+
+              <li class="m-menu__item @yield('infolowongan')" aria-haspopup="true">
+                <a href="{{url('/infolowongan')}}" class="m-menu__link m-menu__toggle"
+                  ><i class="m-menu__link-icon la la-industry"></i
+                  ><span class="m-menu__link-text"> Informasi Lowongan</span></a
+                >
+              </li>
+
+              <li class="m-menu__item @yield('pesan')" aria-haspopup="true">
+                <a href="{{url('/pesan')}}" class="m-menu__link m-menu__toggle"
+                  ><i class="m-menu__link-icon la la-envelope"></i
+                  ><span class="m-menu__link-text"> Pesan</span></a
+                >
+              </li>
+
               {{-- <li class="m-menu__item @yield('dataStatus')" aria-haspopup="true">
                 <a href="{{route('inputstatus')}}" class="m-menu__link m-menu__toggle"
                   ><i class="m-menu__link-icon la la-user-plus"></i
@@ -587,53 +616,5 @@
           <!-- END: Aside Menu -->
         </div>
 {{--Modal Profile  --}}
-    <!-- Modal Password -->
-    <div class="modal fade" id="myprofile" tabindex="-1" role="dialog" aria-labelledby="myprofileLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="myprofileLabel">Profile Saya</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body form-horizontal">
-                <img src="images-assets/alumni.jpg" alt="Foto-Profile-Alumni"
-                class="m--marginless kanan-row1"
-                width="50%"
-                style="border-radius:20px;s"
-                >
-                <div class="row mt-4">
-                  <div class="col-md-12">
-                <div class="form-group">
-                <h3 style="font-weight:bold;font-size:20px;">Muhammad Yaumil Ramadhani</h3>
-                </div>
-                  </div>
-                <div class="col-md-12">
-                <div class="form-group">
-                  <label for=""style="font-weight:bold;">Nisn</label>
-                  <p style="font-weight:bold;">11203940304</p>
-                </div>
-                </div>
-                <div class="col-md-12">
-                <div class="form-group">
-                  <label for=""style="font-weight:bold;">Nis</label>
-                  <p style="font-weight:bold;">11706259</p>
-                </div>
-                </div>
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <label for="exampleFormControlFile1">Upload Foto</label>
-                        <input type="file" class="form-control-file" id="exampleFormControlFile1">
-                      </div>
-                </div>
-                  </div>
-                </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-info">Simpan Perubahan</button>
-            </div>
-          </div>
-        </div>
-      </div>
+
       @yield('content')

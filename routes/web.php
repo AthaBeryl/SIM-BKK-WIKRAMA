@@ -86,3 +86,13 @@ Route::get('/form-full-lowongan','LandingsController@form_full_lowongan');
 // Form Sekolah
 Route::get('/form-single-sekolah','LandingsController@form_single_sekolah');
 Route::get('/form-full-sekolah','LandingsController@form_full_sekolah');
+
+// Input Info Sekolah
+Route::get('/infosekolah','InfoSekolahController@index');
+Route::get('/json/infosekolah','InfoSekolahController@json');
+Route::get('/inputinfosekolah','InfoSekolahController@create');
+Route::post('/inputinfosekolah/store','InfoSekolahController@store');
+
+Route::post('/infosekolah/active/{id}','InfoSekolahController@active');
+Route::post('/infosekolah/deactive/{id}','InfoSekolahController@deactive');
+Route::delete('infosekolah/delete/{id}','InfoSekolahController@destroy');

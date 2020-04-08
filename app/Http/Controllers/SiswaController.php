@@ -98,9 +98,9 @@ class SiswaController extends Controller
                 ['email' => $request->email, 'name' => $request->nama, 'username' => $request->nis, 'password' => Hash::make($request->nis), 'role' => 'alumni']);
         Siswa::updateOrCreate(['user_id' => $request->user_id],
                 ['user_id' => $user->id, 'nisn' => $request->nisn, 'nis' => $request->nis, 'jurusan_id' => $request->jurusan, 'rayon_id' => $request->rayon,
-                'jk' => $request->jk, 'masuk' => $request->masuk, 'lulus' => $request->lulus, 'alamat' => $request->alamat, 'telp' => $request->telp, 'status_id' => '4']);
+                'jk' => $request->jk, 'masuk' => $request->masuk, 'lulus' => $request->lulus, 'alamat' => $request->alamat, 'telp' => $request->telp, 'status_id' => $request->status]);
         statusDetail::updateOrCreate(['nis' => $request->nis],
-                ['nis' => $request->nis,'status_id' => '4']);
+                ['nis' => $request->nis,'status_id' => $request->status]);
         return response()->json();
     }
 
