@@ -15,7 +15,8 @@ Route::get('/auth',function(){
  return view('welcome');
 })->middleware('auth');
 Route::get('/home','HomeController@index')->name('home');
-Route::get('/laporan','LaporanController@index')->name('dataAlumni');
+
+
 // Route::get('/inputAlumni', function () {
 //     return view('admin.inputDataAlumni');
 // })->name('inputAlumni');
@@ -23,9 +24,13 @@ Route::get('/input', function () {
     return view('forminput');
 });
 
-//IO
-Route::get('siswa/export/','HomeController@export')->name('export.siswa');
+//report
+Route::get('/laporan','LaporanController@index')->name('dataAlumni');
+Route::get('/laporan;','LaporanController@filtered')->name('laporan.filter');
+Route::get('siswa/export/','LaporanController@export')->name('export.siswa');
 Route::post('import', 'LaporanController@import')->name('import.siswa');
+
+
 //alumni
 Route::resource('/inputalumni','SiswaController');
 Route::get('/json/alumni','SiswaController@json');

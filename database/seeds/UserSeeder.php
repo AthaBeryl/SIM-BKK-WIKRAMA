@@ -3,7 +3,7 @@
 use Illuminate\Database\Seeder;
 use Faker\Factory as Faker;
 use Illuminate\Support\Facades\Hash;
-
+use carbon\carbon;
 class UserSeeder extends Seeder
 {
     /**
@@ -20,7 +20,8 @@ class UserSeeder extends Seeder
         'name'=> 'admin',
         'password'=> Hash::make('admin12345'),
         'role'=>'admin',
-        'foto'=>'admin.jpg'
+        'foto'=>'admin.jpg',
+        'email_verified_at' => Carbon::now(),
         ]);
         for($i = 1; $i <= 350; $i++){
             db::table('users')->insert([

@@ -9,18 +9,37 @@
             <div class="d-flex align-items-center">
               <div class="mr-auto">
                 <h3 class="m-subheader__title ">Laporan</h3>
+
               </div>
               <div>
-                {{-- <form action="" method="get">
-                <select class="form-control" style="outline: none;">
-                    <option value="2017">Alumni Angkatan 2016-2017</option>
-                    <option value="2018">Alumni Angkatan 2017-2018</option>
-                    <option value="2019">Alumni Angkatan 2018-2019</option>
-                </select>
-                </form> --}}
-              </div>
+              <form action="{{route('laporan.filter')}}">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <select class="form-control" name="tahunLulus">
+                                <option selected value="'--' or 1=1">Seluruh Lulusan</option>
+                                @foreach($tahunLulus as $lulusan)
+                                <option value="{{$lulusan->lulus}}">{{$lulusan->lulus}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-5">
+                            <select class="form-control" name="jurusan">
+                                <option selected value="'--' or 1=1">Seluruh Jurusan</option>
+                                @foreach($jurusan as $j)
+                            <option value="{{$j->id}}">{{$j->jurusan}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-primary"><i class="fa fa-search" aria-hidden="true"></i></button>
+                        </div>
+                    </div>
+                </form>
             </div>
+            </div>
+
           </div>
+
 
           <!-- END: Subheader -->
           <div class="m-content">

@@ -97,7 +97,8 @@ class SiswaController extends Controller
         $user = User::updateOrCreate(['id' => $request->user_id],
                 ['email' => $request->email, 'name' => $request->nama, 'username' => $request->nis, 'password' => Hash::make($request->nis), 'role' => 'alumni']);
         Siswa::updateOrCreate(['user_id' => $request->user_id],
-                ['user_id' => $user->id, 'nisn' => $request->nisn, 'nis' => $request->nis, 'jurusan_id' => $request->jurusan, 'rayon_id' => $request->rayon, 'jk' => $request->jk, 'masuk' => $request->masuk, 'lulus' => $request->lulus, 'alamat' => $request->alamat, 'telp' => $request->telp, 'status_id' => '4']);
+                ['user_id' => $user->id, 'nisn' => $request->nisn, 'nis' => $request->nis, 'jurusan_id' => $request->jurusan, 'rayon_id' => $request->rayon,
+                'jk' => $request->jk, 'masuk' => $request->masuk, 'lulus' => $request->lulus, 'alamat' => $request->alamat, 'telp' => $request->telp, 'status_id' => '4']);
         statusDetail::updateOrCreate(['nis' => $request->nis],
                 ['nis' => $request->nis,'status_id' => '4']);
         return response()->json();
@@ -155,7 +156,7 @@ class SiswaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-    {   
+    {
         Siswa::where('user_id',$id)->delete();
         User::where('id', $id)
           ->update(['role' => 'deleted']);

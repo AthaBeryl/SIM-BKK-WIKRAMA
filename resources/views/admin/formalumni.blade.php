@@ -265,7 +265,7 @@
 
           </div>
         </div>
-        
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn {{$preset->buttonClass}}" data-dismiss="modal">Close</button>
@@ -276,19 +276,21 @@
 <!-- end -->
 <div id="uploadFile" class="modal fade" role="dialog">
     <div class="modal-dialog">
-  
+
       <!-- Modal content-->
       <div class="modal-content">
-        
+
         <div class="modal-body">
         <form action="{{route('import.siswa')}}" method="post" enctype="multipart/form-data">
             @csrf
             <p>Dibawah Ini Adalah Format Untuk Import Excel <b>Pastikan Anda Mengikuti nya</b></p>
+            <b>Download Format <a href="{{asset('dlc/formatImport.xlsx')}}" download>Disini</a></b>
         <img src="{{asset('image/config/format.png')}}" alt="" style="max-width:100%;max-height:100%">
             <br>
-            <p>Masukan File Import <b>(.csv,.xlx,.xlxs)</b></p>
+
+            <p>Masukan File Import <b>(.xlx,.xlxs)</b></p>
             <input type="file" name="file" class="form-control" id="">
-          
+
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -296,7 +298,7 @@
         </form>
         </div>
       </div>
-  
+
     </div>
   </div>
     </form>
@@ -392,7 +394,7 @@
           <div class="col-lg-9 mt-4">
             <textarea name="alamat" id="alamat" class="form-control m-input" placeholder="Masukkan Alamat"></textarea>
           </div>
-          <!-- Email -->  
+          <!-- Email -->
 
           <label class="form-control-label col-lg-3 mt-4">Email</label>
           <div class="col-lg-9 mt-4">
@@ -439,7 +441,7 @@ $("#open-modal").click(function(){
     $('#formalumni').trigger("reset");
     $('#modal-alumni').modal('show');
   });
-  
+
   $("#import").click(function(){
     $('#uploadFile').modal('show');
   });
@@ -453,7 +455,7 @@ var table = $('#table').DataTable({
     { "data": null,"sortable": false, class:'dt-center',
     render: function (data, type, row, meta) {
       return meta.row + meta.settings._iDisplayStart + 1;
-    }  
+    }
   },
   {data: 'nisn'},
   {data: 'nis'},
@@ -553,10 +555,10 @@ $(document).on('click','#edit',function(){
   });
 
 $(document).on('click','#saveBtn',function(e){
-    $.ajaxSetup({ 
+    $.ajaxSetup({
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-      }   
+      }
     })
     e.preventDefault();
 

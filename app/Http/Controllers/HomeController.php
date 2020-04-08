@@ -38,6 +38,7 @@ class HomeController extends Controller
      */
     public function index()
     {
+
         $kerja = Siswa::where('status_id','1')->count();
         $kuliah = Siswa::where('status_id','2')->count();
         $wirausaha = Siswa::where('status_id','3')->count();

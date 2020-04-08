@@ -13,11 +13,12 @@
        <td>Telepon</td>
        <td>Email</td>
        <td>Status</td>
+       <td>Nama Instansi</td>
     </tr>
    </thead>
    @foreach($siswas as $siswa)
     <tr>
-   
+
     <td>{{$siswa->nisn}}</td>
     <td>{{$siswa->nis}}</td>
     <td>{{$siswa->name}}</td>
@@ -30,6 +31,7 @@
     <td>{{$siswa->telp}}</td>
     <td>{{$siswa->email}}</td>
     <td>{{$siswa->status}}</td>
+    <td>{{$status->where('user_id',$siswa->user_id)->first()->nama}}</td>
     @endforeach
     </tr>
 </table>
