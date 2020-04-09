@@ -1,6 +1,6 @@
 @extends('layouts.header')
-@section('infosekolah','m-menu__item--active')
-@section('title','SIMBKK | Input Info Sekolah')
+@section('infolowongan','m-menu__item--active')
+@section('title','SIMBKK | Input Info Lowongan')
 @section('content')
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <!-- END: Left Aside -->
@@ -18,7 +18,7 @@
   <div class="container">
     <div class="row">
     <div class="col-xl-12 mb-4">
-        <a href="/infosekolah"><div class="btn {{$preset->buttonClass}}" >Kembali</div></a>
+        <a href="/infolowongan"><div class="btn {{$preset->buttonClass}}" >Kembali</div></a>
       </div>
 
       <div class="col-xl-12">
@@ -27,14 +27,14 @@
             <div class="m-portlet__head-caption">
               <div class="m-portlet__head-title">
                 <h3 class="m-portlet__head-text">
-                  Info Sekolah
+                  Info Lowongan
                 </h3>
               </div>
             </div>
 
           </div>
           <div class="m-portlet__body">
-          <form method="post" action="/inputinfosekolah/store" enctype="multipart/form-data" class="form-horizontal">
+          <form method="post" action="/inputinfolowongan/store" enctype="multipart/form-data" class="form-horizontal">
           {{ csrf_field() }}
             <div class="form-group m-form__group row">
               <input type="hidden" name="id" id="id" class="form-control m-input">
@@ -60,11 +60,11 @@
                 <div class="col-lg-12">
                     <div class="m-radio-inline">
                     <label class="m-radio m-radio--solid m-radio--primary">
-                      <input type="radio" name="status" id="aktif" value="Aktif" checked> Aktif
+                      <input type="radio" name="status" id="status" value="Aktif" checked> Aktif
                         <span></span>
                       </label>
                     <label class="m-radio m-radio--solid m-radio--primary">
-                      <input type="radio" name="status" id="tidakaktif" value="Tidak Aktif"> Tidak Aktif
+                      <input type="radio" name="status" id="status" value="Tidak Aktif"> Tidak Aktif
                       <span></span>
                      </label>
                    </div>

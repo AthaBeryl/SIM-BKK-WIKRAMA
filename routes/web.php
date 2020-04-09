@@ -96,3 +96,14 @@ Route::post('/inputinfosekolah/store','InfoSekolahController@store');
 Route::post('/infosekolah/active/{id}','InfoSekolahController@active');
 Route::post('/infosekolah/deactive/{id}','InfoSekolahController@deactive');
 Route::delete('infosekolah/delete/{id}','InfoSekolahController@destroy');
+
+// Input Info Lowongan
+Route::get('/infolowongan','InfoLowonganController@index');
+Route::get('/json/infolowongan','InfoLowonganController@json');
+Route::get('/inputinfolowongan','InfoLowonganController@create');
+Route::post('/inputinfolowongan/store','InfoLowonganController@store');
+
+Route::post('/infolowongan/active/{id}','InfoLowonganController@active');
+Route::post('/infolowongan/deactive/{id}','InfoLowonganController@deactive');
+Route::delete('infolowongan/delete/{id}','InfoLowonganController@destroy');
+
