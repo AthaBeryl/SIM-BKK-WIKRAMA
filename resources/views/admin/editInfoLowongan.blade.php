@@ -1,6 +1,6 @@
 @extends('layouts.header')
 @section('infolowongan','m-menu__item--active')
-@section('title','SIMBKK | Input Info Lowongan')
+@section('title','SIMBKK | Edit Info Lowongan')
 @section('content')
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <!-- END: Left Aside -->
@@ -34,23 +34,24 @@
 
           </div>
           <div class="m-portlet__body">
-          <form method="post" action="/inputinfolowongan/store" enctype="multipart/form-data" class="form-horizontal">
+          @foreach($data as $d)
+          <form method="post" action="/editinfolowongan/update;{{$d->id}}" enctype="multipart/form-data" class="form-horizontal">
           {{ csrf_field() }}
             <div class="form-group m-form__group row">
               <input type="hidden" name="id" id="id" class="form-control m-input">
               <h5><label id="isi" class="form-control-label col-lg-3 mt-4">Judul</label></h5>
               <div class="col-lg-12">
-                <input type="text" name="judul" required id="judul" class="form-control m-input">
+                <input type="text" name="judul" required id="judul" value="{{$d->judul}}" class="form-control m-input">
               </div>
 
               <h5><label id="isi" class="form-control-label col-lg-3 mt-4">Isi</label></h5>
               <div class="col-lg-12">
-                <textarea name="isi" id="isi" required class="form-control" cols="30" rows="10"></textarea>
+                <textarea name="isi" id="isi" required class="form-control" cols="30" rows="10">{{$d->isi}}</textarea>
               </div>
 
               <h5><label id="foto" class="form-control-label col-lg-3 mt-4">Foto</label></h5>
               <div class="col-lg-12 mt-2 mb-4">
-                <img id="previewHolder" alt=" Preview" width="150px" height="150px"/>
+                <img src="/image/infolowongan/{{$d->foto}}" id="previewHolder" alt=" Preview" width="150px" height="150px"/>
               </div>
               <div class="col-lg-12">
                 <input type="file" name="foto" id="filePhoto" class="form-control m-input">
@@ -60,6 +61,7 @@
               </div>
             </div>
           </form>
+          @endforeach
           </div>
         </div>
       </div>

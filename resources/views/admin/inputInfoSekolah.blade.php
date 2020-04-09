@@ -40,12 +40,12 @@
               <input type="hidden" name="id" id="id" class="form-control m-input">
               <h5><label id="isi" class="form-control-label col-lg-3 mt-4">Judul</label></h5>
               <div class="col-lg-12">
-                <input type="text" name="judul" id="judul" class="form-control m-input">
+                <input type="text" name="judul" required id="judul" class="form-control m-input">
               </div>
 
               <h5><label id="isi" class="form-control-label col-lg-3 mt-4">Isi</label></h5>
               <div class="col-lg-12">
-                <textarea name="isi" id="isi" class="form-control" cols="30" rows="10"></textarea>
+                <textarea name="isi" id="isi" required class="form-control" cols="30" rows="10"></textarea>
               </div>
 
               <h5><label id="foto" class="form-control-label col-lg-3 mt-4">Foto</label></h5>
@@ -55,21 +55,6 @@
               <div class="col-lg-12">
                 <input type="file" name="foto" id="filePhoto" class="form-control m-input">
               </div>
-
-              <!-- <h5><label id="status" class="form-control-label col-lg-3 mt-4">Status</label></h5>
-                <div class="col-lg-12">
-                    <div class="m-radio-inline">
-                    <label class="m-radio m-radio--solid m-radio--primary">
-                      <input type="radio" name="status" id="aktif" value="Aktif" checked> Aktif
-                        <span></span>
-                      </label>
-                    <label class="m-radio m-radio--solid m-radio--primary">
-                      <input type="radio" name="status" id="tidakaktif" value="Tidak Aktif"> Tidak Aktif
-                      <span></span>
-                     </label>
-                   </div>
-                </div> -->
-
               <div class="col-lg-12 mt-4">
                 <button type="input" class="btn {{$preset->buttonClass}}">Save Data</button>
               </div>

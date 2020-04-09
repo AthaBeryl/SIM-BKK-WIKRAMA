@@ -78,8 +78,6 @@ class InfoLowonganController extends Controller
             'status' => 'Aktif'
         ]);
 
-        
-            
         return redirect('/infolowongan');
     }
 
@@ -100,9 +98,11 @@ class InfoLowonganController extends Controller
      * @param  \App\InfoLowongan  $infoLowongan
      * @return \Illuminate\Http\Response
      */
-    public function edit(InfoLowongan $infoLowongan)
+    public function edit($id)
     {
-        //
+        $preset = preset::where('status','active')->first();
+        $data = InfoLowongan::where('id',$id)->get();
+        return view('admin.editInfoLowongan',compact('preset','data'));
     }
 
     /**
@@ -112,9 +112,26 @@ class InfoLowonganController extends Controller
      * @param  \App\InfoLowongan  $infoLowongan
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, InfoLowongan $infoLowongan)
+    public function update($id, Request $request)
     {
-        //
+        $lowongan = InfoLowongan::find($id);
+        $lowongan->judul = $request->judul;
+        $lowongan->isi = $request->isi;
+        if ($request->hasFile('foto')) {
+            $gambar = InfoLowongan::where('id',$id)->first();
+	        File::delete('image/InfoLowongan/'.$gambar->foto);
+
+
+            $path = public_path().'/image/InfoLowongan/';
+            File::makeDirectory($path, $mode = 0777, true, true);
+            $file = $request->file('foto');
+            $nama_file = $request->judul."_".$file->getClientOriginalName();
+            $file->move($path,$nama_file);
+            $lowongan->foto = $nama_file;
+        }
+        $lowongan->save();
+
+        return redirect('/infolowongan');
     }
 
     /**

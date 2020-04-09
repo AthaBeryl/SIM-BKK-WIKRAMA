@@ -92,6 +92,8 @@ Route::get('/infosekolah','InfoSekolahController@index');
 Route::get('/json/infosekolah','InfoSekolahController@json');
 Route::get('/inputinfosekolah','InfoSekolahController@create');
 Route::post('/inputinfosekolah/store','InfoSekolahController@store');
+Route::get('/editinfosekolah;{id}','InfoSekolahController@edit');
+Route::post('/editinfosekolah/update;{id}','InfoSekolahController@update');
 
 Route::post('/infosekolah/active/{id}','InfoSekolahController@active');
 Route::post('/infosekolah/deactive/{id}','InfoSekolahController@deactive');
@@ -102,6 +104,8 @@ Route::get('/infolowongan','InfoLowonganController@index');
 Route::get('/json/infolowongan','InfoLowonganController@json');
 Route::get('/inputinfolowongan','InfoLowonganController@create');
 Route::post('/inputinfolowongan/store','InfoLowonganController@store');
+Route::get('/editinfolowongan;{id}','InfoLowonganController@edit');
+Route::post('/editinfolowongan/update;{id}','InfoLowonganController@update');
 
 Route::post('/infolowongan/active/{id}','InfoLowonganController@active');
 Route::post('/infolowongan/deactive/{id}','InfoLowonganController@deactive');

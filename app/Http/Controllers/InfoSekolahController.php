@@ -101,7 +101,9 @@ class InfoSekolahController extends Controller
      */
     public function edit($id)
     {
-
+        $preset = preset::where('status','active')->first();
+        $data = InfoSekolah::where('id',$id)->get();
+        return view('admin.editInfoSekolah',compact('preset','data'));
     }
 
     /**
@@ -111,9 +113,26 @@ class InfoSekolahController extends Controller
      * @param  \App\InfoSekolah  $infoSekolah
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, InfoSekolah $infoSekolah)
+    public function update($id, Request $request)
     {
-        //
+        $sekolah = InfoSekolah::find($id);
+        $sekolah->judul = $request->judul;
+        $sekolah->isi = $request->isi;
+        if ($request->hasFile('foto')) {
+            $gambar = InfoSekolah::where('id',$id)->first();
+	        File::delete('image/InfoSekolah/'.$gambar->foto);
+
+
+            $path = public_path().'/image/InfoSekolah/';
+            File::makeDirectory($path, $mode = 0777, true, true);
+            $file = $request->file('foto');
+            $nama_file = $request->judul."_".$file->getClientOriginalName();
+            $file->move($path,$nama_file);
+            $sekolah->foto = $nama_file;
+        }
+        $sekolah->save();
+
+        return redirect('/infosekolah');
     }
 
     /**
