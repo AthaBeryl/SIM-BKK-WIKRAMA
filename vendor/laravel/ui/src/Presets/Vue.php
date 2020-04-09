@@ -2,8 +2,8 @@
 
 namespace Laravel\Ui\Presets;
 
-use Illuminate\Support\Arr;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Arr;
 
 class Vue extends Preset
 {
@@ -33,7 +33,7 @@ class Vue extends Preset
         return [
             'resolve-url-loader' => '^2.3.1',
             'sass' => '^1.20.1',
-            'sass-loader' => '7.*',
+            'sass-loader' => '^8.0.0',
             'vue' => '^2.5.17',
             'vue-template-compiler' => '^2.6.10',
         ] + Arr::except($packages, [

@@ -2,13 +2,13 @@
 
 namespace Facade\Ignition\SolutionProviders;
 
-use Throwable;
-use Illuminate\Support\Str;
-use UnexpectedValueException;
-use Facade\IgnitionContracts\BaseSolution;
 use Facade\Ignition\Support\ComposerClassMap;
 use Facade\Ignition\Support\StringComparator;
+use Facade\IgnitionContracts\BaseSolution;
 use Facade\IgnitionContracts\HasSolutionsForThrowable;
+use Illuminate\Support\Str;
+use Throwable;
+use UnexpectedValueException;
 
 class InvalidRouteActionSolutionProvider implements HasSolutionsForThrowable
 {
@@ -38,7 +38,7 @@ class InvalidRouteActionSolutionProvider implements HasSolutionsForThrowable
         if ($suggestedController === $invalidController) {
             return [
                 BaseSolution::create("`{$invalidController}` is not invokable.")
-                    ->setSolutionDescription("The controller class `{$invalidController}` is not invokable. Did you forget to add the `__invokable` method or is the controller's method missing in your routes file?"),
+                    ->setSolutionDescription("The controller class `{$invalidController}` is not invokable. Did you forget to add the `__invoke` method or is the controller's method missing in your routes file?"),
             ];
         }
 

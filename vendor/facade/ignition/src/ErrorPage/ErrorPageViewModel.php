@@ -4,19 +4,19 @@ namespace Facade\Ignition\ErrorPage;
 
 use Closure;
 use Exception;
-use Throwable;
-use Facade\Ignition\Ignition;
 use Facade\FlareClient\Report;
-use Laravel\Telescope\Telescope;
+use Facade\Ignition\Ignition;
 use Facade\Ignition\IgnitionConfig;
-use Illuminate\Contracts\Support\Arrayable;
-use Laravel\Telescope\IncomingExceptionEntry;
 use Facade\Ignition\Solutions\SolutionTransformer;
+use Illuminate\Contracts\Support\Arrayable;
 use Laravel\Telescope\Http\Controllers\HomeController;
+use Laravel\Telescope\IncomingExceptionEntry;
+use Laravel\Telescope\Telescope;
+use Throwable;
 
 class ErrorPageViewModel implements Arrayable
 {
-    /** @var \Throwable */
+    /** @var \Throwable|null */
     protected $throwable;
 
     /** @var array */
@@ -28,7 +28,13 @@ class ErrorPageViewModel implements Arrayable
     /** @var \Facade\FlareClient\Report */
     protected $report;
 
-    public function __construct(Throwable $throwable, IgnitionConfig $ignitionConfig, Report $report, array $solutions)
+    /** @var string */
+    protected $defaultTab;
+
+    /** @var array */
+    protected $defaultTabProps = [];
+
+    public function __construct(?Throwable $throwable, IgnitionConfig $ignitionConfig, Report $report, array $solutions)
     {
         $this->throwable = $throwable;
 
@@ -41,6 +47,10 @@ class ErrorPageViewModel implements Arrayable
 
     public function throwableString(): string
     {
+        if (! $this->throwable) {
+            return '';
+        }
+
         return sprintf(
             "%s: %s in file %s on line %d\n\n%s\n",
             get_class($this->throwable),
@@ -99,10 +109,14 @@ class ErrorPageViewModel implements Arrayable
         return $solutions;
     }
 
-    protected function shareEndpoint()
+    protected function shareEndpoint(): string
     {
-        // use string notation as L5.5 and L5.6 don't support array notation yet
-        return action('\Facade\Ignition\Http\Controllers\ShareReportController');
+        try {
+            // use string notation as L5.5 and L5.6 don't support array notation yet
+            return action('\Facade\Ignition\Http\Controllers\ShareReportController');
+        } catch (Exception $exception) {
+            return '';
+        }
     }
 
     public function report(): array
@@ -143,6 +157,15 @@ class ErrorPageViewModel implements Arrayable
         return json_encode(Ignition::$tabs);
     }
 
+    public function defaultTab(?string $defaultTab, ?array $defaultTabProps)
+    {
+        $this->defaultTab = $defaultTab ?? 'StackTab';
+
+        if ($defaultTabProps) {
+            $this->defaultTabProps = $defaultTabProps;
+        }
+    }
+
     public function toArray(): array
     {
         return [
@@ -153,12 +176,14 @@ class ErrorPageViewModel implements Arrayable
             'config' => $this->config(),
             'solutions' => $this->solutions(),
             'report' => $this->report(),
-            'housekeepingEndpoint' => config('ignition.housekeeping_endpoint_prefix', '_ignition'),
+            'housekeepingEndpoint' => url(config('ignition.housekeeping_endpoint_prefix', '_ignition')),
             'styles' => $this->styles(),
             'scripts' => $this->scripts(),
             'tabs' => $this->tabs(),
             'jsonEncode' => Closure::fromCallable([$this, 'jsonEncode']),
             'getAssetContents' => Closure::fromCallable([$this, 'getAssetContents']),
+            'defaultTab' => $this->defaultTab,
+            'defaultTabProps' => $this->defaultTabProps,
         ];
     }
 }

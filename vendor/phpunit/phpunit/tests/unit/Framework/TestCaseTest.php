@@ -10,6 +10,7 @@
 namespace PHPUnit\Framework;
 
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Runner\BaseTestRunner;
 use PHPUnit\Util\Test as TestUtil;
 
@@ -332,7 +333,7 @@ final class TestCaseTest extends TestCase
     {
         $test = new \ThrowExceptionTestCase('test');
         $test->expectException(\RuntimeException::class);
-        $test->expectExceptionMessageRegExp('/runtime .*? occurred/');
+        $test->expectExceptionMessageMatches('/runtime .*? occurred/');
 
         $result = $test->run();
 
@@ -346,7 +347,7 @@ final class TestCaseTest extends TestCase
 
         $test = new \ThrowExceptionTestCase('test');
 
-        $test->expectExceptionMessageRegExp($messageRegExp);
+        $test->expectExceptionMessageMatches($messageRegExp);
 
         $this->assertSame($messageRegExp, $test->getExpectedExceptionMessageRegExp());
     }
@@ -355,7 +356,7 @@ final class TestCaseTest extends TestCase
     {
         $test = new \ThrowExceptionTestCase('test');
         $test->expectException(\RuntimeException::class);
-        $test->expectExceptionMessageRegExp('/logic .*? occurred/');
+        $test->expectExceptionMessageMatches('/logic .*? occurred/');
 
         $result = $test->run();
 
@@ -371,7 +372,7 @@ final class TestCaseTest extends TestCase
     {
         $test = new \ThrowExceptionTestCase('test');
         $test->expectException(\RuntimeException::class);
-        $test->expectExceptionMessageRegExp('#runtime .*? occurred/');
+        $test->expectExceptionMessageMatches('#runtime .*? occurred/');
 
         $test->run();
 
@@ -832,8 +833,23 @@ final class TestCaseTest extends TestCase
 
     public function testCreateMockMocksAllMethods(): void
     {
-        /** @var \Mockable $mock */
         $mock = $this->createMock(\Mockable::class);
+
+        $this->assertNull($mock->mockableMethod());
+        $this->assertNull($mock->anotherMockableMethod());
+    }
+
+    public function testCreateStubFromClassName(): void
+    {
+        $mock = $this->createStub(\Mockable::class);
+
+        $this->assertInstanceOf(\Mockable::class, $mock);
+        $this->assertInstanceOf(Stub::class, $mock);
+    }
+
+    public function testCreateStubStubsAllMethods(): void
+    {
+        $mock = $this->createStub(\Mockable::class);
 
         $this->assertNull($mock->mockableMethod());
         $this->assertNull($mock->anotherMockableMethod());
@@ -879,7 +895,6 @@ final class TestCaseTest extends TestCase
 
     public function testCreateMockSkipsConstructor(): void
     {
-        /** @var \Mockable $mock */
         $mock = $this->createMock(\Mockable::class);
 
         $this->assertNull($mock->constructorArgs);
@@ -887,8 +902,22 @@ final class TestCaseTest extends TestCase
 
     public function testCreateMockDisablesOriginalClone(): void
     {
-        /** @var \Mockable $mock */
         $mock = $this->createMock(\Mockable::class);
+
+        $cloned = clone $mock;
+        $this->assertNull($cloned->cloned);
+    }
+
+    public function testCreateStubSkipsConstructor(): void
+    {
+        $mock = $this->createStub(\Mockable::class);
+
+        $this->assertNull($mock->constructorArgs);
+    }
+
+    public function testCreateStubDisablesOriginalClone(): void
+    {
+        $mock = $this->createStub(\Mockable::class);
 
         $cloned = clone $mock;
         $this->assertNull($cloned->cloned);
@@ -924,6 +953,7 @@ final class TestCaseTest extends TestCase
             [123],
             ['foo'],
             [$this->createMock(\Mockable::class)],
+            [$this->createStub(\Mockable::class)],
         ];
 
         $test = new \TestAutoreferenced('testJsonEncodeException', [$data]);
@@ -1141,6 +1171,42 @@ final class TestCaseTest extends TestCase
         $test->run();
 
         $this->assertTrue($test->hasOutput());
+    }
+
+    public function testDeprecationCanBeExpected(): void
+    {
+        $this->expectDeprecation();
+        $this->expectDeprecationMessage('foo');
+        $this->expectDeprecationMessageMatches('/foo/');
+
+        \trigger_error('foo', \E_USER_DEPRECATED);
+    }
+
+    public function testNoticeCanBeExpected(): void
+    {
+        $this->expectNotice();
+        $this->expectNoticeMessage('foo');
+        $this->expectNoticeMessageMatches('/foo/');
+
+        \trigger_error('foo', \E_USER_NOTICE);
+    }
+
+    public function testWarningCanBeExpected(): void
+    {
+        $this->expectWarning();
+        $this->expectWarningMessage('foo');
+        $this->expectWarningMessageMatches('/foo/');
+
+        \trigger_error('foo', \E_USER_WARNING);
+    }
+
+    public function testErrorCanBeExpected(): void
+    {
+        $this->expectError();
+        $this->expectErrorMessage('foo');
+        $this->expectErrorMessageMatches('/foo/');
+
+        \trigger_error('foo', \E_USER_ERROR);
     }
 
     /**

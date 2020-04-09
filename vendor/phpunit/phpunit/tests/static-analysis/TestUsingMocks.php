@@ -35,6 +35,17 @@ final class TestUsingMocks extends TestCase
         self::assertSame('hello mock!', $mock->sayHello());
     }
 
+    public function testWillSayHelloThroughCreateStub(): void
+    {
+        $mock = $this->createStub(HelloWorldClass::class);
+
+        $mock
+            ->method('sayHello')
+            ->willReturn('hello stub!');
+
+        self::assertSame('hello stub!', $mock->sayHello());
+    }
+
     public function testWillSayHelloThroughCreateConfiguredMock(): void
     {
         $mock = $this->createConfiguredMock(HelloWorldClass::class, []);

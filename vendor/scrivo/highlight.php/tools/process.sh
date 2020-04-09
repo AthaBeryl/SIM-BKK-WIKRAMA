@@ -1,6 +1,6 @@
 #!/bin/bash
 
-HLJS_V="9.15.10"
+HLJS_V="9.18.1"
 DOJO_V="1.13.0"
 
 HLJS_DL="https://api.github.com/repos/highlightjs/highlight.js/tarball/$HLJS_V"
@@ -29,6 +29,7 @@ php get_language_definitions.php
 rm -r ../styles/ 2> /dev/null
 mkdir -p ../styles/
 cp -a lib_highlight/src/styles/ ../styles/
+php get_styles_colors.php
 
 # Copy unit tests
 rm -r ../test/detect/ 2> /dev/null

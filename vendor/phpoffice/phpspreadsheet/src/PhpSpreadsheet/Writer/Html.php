@@ -63,6 +63,13 @@ class Html extends BaseWriter
     private $useInlineCss = false;
 
     /**
+     * Use embedded CSS?
+     *
+     * @var bool
+     */
+    private $useEmbeddedCSS = true;
+
+    /**
      * Array of CSS styles.
      *
      * @var array
@@ -290,7 +297,7 @@ class Html extends BaseWriter
      *
      * @param int $pValue Sheet index
      *
-     * @return HTML
+     * @return $this
      */
     public function setSheetIndex($pValue)
     {
@@ -314,7 +321,7 @@ class Html extends BaseWriter
      *
      * @param bool $pValue Flag indicating whether the sheet navigation block should be generated or not
      *
-     * @return HTML
+     * @return $this
      */
     public function setGenerateSheetNavigationBlock($pValue)
     {
@@ -325,6 +332,8 @@ class Html extends BaseWriter
 
     /**
      * Write all sheets (resets sheetIndex to NULL).
+     *
+     * @return $this
      */
     public function writeAllSheets()
     {
@@ -953,15 +962,12 @@ class Html extends BaseWriter
     private function createCSSStyle(Style $pStyle)
     {
         // Create CSS
-        $css = array_merge(
+        return array_merge(
             $this->createCSSStyleAlignment($pStyle->getAlignment()),
             $this->createCSSStyleBorders($pStyle->getBorders()),
             $this->createCSSStyleFont($pStyle->getFont()),
             $this->createCSSStyleFill($pStyle->getFill())
         );
-
-        // Return
-        return $css;
     }
 
     /**
@@ -1054,9 +1060,8 @@ class Html extends BaseWriter
     {
         //    Create CSS - add !important to non-none border styles for merged cells
         $borderStyle = $this->mapBorderStyle($pStyle->getBorderStyle());
-        $css = $borderStyle . ' #' . $pStyle->getColor()->getRGB() . (($borderStyle == 'none') ? '' : ' !important');
 
-        return $css;
+        return $borderStyle . ' #' . $pStyle->getColor()->getRGB() . (($borderStyle == 'none') ? '' : ' !important');
     }
 
     /**
@@ -1105,7 +1110,9 @@ class Html extends BaseWriter
 
         // Construct HTML
         $html = '';
-        $html .= $this->setMargins($pSheet);
+        if ($this->useEmbeddedCSS) {
+            $html .= $this->setMargins($pSheet);
+        }
 
         if (!$this->useInlineCss) {
             $gridlines = $pSheet->getShowGridlines() ? ' gridlines' : '';
@@ -1144,9 +1151,7 @@ class Html extends BaseWriter
      */
     private function generateTableFooter()
     {
-        $html = '    </table>' . PHP_EOL;
-
-        return $html;
+        return '    </table>' . PHP_EOL;
     }
 
     /**
@@ -1435,7 +1440,7 @@ class Html extends BaseWriter
      *
      * @param string $pValue
      *
-     * @return HTML
+     * @return $this
      */
     public function setImagesRoot($pValue)
     {
@@ -1459,7 +1464,7 @@ class Html extends BaseWriter
      *
      * @param bool $pValue
      *
-     * @return HTML
+     * @return $this
      */
     public function setEmbedImages($pValue)
     {
@@ -1483,11 +1488,35 @@ class Html extends BaseWriter
      *
      * @param bool $pValue
      *
-     * @return HTML
+     * @return $this
      */
     public function setUseInlineCss($pValue)
     {
         $this->useInlineCss = $pValue;
+
+        return $this;
+    }
+
+    /**
+     * Get use embedded CSS?
+     *
+     * @return bool
+     */
+    public function getUseEmbeddedCSS()
+    {
+        return $this->useEmbeddedCSS;
+    }
+
+    /**
+     * Set use embedded CSS?
+     *
+     * @param bool $pValue
+     *
+     * @return $this
+     */
+    public function setUseEmbeddedCSS($pValue)
+    {
+        $this->useEmbeddedCSS = $pValue;
 
         return $this;
     }

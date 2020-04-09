@@ -11,6 +11,7 @@ namespace PHPUnit\TextUI;
 
 use PHPUnit\Framework\AssertionFailedError;
 use PHPUnit\Framework\Exception;
+use PHPUnit\Framework\InvalidArgumentException;
 use PHPUnit\Framework\Test;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\TestFailure;
@@ -20,7 +21,6 @@ use PHPUnit\Framework\TestSuite;
 use PHPUnit\Framework\Warning;
 use PHPUnit\Runner\PhptTestCase;
 use PHPUnit\Util\Color;
-use PHPUnit\Util\InvalidArgumentHelper;
 use PHPUnit\Util\Printer;
 use SebastianBergmann\Environment\Console;
 use SebastianBergmann\Timer\Timer;
@@ -126,14 +126,14 @@ class ResultPrinter extends Printer implements TestListener
         parent::__construct($out);
 
         if (!\in_array($colors, self::AVAILABLE_COLORS, true)) {
-            throw InvalidArgumentHelper::factory(
+            throw InvalidArgumentException::create(
                 3,
                 \vsprintf('value from "%s", "%s" or "%s"', self::AVAILABLE_COLORS)
             );
         }
 
         if (!\is_int($numberOfColumns) && $numberOfColumns !== 'max') {
-            throw InvalidArgumentHelper::factory(5, 'integer or "max"');
+            throw InvalidArgumentException::create(5, 'integer or "max"');
         }
 
         $console            = new Console;
@@ -404,10 +404,7 @@ class ResultPrinter extends Printer implements TestListener
             return;
         }
 
-        if ($result->wasSuccessful() &&
-            $result->allHarmless() &&
-            $result->allCompletelyImplemented() &&
-            $result->noneSkipped()) {
+        if ($result->wasSuccessfulAndNoTestIsRiskyOrSkippedOrIncomplete()) {
             $this->writeWithColor(
                 'fg-black, bg-green',
                 \sprintf(
@@ -418,55 +415,57 @@ class ResultPrinter extends Printer implements TestListener
                     ($this->numAssertions == 1) ? '' : 's'
                 )
             );
-        } else {
-            if ($result->wasSuccessful()) {
-                $color = 'fg-black, bg-yellow';
 
-                if ($this->verbose || !$result->allHarmless()) {
-                    $this->write("\n");
-                }
+            return;
+        }
+
+        $color = 'fg-black, bg-yellow';
+
+        if ($result->wasSuccessful()) {
+            if ($this->verbose || !$result->allHarmless()) {
+                $this->write("\n");
+            }
+
+            $this->writeWithColor(
+                $color,
+                'OK, but incomplete, skipped, or risky tests!'
+            );
+        } else {
+            $this->write("\n");
+
+            if ($result->errorCount()) {
+                $color = 'fg-white, bg-red';
 
                 $this->writeWithColor(
                     $color,
-                    'OK, but incomplete, skipped, or risky tests!'
+                    'ERRORS!'
                 );
-            } else {
-                $this->write("\n");
+            } elseif ($result->failureCount()) {
+                $color = 'fg-white, bg-red';
 
-                if ($result->errorCount()) {
-                    $color = 'fg-white, bg-red';
+                $this->writeWithColor(
+                    $color,
+                    'FAILURES!'
+                );
+            } elseif ($result->warningCount()) {
+                $color = 'fg-black, bg-yellow';
 
-                    $this->writeWithColor(
-                        $color,
-                        'ERRORS!'
-                    );
-                } elseif ($result->failureCount()) {
-                    $color = 'fg-white, bg-red';
-
-                    $this->writeWithColor(
-                        $color,
-                        'FAILURES!'
-                    );
-                } elseif ($result->warningCount()) {
-                    $color = 'fg-black, bg-yellow';
-
-                    $this->writeWithColor(
-                        $color,
-                        'WARNINGS!'
-                    );
-                }
+                $this->writeWithColor(
+                    $color,
+                    'WARNINGS!'
+                );
             }
-
-            $this->writeCountString(\count($result), 'Tests', $color, true);
-            $this->writeCountString($this->numAssertions, 'Assertions', $color, true);
-            $this->writeCountString($result->errorCount(), 'Errors', $color);
-            $this->writeCountString($result->failureCount(), 'Failures', $color);
-            $this->writeCountString($result->warningCount(), 'Warnings', $color);
-            $this->writeCountString($result->skippedCount(), 'Skipped', $color);
-            $this->writeCountString($result->notImplementedCount(), 'Incomplete', $color);
-            $this->writeCountString($result->riskyCount(), 'Risky', $color);
-            $this->writeWithColor($color, '.');
         }
+
+        $this->writeCountString(\count($result), 'Tests', $color, true);
+        $this->writeCountString($this->numAssertions, 'Assertions', $color, true);
+        $this->writeCountString($result->errorCount(), 'Errors', $color);
+        $this->writeCountString($result->failureCount(), 'Failures', $color);
+        $this->writeCountString($result->warningCount(), 'Warnings', $color);
+        $this->writeCountString($result->skippedCount(), 'Skipped', $color);
+        $this->writeCountString($result->notImplementedCount(), 'Incomplete', $color);
+        $this->writeCountString($result->riskyCount(), 'Risky', $color);
+        $this->writeWithColor($color, '.');
     }
 
     protected function writeProgress(string $progress): void
@@ -522,7 +521,7 @@ class ResultPrinter extends Printer implements TestListener
         $styledLines = [];
 
         foreach ($lines as $line) {
-            $styledLines[] = Color::colorize($color, \str_pad($line, $padding), false);
+            $styledLines[] = Color::colorize($color, \str_pad($line, $padding));
         }
 
         return \implode(\PHP_EOL, $styledLines);

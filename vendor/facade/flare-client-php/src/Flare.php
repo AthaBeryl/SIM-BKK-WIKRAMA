@@ -3,18 +3,18 @@
 namespace Facade\FlareClient;
 
 use Exception;
-use Throwable;
-use Illuminate\Pipeline\Pipeline;
-use Facade\FlareClient\Glows\Glow;
-use Facade\FlareClient\Http\Client;
-use Facade\FlareClient\Glows\Recorder;
 use Facade\FlareClient\Concerns\HasContext;
-use Facade\FlareClient\Enums\MessageLevels;
-use Facade\FlareClient\Middleware\AddGlows;
-use Illuminate\Contracts\Container\Container;
-use Facade\FlareClient\Middleware\AnonymizeIp;
 use Facade\FlareClient\Context\ContextContextDetector;
 use Facade\FlareClient\Context\ContextDetectorInterface;
+use Facade\FlareClient\Enums\MessageLevels;
+use Facade\FlareClient\Glows\Glow;
+use Facade\FlareClient\Glows\Recorder;
+use Facade\FlareClient\Http\Client;
+use Facade\FlareClient\Middleware\AddGlows;
+use Facade\FlareClient\Middleware\AnonymizeIp;
+use Illuminate\Contracts\Container\Container;
+use Illuminate\Pipeline\Pipeline;
+use Throwable;
 
 class Flare
 {
@@ -41,6 +41,12 @@ class Flare
     /** @var ContextDetectorInterface */
     private $contextDetector;
 
+    /** @var callable|null */
+    private $previousExceptionHandler;
+
+    /** @var callable|null */
+    private $previousErrorHandler;
+
     public static function register(string $apiKey, string $apiSecret = null, ContextDetectorInterface $contextDetector = null, Container $container = null)
     {
         $client = new Client($apiKey, $apiSecret);
@@ -65,9 +71,24 @@ class Flare
         return $this->middleware;
     }
 
+    public function registerFlareHandlers()
+    {
+        $this->registerExceptionHandler();
+        $this->registerErrorHandler();
+
+        return $this;
+    }
+
     public function registerExceptionHandler()
     {
-        set_exception_handler([$this, 'handleException']);
+        $this->previousExceptionHandler = set_exception_handler([$this, 'handleException']);
+
+        return $this;
+    }
+
+    public function registerErrorHandler()
+    {
+        $this->previousErrorHandler = set_error_handler([$this, 'handleError']);
 
         return $this;
     }
@@ -100,6 +121,27 @@ class Flare
     public function handleException(Throwable $throwable)
     {
         $this->report($throwable);
+
+        if ($this->previousExceptionHandler) {
+            call_user_func($this->previousExceptionHandler, $throwable);
+        }
+    }
+
+    public function handleError($code, $message, $file = '', $line = 0)
+    {
+        $exception = new \ErrorException($message, 0, $code, $file, $line);
+
+        $this->report($exception);
+
+        if ($this->previousErrorHandler) {
+            return call_user_func(
+                $this->previousErrorHandler,
+                $message,
+                $code,
+                $file,
+                $line
+            );
+        }
     }
 
     public function applicationPath(string $applicationPath)
@@ -112,6 +154,17 @@ class Flare
     public function report(Throwable $throwable, callable $callback = null)
     {
         $report = $this->createReport($throwable);
+
+        if (! is_null($callback)) {
+            call_user_func($callback, $report);
+        }
+
+        $this->sendReportToApi($report);
+    }
+
+    public function reportMessage(string $message, string $logLevel, callable $callback = null)
+    {
+        $report = $this->createReportFromMessage($message, $logLevel);
 
         if (! is_null($callback)) {
             call_user_func($callback, $report);
@@ -161,9 +214,29 @@ class Flare
     {
         $report = Report::createForThrowable(
             $throwable,
-            $this->contextDetector->detectCurrentContext()
+            $this->contextDetector->detectCurrentContext(),
+            $this->applicationPath
         );
 
+        return $this->applyMiddlewareToReport($report);
+    }
+
+    public function createReportFromMessage(string $message, string $logLevel): Report
+    {
+        $report = Report::createForMessage(
+            $message,
+            $logLevel,
+            $this->contextDetector->detectCurrentContext(),
+            $this->applicationPath
+        );
+
+        $report->groupByException();
+
+        return $this->applyMiddlewareToReport($report);
+    }
+
+    protected function applyMiddlewareToReport(Report $report): Report
+    {
         $this->applyAdditionalParameters($report);
 
         $report = (new Pipeline($this->container))

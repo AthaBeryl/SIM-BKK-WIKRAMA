@@ -14,15 +14,20 @@ use PHPUnit\Framework\Constraint\Exception as ExceptionConstraint;
 use PHPUnit\Framework\Constraint\ExceptionCode;
 use PHPUnit\Framework\Constraint\ExceptionMessage;
 use PHPUnit\Framework\Constraint\ExceptionMessageRegularExpression;
+use PHPUnit\Framework\Error\Deprecated;
+use PHPUnit\Framework\Error\Error;
+use PHPUnit\Framework\Error\Notice;
+use PHPUnit\Framework\Error\Warning as WarningError;
 use PHPUnit\Framework\MockObject\Generator as MockGenerator;
-use PHPUnit\Framework\MockObject\Matcher\AnyInvokedCount as AnyInvokedCountMatcher;
-use PHPUnit\Framework\MockObject\Matcher\InvokedAtIndex as InvokedAtIndexMatcher;
-use PHPUnit\Framework\MockObject\Matcher\InvokedAtLeastCount as InvokedAtLeastCountMatcher;
-use PHPUnit\Framework\MockObject\Matcher\InvokedAtLeastOnce as InvokedAtLeastOnceMatcher;
-use PHPUnit\Framework\MockObject\Matcher\InvokedAtMostCount as InvokedAtMostCountMatcher;
-use PHPUnit\Framework\MockObject\Matcher\InvokedCount as InvokedCountMatcher;
 use PHPUnit\Framework\MockObject\MockBuilder;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Rule\AnyInvokedCount as AnyInvokedCountMatcher;
+use PHPUnit\Framework\MockObject\Rule\InvokedAtIndex as InvokedAtIndexMatcher;
+use PHPUnit\Framework\MockObject\Rule\InvokedAtLeastCount as InvokedAtLeastCountMatcher;
+use PHPUnit\Framework\MockObject\Rule\InvokedAtLeastOnce as InvokedAtLeastOnceMatcher;
+use PHPUnit\Framework\MockObject\Rule\InvokedAtMostCount as InvokedAtMostCountMatcher;
+use PHPUnit\Framework\MockObject\Rule\InvokedCount as InvokedCountMatcher;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\MockObject\Stub\ConsecutiveCalls as ConsecutiveCallsStub;
 use PHPUnit\Framework\MockObject\Stub\Exception as ExceptionStub;
 use PHPUnit\Framework\MockObject\Stub\ReturnArgument as ReturnArgumentStub;
@@ -265,6 +270,11 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
     private $doubledTypes = [];
 
     /**
+     * @var bool
+     */
+    private $deprecatedExpectExceptionMessageRegExpUsed = false;
+
+    /**
      * Returns a matcher that matches when the method is executed
      * zero or more times.
      */
@@ -429,6 +439,7 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
     {
         try {
             $class = new \ReflectionClass($this);
+            // @codeCoverageIgnoreStart
         } catch (\ReflectionException $e) {
             throw new Exception(
                 $e->getMessage(),
@@ -436,6 +447,7 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
                 $e
             );
         }
+        // @codeCoverageIgnoreEnd
 
         $buffer = \sprintf(
             '%s::%s',
@@ -489,9 +501,19 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
         $this->expectedExceptionMessage = $message;
     }
 
-    public function expectExceptionMessageRegExp(string $messageRegExp): void
+    public function expectExceptionMessageMatches(string $regularExpression): void
     {
-        $this->expectedExceptionMessageRegExp = $messageRegExp;
+        $this->expectedExceptionMessageRegExp = $regularExpression;
+    }
+
+    /**
+     * @deprecated Use expectExceptionMessageMatches() instead
+     */
+    public function expectExceptionMessageRegExp(string $regularExpression): void
+    {
+        $this->deprecatedExpectExceptionMessageRegExpUsed = true;
+
+        $this->expectExceptionMessageMatches($regularExpression);
     }
 
     /**
@@ -509,6 +531,66 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
     public function expectNotToPerformAssertions(): void
     {
         $this->doesNotPerformAssertions = true;
+    }
+
+    public function expectDeprecation(): void
+    {
+        $this->expectException(Deprecated::class);
+    }
+
+    public function expectDeprecationMessage(string $message): void
+    {
+        $this->expectExceptionMessage($message);
+    }
+
+    public function expectDeprecationMessageMatches(string $regularExpression): void
+    {
+        $this->expectExceptionMessageMatches($regularExpression);
+    }
+
+    public function expectNotice(): void
+    {
+        $this->expectException(Notice::class);
+    }
+
+    public function expectNoticeMessage(string $message): void
+    {
+        $this->expectExceptionMessage($message);
+    }
+
+    public function expectNoticeMessageMatches(string $regularExpression): void
+    {
+        $this->expectExceptionMessageMatches($regularExpression);
+    }
+
+    public function expectWarning(): void
+    {
+        $this->expectException(WarningError::class);
+    }
+
+    public function expectWarningMessage(string $message): void
+    {
+        $this->expectExceptionMessage($message);
+    }
+
+    public function expectWarningMessageMatches(string $regularExpression): void
+    {
+        $this->expectExceptionMessageMatches($regularExpression);
+    }
+
+    public function expectError(): void
+    {
+        $this->expectException(Error::class);
+    }
+
+    public function expectErrorMessage(string $message): void
+    {
+        $this->expectExceptionMessage($message);
+    }
+
+    public function expectErrorMessageMatches(string $regularExpression): void
+    {
+        $this->expectExceptionMessageMatches($regularExpression);
     }
 
     public function getStatus(): int
@@ -567,6 +649,7 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
 
             try {
                 $class = new \ReflectionClass($this);
+                // @codeCoverageIgnoreStart
             } catch (\ReflectionException $e) {
                 throw new Exception(
                     $e->getMessage(),
@@ -574,6 +657,7 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
                     $e
                 );
             }
+            // @codeCoverageIgnoreEnd
 
             if ($runEntireClass) {
                 $template = new \Text_Template(
@@ -695,6 +779,10 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
      */
     public function getMockBuilder($className): MockBuilder
     {
+        if (!\is_string($className)) {
+            $this->addWarning('Passing an array of interface names to getMockBuilder() for creating a test double that implements multiple interfaces is deprecated and will no longer be supported in PHPUnit 9.');
+        }
+
         $this->recordDoubledType($className);
 
         return new MockBuilder($this, $className);
@@ -1366,6 +1454,10 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
                 );
             }
 
+            if ($this->deprecatedExpectExceptionMessageRegExpUsed) {
+                $this->addWarning('expectExceptionMessageRegExp() is deprecated in PHPUnit 8 and will be removed in PHPUnit 9.');
+            }
+
             return;
         }
 
@@ -1472,7 +1564,19 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
     }
 
     /**
-     * Returns a test double for the specified class.
+     * Makes configurable stub for the specified class.
+     *
+     * @psalm-template RealInstanceType of object
+     * @psalm-param    class-string<RealInstanceType> $originalClassName
+     * @psalm-return   Stub&RealInstanceType
+     */
+    protected function createStub(string $originalClassName): Stub
+    {
+        return $this->createMock($originalClassName);
+    }
+
+    /**
+     * Returns a mock object for the specified class.
      *
      * @param string|string[] $originalClassName
      *
@@ -1482,6 +1586,10 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
      */
     protected function createMock($originalClassName): MockObject
     {
+        if (!\is_string($originalClassName)) {
+            $this->addWarning('Passing an array of interface names to createMock() for creating a test double that implements multiple interfaces is deprecated and will no longer be supported in PHPUnit 9.');
+        }
+
         return $this->getMockBuilder($originalClassName)
                     ->disableOriginalConstructor()
                     ->disableOriginalClone()
@@ -1491,7 +1599,7 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
     }
 
     /**
-     * Returns a configured test double for the specified class.
+     * Returns a configured mock object for the specified class.
      *
      * @param string|string[] $originalClassName
      *
@@ -1511,7 +1619,7 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
     }
 
     /**
-     * Returns a partial test double for the specified class.
+     * Returns a partial mock object for the specified class.
      *
      * @param string|string[] $originalClassName
      * @param string[]        $methods
@@ -1522,14 +1630,21 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
      */
     protected function createPartialMock($originalClassName, array $methods): MockObject
     {
+        if (!\is_string($originalClassName)) {
+            $this->addWarning('Passing an array of interface names to createPartialMock() for creating a test double that implements multiple interfaces is deprecated and will no longer be supported in PHPUnit 9.');
+        }
+
         $class_names = \is_array($originalClassName) ? $originalClassName : [$originalClassName];
 
         foreach ($class_names as $class_name) {
             $reflection = new \ReflectionClass($class_name);
 
-            $mockedMethodsThatDontExist = \array_filter($methods, function (string $method) use ($reflection) {
-                return !$reflection->hasMethod($method);
-            });
+            $mockedMethodsThatDontExist = \array_filter(
+                $methods,
+                static function (string $method) use ($reflection) {
+                    return !$reflection->hasMethod($method);
+                }
+            );
 
             if ($mockedMethodsThatDontExist) {
                 $this->addWarning(
@@ -1654,8 +1769,8 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
         $this->recordDoubledType('SoapClient');
 
         if ($originalClassName === '') {
-            $fileName          = \pathinfo(\basename(\parse_url($wsdlFile)['path']), \PATHINFO_FILENAME);
-            $originalClassName = \preg_replace('/[^a-zA-Z0-9_]/', '', $fileName);
+            $fileName          = \pathinfo(\basename(\parse_url($wsdlFile, \PHP_URL_PATH)), \PATHINFO_FILENAME);
+            $originalClassName = \preg_replace('/\W/', '', $fileName);
         }
 
         if (!\class_exists($originalClassName)) {
@@ -1748,9 +1863,7 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
      * @throws \Prophecy\Exception\Doubler\DoubleException
      * @throws \Prophecy\Exception\Doubler\InterfaceNotFoundException
      *
-     * @psalm-template RealInstanceType of object
-     * @psalm-param class-string<RealInstanceType>|null $classOrInterface
-     * @psalm-return ObjectProphecy<RealInstanceType>
+     * @psalm-param class-string|null $classOrInterface
      */
     protected function prophesize($classOrInterface = null): ObjectProphecy
     {
@@ -1812,7 +1925,7 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
             );
 
             if ($expectedException !== false) {
-                $this->addWarning('The @expectedException, @expectedExceptionCode, @expectedExceptionMessage, and @expectedExceptionMessageRegExp annotations are deprecated. They will be removed in PHPUnit 9. Refactor your test to use expectException(), expectExceptionCode(), expectExceptionMessage(), or expectExceptionMessageRegExp() instead.');
+                $this->addWarning('The @expectedException, @expectedExceptionCode, @expectedExceptionMessage, and @expectedExceptionMessageRegExp annotations are deprecated. They will be removed in PHPUnit 9. Refactor your test to use expectException(), expectExceptionCode(), expectExceptionMessage(), or expectExceptionMessageMatches() instead.');
 
                 $this->expectException($expectedException['class']);
 
@@ -1823,7 +1936,7 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
                 if ($expectedException['message'] !== '') {
                     $this->expectExceptionMessage($expectedException['message']);
                 } elseif ($expectedException['message_regex'] !== '') {
-                    $this->expectExceptionMessageRegExp($expectedException['message_regex']);
+                    $this->expectExceptionMessageMatches($expectedException['message_regex']);
                 }
             }
         } catch (UtilException $e) {
@@ -1869,22 +1982,16 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
         if ($this->prophet !== null) {
             try {
                 $this->prophet->checkPredictions();
-            } catch (\Throwable $t) {
-                /* Intentionally left empty */
-            }
+            } finally {
+                foreach ($this->prophet->getProphecies() as $objectProphecy) {
+                    foreach ($objectProphecy->getMethodProphecies() as $methodProphecies) {
+                        foreach ($methodProphecies as $methodProphecy) {
+                            \assert($methodProphecy instanceof MethodProphecy);
 
-            foreach ($this->prophet->getProphecies() as $objectProphecy) {
-                foreach ($objectProphecy->getMethodProphecies() as $methodProphecies) {
-                    foreach ($methodProphecies as $methodProphecy) {
-                        \assert($methodProphecy instanceof MethodProphecy);
-
-                        $this->numAssertions += \count($methodProphecy->getCheckedPredictions());
+                            $this->numAssertions += \count($methodProphecy->getCheckedPredictions());
+                        }
                     }
                 }
-            }
-
-            if (isset($t)) {
-                throw $t;
             }
         }
     }
@@ -2342,6 +2449,7 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
         if (\is_string($this->expectedException)) {
             try {
                 $reflector = new \ReflectionClass($this->expectedException);
+                // @codeCoverageIgnoreStart
             } catch (\ReflectionException $e) {
                 throw new Exception(
                     $e->getMessage(),
@@ -2349,6 +2457,7 @@ abstract class TestCase extends Assert implements SelfDescribing, Test
                     $e
                 );
             }
+            // @codeCoverageIgnoreEnd
 
             if ($this->expectedException === 'PHPUnit\Framework\Exception' ||
                 $this->expectedException === '\PHPUnit\Framework\Exception' ||

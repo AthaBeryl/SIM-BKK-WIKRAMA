@@ -14,6 +14,8 @@ use SplObjectStorage;
 /**
  * Constraint that asserts that the Traversable it is applied to contains
  * a given value.
+ *
+ * @deprecated Use TraversableContainsEqual or TraversableContainsIdentical instead
  */
 final class TraversableContains extends Constraint
 {
@@ -32,9 +34,6 @@ final class TraversableContains extends Constraint
      */
     private $value;
 
-    /**
-     * @throws \PHPUnit\Framework\Exception
-     */
     public function __construct($value, bool $checkForObjectIdentity = true, bool $checkForNonObjectIdentity = false)
     {
         $this->checkForObjectIdentity    = $checkForObjectIdentity;
@@ -74,6 +73,7 @@ final class TraversableContains extends Constraint
                     return true;
                 }
 
+                /* @noinspection TypeUnsafeComparisonInspection */
                 if (!$this->checkForObjectIdentity && $element == $this->value) {
                     return true;
                 }
@@ -84,6 +84,7 @@ final class TraversableContains extends Constraint
                     return true;
                 }
 
+                /* @noinspection TypeUnsafeComparisonInspection */
                 if (!$this->checkForNonObjectIdentity && $element == $this->value) {
                     return true;
                 }

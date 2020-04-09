@@ -70,7 +70,7 @@ class HomeController extends Controller
             ]
         ]);
         $status = Status::all();
-        $company = Instansi::orderby('nama','asc')->get();
+        $company = Instansi::orderby('nama','asc')->where('nama','!=',null)->get();
         $rayon = Rayon::orderby('rayon','asc')->get();
         if(auth::user()->role != 'admin'){
             switch (auth::user()->data->status_id) {
@@ -107,12 +107,13 @@ class HomeController extends Controller
     public function updateProfile(request $request){
         $user = User::where('id',auth::user()->id);
         $siswa = siswa::where('user_id',auth::user()->id);
-
+        if($request->status != $siswa->first()->status_id){
         statusDetail::create([
             'nis' => auth::user()->data->nis,
             'status_id' => $request->status,
             'id_instansi' => '1',
         ]);
+        }
         $user->update([
             'name' => $request->nama,
             'email' => $request->email
@@ -173,12 +174,24 @@ class HomeController extends Controller
 
     public function editDetail(request $request){
         $statusDetail = statusDetail::where('nis',auth::user()->data->nis);
-        $statusDetail->update([
+        $latest = $statusDetail->where('id',$statusDetail->max('id'));
+        if($latest->first()->id_instansi == null || $latest->first()->id_instansi == 1){
+        $latest->update([
         'id_instansi' => $request->nama,
         'jabatan' => $request->jabatan,
         'pendapatan'=>$request->pendapatan,
         'durasi_kontrak'=>$request->kontrak
         ]);
+        }else{
+        statusDetail::create([
+        'id_instansi' => $request->nama,
+        'jabatan' => $request->jabatan,
+        'pendapatan'=>$request->pendapatan,
+        'durasi_kontrak'=>$request->kontrak,
+        'nis'=>$latest->first()->nis,
+        'status_id'=>$latest->first()->status_id,
+        ]);
+        }
         return redirect()->back()->with('success',['Data Berhasil Diupdate']);
     }
 }

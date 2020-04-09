@@ -2,57 +2,64 @@
 
 namespace Facade\Ignition;
 
-use Throwable;
-use Monolog\Logger;
-use Illuminate\Support\Arr;
 use Facade\FlareClient\Flare;
-use Illuminate\Log\LogManager;
-use Illuminate\Queue\QueueManager;
 use Facade\FlareClient\Http\Client;
-use Illuminate\Support\Facades\Log;
-use Whoops\Handler\HandlerInterface;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Foundation\Application;
-use Facade\Ignition\ErrorPage\Renderer;
-use Facade\Ignition\Middleware\AddLogs;
-use Illuminate\Support\ServiceProvider;
-use Facade\Ignition\Logger\FlareHandler;
-use Facade\Ignition\Middleware\AddDumps;
-use Illuminate\Log\Events\MessageLogged;
+use Facade\Ignition\Commands\SolutionMakeCommand;
 use Facade\Ignition\Commands\TestCommand;
-use Facade\Ignition\Middleware\AddQueries;
-use Facade\Ignition\LogRecorder\LogRecorder;
-use Facade\Ignition\Middleware\AddSolutions;
-use Facade\Ignition\Views\Engines\PhpEngine;
+use Facade\Ignition\Context\LaravelContextDetector;
 use Facade\Ignition\DumpRecorder\DumpRecorder;
+use Facade\Ignition\ErrorPage\IgnitionWhoopsHandler;
+use Facade\Ignition\ErrorPage\Renderer;
+use Facade\Ignition\Exceptions\InvalidConfig;
+use Facade\Ignition\Http\Controllers\ExecuteSolutionController;
+use Facade\Ignition\Http\Controllers\HealthCheckController;
+use Facade\Ignition\Http\Controllers\ScriptController;
+use Facade\Ignition\Http\Controllers\ShareReportController;
+use Facade\Ignition\Http\Controllers\StyleController;
+use Facade\Ignition\Http\Middleware\IgnitionConfigValueEnabled;
+use Facade\Ignition\Http\Middleware\IgnitionEnabled;
+use Facade\Ignition\Logger\FlareHandler;
+use Facade\Ignition\LogRecorder\LogRecorder;
+use Facade\Ignition\Middleware\AddDumps;
+use Facade\Ignition\Middleware\AddEnvironmentInformation;
+use Facade\Ignition\Middleware\AddGitInformation;
+use Facade\Ignition\Middleware\AddLogs;
+use Facade\Ignition\Middleware\AddQueries;
+use Facade\Ignition\Middleware\AddSolutions;
+use Facade\Ignition\Middleware\CustomizeGrouping;
 use Facade\Ignition\Middleware\SetNotifierName;
 use Facade\Ignition\QueryRecorder\QueryRecorder;
-use Facade\Ignition\Middleware\AddGitInformation;
-use Facade\Ignition\Views\Engines\CompilerEngine;
-use Facade\Ignition\Context\LaravelContextDetector;
-use Facade\Ignition\ErrorPage\IgnitionWhoopsHandler;
-use Facade\Ignition\Http\Middleware\IgnitionEnabled;
-use Facade\Ignition\Http\Controllers\StyleController;
-use Facade\Ignition\Http\Controllers\ScriptController;
-use Facade\Ignition\Middleware\AddEnvironmentInformation;
-use Illuminate\View\Engines\PhpEngine as LaravelPhpEngine;
-use Facade\Ignition\Http\Controllers\HealthCheckController;
-use Facade\Ignition\Http\Controllers\ShareReportController;
-use Facade\Ignition\Http\Controllers\ExecuteSolutionController;
-use Facade\Ignition\SolutionProviders\SolutionProviderRepository;
-use Facade\Ignition\SolutionProviders\ViewNotFoundSolutionProvider;
 use Facade\Ignition\SolutionProviders\BadMethodCallSolutionProvider;
 use Facade\Ignition\SolutionProviders\DefaultDbNameSolutionProvider;
+use Facade\Ignition\SolutionProviders\IncorrectValetDbCredentialsSolutionProvider;
+use Facade\Ignition\SolutionProviders\InvalidRouteActionSolutionProvider;
 use Facade\Ignition\SolutionProviders\MergeConflictSolutionProvider;
 use Facade\Ignition\SolutionProviders\MissingAppKeySolutionProvider;
 use Facade\Ignition\SolutionProviders\MissingColumnSolutionProvider;
 use Facade\Ignition\SolutionProviders\MissingImportSolutionProvider;
-use Facade\Ignition\SolutionProviders\TableNotFoundSolutionProvider;
-use Illuminate\View\Engines\CompilerEngine as LaravelCompilerEngine;
 use Facade\Ignition\SolutionProviders\MissingPackageSolutionProvider;
-use Facade\Ignition\SolutionProviders\InvalidRouteActionSolutionProvider;
-use Facade\Ignition\SolutionProviders\IncorrectValetDbCredentialsSolutionProvider;
+use Facade\Ignition\SolutionProviders\RunningLaravelDuskInProductionProvider;
+use Facade\Ignition\SolutionProviders\SolutionProviderRepository;
+use Facade\Ignition\SolutionProviders\TableNotFoundSolutionProvider;
+use Facade\Ignition\SolutionProviders\UndefinedVariableSolutionProvider;
+use Facade\Ignition\SolutionProviders\UnknownValidationSolutionProvider;
+use Facade\Ignition\SolutionProviders\ViewNotFoundSolutionProvider;
+use Facade\Ignition\Views\Engines\CompilerEngine;
+use Facade\Ignition\Views\Engines\PhpEngine;
 use Facade\IgnitionContracts\SolutionProviderRepository as SolutionProviderRepositoryContract;
+use Illuminate\Foundation\Application;
+use Illuminate\Log\Events\MessageLogged;
+use Illuminate\Log\LogManager;
+use Illuminate\Queue\QueueManager;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\ServiceProvider;
+use Illuminate\View\Engines\CompilerEngine as LaravelCompilerEngine;
+use Illuminate\View\Engines\PhpEngine as LaravelPhpEngine;
+use Monolog\Logger;
+use Throwable;
+use Whoops\Handler\HandlerInterface;
 
 class IgnitionServiceProvider extends ServiceProvider
 {
@@ -70,7 +77,14 @@ class IgnitionServiceProvider extends ServiceProvider
 
         $this
             ->registerViewEngines()
+            ->registerHousekeepingRoutes()
+            ->registerLogHandler()
+            ->registerCommands()
             ->setupQueue($this->app->queue);
+
+        $this->app->make(QueryRecorder::class)->register();
+        $this->app->make(LogRecorder::class)->register();
+        $this->app->make(DumpRecorder::class)->register();
     }
 
     public function register()
@@ -79,16 +93,13 @@ class IgnitionServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__.'/../config/ignition.php', 'ignition');
 
         $this
-            ->registerHousekeepingRoutes()
             ->registerSolutionProviderRepository()
             ->registerExceptionRenderer()
             ->registerWhoopsHandler()
             ->registerIgnitionConfig()
             ->registerFlare()
-            ->registerLogHandler()
             ->registerLogRecorder()
-            ->registerDumpCollector()
-            ->registerCommands();
+            ->registerDumpCollector();
 
         if (config('flare.reporting.report_queries')) {
             $this->registerQueryRecorder();
@@ -120,16 +131,27 @@ class IgnitionServiceProvider extends ServiceProvider
 
     protected function registerHousekeepingRoutes()
     {
+        if ($this->app->runningInConsole()) {
+            return $this;
+        }
+
         Route::group([
+            'as' => 'ignition.',
             'prefix' => config('ignition.housekeeping_endpoint_prefix', '_ignition'),
             'middleware' => [IgnitionEnabled::class],
         ], function () {
-            Route::get('health-check', HealthCheckController::class);
-            Route::post('execute-solution', ExecuteSolutionController::class);
-            Route::post('share-report', ShareReportController::class);
+            Route::get('health-check', HealthCheckController::class)->name('healthCheck');
 
-            Route::get('scripts/{script}', ScriptController::class);
-            Route::get('styles/{style}', StyleController::class);
+            Route::post('execute-solution', ExecuteSolutionController::class)
+                ->middleware(IgnitionConfigValueEnabled::class.':enableRunnableSolutions')
+                ->name('executeSolution');
+
+            Route::post('share-report', ShareReportController::class)
+                ->middleware(IgnitionConfigValueEnabled::class.':enableShareButton')
+                ->name('shareReport');
+
+            Route::get('scripts/{script}', ScriptController::class)->name('scripts');
+            Route::get('styles/{style}', StyleController::class)->name('styles');
         });
 
         return $this;
@@ -211,8 +233,16 @@ class IgnitionServiceProvider extends ServiceProvider
     protected function registerLogHandler()
     {
         $this->app->singleton('flare.logger', function ($app) {
+            $handler = new FlareHandler($app->make('flare.client'));
+
+            $logLevelString = config('logging.channels.flare.level', 'error');
+
+            $logLevel = $this->getLogLevel($logLevelString);
+
+            $handler->setMinimumReportLogLevel($logLevel);
+
             $logger = new Logger('Flare');
-            $logger->pushHandler(new FlareHandler($app->make('flare.client')));
+            $logger->pushHandler($handler);
 
             return $logger;
         });
@@ -228,9 +258,20 @@ class IgnitionServiceProvider extends ServiceProvider
         return $this;
     }
 
+    protected function getLogLevel(string $logLevelString): int
+    {
+        $logLevel = Logger::getLevels()[strtoupper($logLevelString)] ?? null;
+
+        if (! $logLevel) {
+            throw InvalidConfig::invalidLogLevel($logLevelString);
+        }
+
+        return $logLevel;
+    }
+
     protected function registerLogRecorder()
     {
-        $logCollector = $this->app->make(LogRecorder::class)->register();
+        $logCollector = $this->app->make(LogRecorder::class);
 
         $this->app->singleton(LogRecorder::class);
 
@@ -241,7 +282,7 @@ class IgnitionServiceProvider extends ServiceProvider
 
     protected function registerDumpCollector()
     {
-        $dumpCollector = $this->app->make(DumpRecorder::class)->register();
+        $dumpCollector = $this->app->make(DumpRecorder::class);
 
         $this->app->singleton(DumpRecorder::class);
 
@@ -253,15 +294,22 @@ class IgnitionServiceProvider extends ServiceProvider
     protected function registerCommands()
     {
         $this->app->bind('command.flare:test', TestCommand::class);
+        $this->app->bind('command.make:solution', SolutionMakeCommand::class);
 
-        $this->commands([
-            'command.flare:test',
-        ]);
+        if ($this->app['config']->get('flare.key')) {
+            $this->commands(['command.flare:test']);
+        }
+
+        if ($this->app['config']->get('ignition.register_commands', false)) {
+            $this->commands(['command.make:solution']);
+        }
+
+        return $this;
     }
 
     protected function registerQueryRecorder()
     {
-        $queryCollector = $this->app->make(QueryRecorder::class)->register();
+        $queryCollector = $this->app->make(QueryRecorder::class);
 
         $this->app->singleton(QueryRecorder::class);
 
@@ -288,6 +336,10 @@ class IgnitionServiceProvider extends ServiceProvider
             $middleware[] = (new AddGitInformation());
         }
 
+        if (! is_null(config('flare.reporting.grouping_type'))) {
+            $middleware[] = new CustomizeGrouping(config('flare.reporting.grouping_type'));
+        }
+
         foreach ($middleware as $singleMiddleware) {
             $this->app->get('flare.client')->registerMiddleware($singleMiddleware);
         }
@@ -307,8 +359,11 @@ class IgnitionServiceProvider extends ServiceProvider
             MissingPackageSolutionProvider::class,
             InvalidRouteActionSolutionProvider::class,
             ViewNotFoundSolutionProvider::class,
+            UndefinedVariableSolutionProvider::class,
             MergeConflictSolutionProvider::class,
+            RunningLaravelDuskInProductionProvider::class,
             MissingColumnSolutionProvider::class,
+            UnknownValidationSolutionProvider::class,
         ];
     }
 

@@ -139,7 +139,7 @@ class NumberFormat extends Supervisor
      *
      * @throws PhpSpreadsheetException
      *
-     * @return NumberFormat
+     * @return $this
      */
     public function applyFromArray(array $pStyles)
     {
@@ -176,7 +176,7 @@ class NumberFormat extends Supervisor
      *
      * @param string $pValue see self::FORMAT_*
      *
-     * @return NumberFormat
+     * @return $this
      */
     public function setFormatCode($pValue)
     {
@@ -213,7 +213,7 @@ class NumberFormat extends Supervisor
      *
      * @param int $pValue
      *
-     * @return NumberFormat
+     * @return $this
      */
     public function setBuiltInFormatCode($pValue)
     {
@@ -367,7 +367,7 @@ class NumberFormat extends Supervisor
         self::fillBuiltInFormatCodes();
 
         // Lookup format code
-        if (isset(self::$flippedBuiltInFormats[$formatCode])) {
+        if (array_key_exists($formatCode, self::$flippedBuiltInFormats)) {
             return self::$flippedBuiltInFormats[$formatCode];
         }
 
@@ -601,6 +601,7 @@ class NumberFormat extends Supervisor
     {
         $sign = ($number < 0.0);
         $number = abs($number);
+
         if ($splitOnPoint && strpos($mask, '.') !== false && strpos($number, '.') !== false) {
             $numbers = explode('.', $number);
             $masks = explode('.', $mask);
@@ -639,6 +640,9 @@ class NumberFormat extends Supervisor
                 //    Scientific format
                 $value = sprintf('%5.2E', $value);
             } elseif (preg_match('/0([^\d\.]+)0/', $format) || substr_count($format, '.') > 1) {
+                if ($value == (int) $value && substr_count($format, '.') === 1) {
+                    $value *= 10 ** strlen(explode('.', $format)[1]);
+                }
                 $value = self::complexNumberFormatMask($value, $format);
             } else {
                 $sprintf_pattern = "%0$minWidth." . strlen($right) . 'f';
