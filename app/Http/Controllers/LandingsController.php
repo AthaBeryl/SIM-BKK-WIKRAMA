@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Landing;
+use App\InfoLowongan;
+use App\InfoSekolah;
 use Illuminate\Http\Request;
 
 class LandingsController extends Controller
@@ -14,7 +16,9 @@ class LandingsController extends Controller
      */
     public function index()
     {
-        return view('landing.index');
+        $sekolah = InfoSekolah::where('status','Aktif')->orderBy('updated_at','desc')->limit(3)->get();
+        $lowongan = InfoLowongan::where('status','Aktif')->orderBy('updated_at','desc')->limit(3)->get();
+        return view('landing.index',compact('sekolah','lowongan'));
     }
 
     /**
@@ -23,22 +27,26 @@ class LandingsController extends Controller
      * @return \Illuminate\Http\Response
      */
     // informasi sekolah
-    public function form_single_sekolah()
+    public function form_single_sekolah($id)
     {
-        return view('landing.form-single-sekolah');
+        $sekolah = InfoSekolah::where('id',$id)->get();
+        return view('landing.form-single-sekolah',compact('sekolah'));
     }
     public function form_full_sekolah()
     {
-        return view('landing.form-full-sekolah');
+        $sekolah = InfoSekolah::where('status','Aktif')->get();
+        return view('landing.form-full-sekolah',compact('sekolah'));
     }
     // Loker
     public function form_full_lowongan()
     {
-        return view('landing.form-full-lowongan');
+        $lowongan = InfoLowongan::where('status','Aktif')->get();
+        return view('landing.form-full-lowongan',compact('lowongan'));
     }
-    public function form_single_lowongan()
+    public function form_single_lowongan($id)
     {
-        return view('landing.form-single-lowongan');
+        $lowongan = InfoLowongan::where('id',$id)->get();
+        return view('landing.form-single-lowongan',compact('lowongan'));
     }
     public function create()
     {

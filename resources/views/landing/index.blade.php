@@ -29,44 +29,23 @@
                                 </div>
                               </div>
                                 <div class="col-md-12">
-                                  <div class="post-entry-2 d-flex bg-light">
-                                    <div class="thumbnail zoom" style="border-radius:10px;background-image: url('landing/images/img_v_1.jpg')"></div>
-                                    <div class="contents">
-                                      <h2><a href="{{url('/form-single-lowongan')}}">Dibutuhkan Lowongan Pekerjaan Administrasi Perkantoran</a></h2>
-                                      <div class="post-meta">
-                                       <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eum illo aspernatur tempora natus eligendi similique? Cupiditate a repudiandae quam magnam, placeat, ipsa temporibus natus ab, maiores deleniti dolorum accusamus corporis!</p>
-                                        <span class="date-read">Jun 14 <span class="mx-1">&bullet;</span> 3 min read <span class="icon-star2"></span></span>
-                                      </div>
-                                    </div>
-                                  </div>
-                  
+                                  @foreach($lowongan as $data)
                                   <div class="post-entry-2 d-flex">
-                                    <div class="thumbnail zoom" style="border-radius:10px;background-image: url('landing/images/img_v_4.jpg')"></div>
+                                    <div class="thumbnail zoom" style="border-radius:10px;background-image: url('image/InfoLowongan/{{$data->foto}}')"></div>
                                     <div class="contents">
-                                      <h2><a href="#">Dibutuhkan Ahli Jaringan</a></h2>
+                                      <h2><a href="/form-single-lowongan;{{$data->id}}">{{$data->judul}}</a></h2>
                                       <div class="post-meta">
-                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates magni unde molestiae nisi sunt, quidem aperiam quis iure quasi et autem repellendus amet sequi, possimus praesentium dolores fuga facere quas!</p>
-                                        <span class="date-read">Jun 14 <span class="mx-1">&bullet;</span> 3 min read <span class="icon-star2"></span></span>
+                                       <p class="isi">{{$data->isi}}</p>
+                                        <span class="date-read">{{substr($data->updated_at,0,10)}}<span class="mx-1">&bullet;</span></span>
                                       </div>
                                     </div>
                                   </div>
-                  
-                                  <div class="post-entry-2 d-flex">
-                                    <div class="thumbnail zoom" style="border-radius:10px;background-image: url('landing/images/img_v_3.jpg')"></div>
-                                    <div class="contents">
-                                      <h2><a href="#">dibutuhkan Chef Profesional </a></h2>
-                                      <div class="post-meta">
-                                        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Praesentium, culpa excepturi incidunt dolore totam nesciunt consectetur odit, eaque obcaecati, quidem porro voluptates! Dolores, ipsum? Hic voluptatum sunt sapiente tenetur vel.</p>
-                                        <span class="date-read">Jun 14 <span class="mx-1">&bullet;</span> 3 min read <span class="icon-star2"></span></span>
-                                      </div>
-                                    </div>
-                                  </div>
+                                  @endforeach
                                   {{-- More --}}
                                   <p>
                                         <a href="{{url('/form-full-lowongan')}}" class="more">Lainnya<span class="icon-keyboard_arrow_right"></span></a>
                                       </p>
                                   {{-- End More --}}
-                                  
                                 </div>
                               </div>
                             </div>
@@ -89,44 +68,23 @@
                             </div>
                           </div>
                             <div class="col-md-12">
-                              <div class="post-entry-2 d-flex bg-light">
-                                <div class="thumbnail zoom" style="border-radius:10px;background-image: url('landing/images/img_v_1.jpg')"></div>
-                                <div class="contents">
-                                <h2><a href="{{url('/form-single-sekolah')}}">Hari ini SMK WIKRAMA mendapatkan penghargaan nobel</a></h2>
-                                  <div class="post-meta">
-                                   <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eum illo aspernatur tempora natus eligendi similique? Cupiditate a repudiandae quam magnam, placeat, ipsa temporibus natus ab, maiores deleniti dolorum accusamus corporis!</p>
-                                    <span class="date-read">Jun 14 <span class="mx-1">&bullet;</span> 3 min read <span class="icon-star2"></span></span>
-                                  </div>
-                                </div>
-                              </div>
-              
+                              @foreach($sekolah as $data)
                               <div class="post-entry-2 d-flex">
-                                <div class="thumbnail zoom" style="border-radius:10px;background-image: url('landing/images/img_v_4.jpg')"></div>
+                                <div class="thumbnail zoom" style="border-radius:10px;background-image: url('image/InfoSekolah/{{$data->foto}}')"></div>
                                 <div class="contents">
-                                  <h2><a href="#">Selama Virus COVID-19 SMK WIKRAMA melakukan penyuluhan sosialisasi</a></h2>
+                                  <h2><a href="/form-single-sekolah;{{$data->id}}">{{$data->judul}}</a></h2>
                                   <div class="post-meta">
-                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates magni unde molestiae nisi sunt, quidem aperiam quis iure quasi et autem repellendus amet sequi, possimus praesentium dolores fuga facere quas!</p>
-                                    <span class="date-read">Jun 14 <span class="mx-1">&bullet;</span> 3 min read <span class="icon-star2"></span></span>
+                                   <p class="isi">{{$data->isi}}</p>
+                                    <span class="date-read">{{substr($data->updated_at,0,10)}}<span class="mx-1">&bullet;</span></span>
                                   </div>
                                 </div>
                               </div>
-              
-                              <div class="post-entry-2 d-flex">
-                                <div class="thumbnail zoom" style="border-radius:10px;background-image: url('landing/images/img_v_3.jpg')"></div>
-                                <div class="contents">
-                                  <h2><a href="#"> SMK WIKRAMA menerapkan sistem moving class </a></h2>
-                                  <div class="post-meta">
-                                    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Praesentium, culpa excepturi incidunt dolore totam nesciunt consectetur odit, eaque obcaecati, quidem porro voluptates! Dolores, ipsum? Hic voluptatum sunt sapiente tenetur vel.</p>
-                                    <span class="date-read">Jun 14 <span class="mx-1">&bullet;</span> 3 min read <span class="icon-star2"></span></span>
-                                  </div>
-                                </div>
-                              </div>
+                              @endforeach
                               {{-- More --}}
                               <p>
                                     <a href="{{url('/form-full-sekolah')}}" class="more">Lainnya<span class="icon-keyboard_arrow_right"></span></a>
                                   </p>
                               {{-- End More --}}
-                              
                             </div>
                           </div>
                         </div>

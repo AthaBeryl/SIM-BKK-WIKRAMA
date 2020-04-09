@@ -81,10 +81,10 @@ Route::post('/config/edit','ConfigController@edit')->name('config.submit');
 //landing page
 Route::get('/','LandingsController@index');
 // Form Lowongan
-Route::get('/form-single-lowongan','LandingsController@form_single_lowongan');
+Route::get('/form-single-lowongan;{id}','LandingsController@form_single_lowongan');
 Route::get('/form-full-lowongan','LandingsController@form_full_lowongan');
 // Form Sekolah
-Route::get('/form-single-sekolah','LandingsController@form_single_sekolah');
+Route::get('/form-single-sekolah;{id}','LandingsController@form_single_sekolah');
 Route::get('/form-full-sekolah','LandingsController@form_full_sekolah');
 
 // Input Info Sekolah
