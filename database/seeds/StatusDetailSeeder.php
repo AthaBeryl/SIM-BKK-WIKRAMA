@@ -15,7 +15,7 @@ class StatusDetailSeeder extends Seeder
     	$faker = Faker::create('id_ID');
         for($i=1;$i<=350;$i++){
         db::table('status_details')->insert([
-        'nis'=> '1170'. 6000+$i,
+        'nis'=> '1170'. (6000+$i),
         'id_instansi'=>$faker->numberBetween($min = 1 , $max = 100),
         'jabatan'=>$faker->randomElement(['Karyawan','Boss','Pegawai Negri','Sekretaris','CEO','Manager','Project Manager','Data Analist','Direktur','Tester','IT Security']),
         'Pendapatan'=>$faker->randomElement(['500000','300000','1000000','2000000','3000000','4500000','7770000','10000000','30000000','5000000','900000']),

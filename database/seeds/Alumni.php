@@ -20,14 +20,14 @@ class Alumni extends Seeder
     	      // insert data ke table pegawai menggunakan Faker
     		DB::table('siswas')->insert([
                 'user_id'=> $i+1,
-    			'nisn' => '19812'. 100+$i,
-    			'nis' => '1170'. 6000+$i,
+    			'nisn' => '19812'. (100+$i),
+    			'nis' => '1170'. (6000+$i),
     			// 'nama'=> $faker->name($gender),
     			'jurusan_id'=> $faker->numberBetween($min = 1,$max = 7),
     			'rayon_id'=> $faker->numberBetween($min = 1,$max = 25),
     			'jk'=> $gender,
     			'masuk'=> $thn,
-    			'lulus'=> $thn+3,
+    			'lulus'=> ($thn+3),
     			'alamat'=> $faker->streetAddress,
     			// 'email'=> $faker->freeEmail,
     			'telp'=> $faker->phoneNumber,

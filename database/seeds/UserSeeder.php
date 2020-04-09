@@ -26,9 +26,9 @@ class UserSeeder extends Seeder
         for($i = 1; $i <= 350; $i++){
             db::table('users')->insert([
                 'name'=> $faker->name(),
-                'username'=> '1170'. 6000+$i,
+                'username'=> '1170'. (6000+$i),
                 'email'=> $faker->email,
-                'password'=> Hash::make( '1170'. 6000+$i),
+                'password'=> Hash::make( '1170'. (6000+$i) ) ,
                 'role'=>'alumni',
                 'foto'=>'default.png'
                 ]);
