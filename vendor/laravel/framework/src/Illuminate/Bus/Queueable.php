@@ -127,13 +127,13 @@ trait Queueable
      */
     public function middleware()
     {
-        return $this->middleware ?: [];
+        return [];
     }
 
     /**
      * Specify the middleware the job should be dispatched through.
      *
-     * @param  array|object
+     * @param  array|object  $middleware
      * @return $this
      */
     public function through($middleware)

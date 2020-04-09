@@ -11,6 +11,7 @@ use Illuminate\Mail\Transport\MailgunTransport;
 use Illuminate\Mail\Transport\SesTransport;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Manager;
+use Postmark\ThrowExceptionOnFailurePlugin;
 use Postmark\Transport as PostmarkTransport;
 use Psr\Log\LoggerInterface;
 use Swift_SendmailTransport as SendmailTransport;
@@ -32,7 +33,7 @@ class TransportManager extends Manager
         // a developer has available. We will just pass this configured host.
         $transport = new SmtpTransport($config['host'], $config['port']);
 
-        if (isset($config['encryption'])) {
+        if (! empty($config['encryption'])) {
             $transport->setEncryption($config['encryption']);
         }
 
@@ -148,9 +149,11 @@ class TransportManager extends Manager
      */
     protected function createPostmarkDriver()
     {
-        return new PostmarkTransport(
+        return tap(new PostmarkTransport(
             $this->config->get('services.postmark.token')
-        );
+        ), function ($transport) {
+            $transport->registerPlugin(new ThrowExceptionOnFailurePlugin());
+        });
     }
 
     /**

@@ -40,14 +40,14 @@ class Exception extends \RuntimeException implements \PHPUnit\Exception
      */
     protected $serializableTrace;
 
-    public function __construct($message = '', $code = 0, \Exception $previous = null)
+    public function __construct($message = '', $code = 0, \Throwable $previous = null)
     {
         parent::__construct($message, $code, $previous);
 
         $this->serializableTrace = $this->getTrace();
 
-        foreach ($this->serializableTrace as $i => $call) {
-            unset($this->serializableTrace[$i]['args']);
+        foreach (\array_keys($this->serializableTrace) as $key) {
+            unset($this->serializableTrace[$key]['args']);
         }
     }
 

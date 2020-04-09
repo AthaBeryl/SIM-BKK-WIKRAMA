@@ -11,7 +11,7 @@ class Dataset extends DatasetClass
     use DatasetFeatures;
 
     /**
-     * Store the private datasets that contains a special formating.
+     * Store the private datasets that contains a special formatting.
      *
      * @var array
      */

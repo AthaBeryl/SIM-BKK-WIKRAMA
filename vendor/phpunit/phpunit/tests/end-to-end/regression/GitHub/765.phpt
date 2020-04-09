@@ -3,8 +3,7 @@ GH-765: Fatal error triggered in PHPUnit when exception is thrown in data provid
 --FILE--
 <?php declare(strict_types=1);
 $_SERVER['argv'][1] = '--no-configuration';
-$_SERVER['argv'][2] = 'Issue765Test';
-$_SERVER['argv'][3] = __DIR__ . '/765/Issue765Test.php';
+$_SERVER['argv'][2] = __DIR__ . '/765/Issue765Test.php';
 
 require __DIR__ . '/../../../bootstrap.php';
 PHPUnit\TextUI\Command::main();
@@ -19,6 +18,8 @@ There was 1 warning:
 
 1) Warning
 The data provider specified for Issue765Test::testDependent is invalid.
+Exception: <no message>
+%s/Issue765Test.php:%d
 
 WARNINGS!
 Tests: 2, Assertions: 1, Warnings: 1.

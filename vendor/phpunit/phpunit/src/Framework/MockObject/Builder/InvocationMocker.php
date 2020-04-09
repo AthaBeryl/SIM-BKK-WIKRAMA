@@ -12,12 +12,12 @@ namespace PHPUnit\Framework\MockObject\Builder;
 use PHPUnit\Framework\Constraint\Constraint;
 use PHPUnit\Framework\MockObject\ConfigurableMethod;
 use PHPUnit\Framework\MockObject\IncompatibleReturnValueException;
+use PHPUnit\Framework\MockObject\InvocationHandler;
 use PHPUnit\Framework\MockObject\Matcher;
-use PHPUnit\Framework\MockObject\Matcher\Invocation;
+use PHPUnit\Framework\MockObject\Rule;
 use PHPUnit\Framework\MockObject\RuntimeException;
 use PHPUnit\Framework\MockObject\Stub\ConsecutiveCalls;
 use PHPUnit\Framework\MockObject\Stub\Exception;
-use PHPUnit\Framework\MockObject\Stub\MatcherCollection;
 use PHPUnit\Framework\MockObject\Stub\ReturnArgument;
 use PHPUnit\Framework\MockObject\Stub\ReturnCallback;
 use PHPUnit\Framework\MockObject\Stub\ReturnReference;
@@ -29,12 +29,12 @@ use PHPUnit\Framework\MockObject\Stub\Stub;
 /**
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
  */
-final class InvocationMocker implements MethodNameMatch
+final class InvocationMocker implements InvocationStubber, MethodNameMatch
 {
     /**
-     * @var MatcherCollection
+     * @var InvocationHandler
      */
-    private $collection;
+    private $invocationHandler;
 
     /**
      * @var Matcher
@@ -46,24 +46,16 @@ final class InvocationMocker implements MethodNameMatch
      */
     private $configurableMethods;
 
-    public function __construct(MatcherCollection $collection, Invocation $invocationMatcher, ConfigurableMethod ...$configurableMethods)
+    public function __construct(InvocationHandler $handler, Matcher $matcher, ConfigurableMethod ...$configurableMethods)
     {
-        $this->collection = $collection;
-        $this->matcher    = new Matcher($invocationMatcher);
-
-        $this->collection->addMatcher($this->matcher);
-
+        $this->invocationHandler   = $handler;
+        $this->matcher             = $matcher;
         $this->configurableMethods = $configurableMethods;
-    }
-
-    public function getMatcher(): Matcher
-    {
-        return $this->matcher;
     }
 
     public function id($id): self
     {
-        $this->collection->registerId($id, $this);
+        $this->invocationHandler->registerMatcher($id, $this->matcher);
 
         return $this;
     }
@@ -80,7 +72,7 @@ final class InvocationMocker implements MethodNameMatch
         if (\count($nextValues) === 0) {
             $this->ensureTypeOfReturnValues([$value]);
 
-            $stub = new ReturnStub($value);
+            $stub = $value instanceof Stub ? $value : new ReturnStub($value);
         } else {
             $values = \array_merge([$value], $nextValues);
 
@@ -92,9 +84,7 @@ final class InvocationMocker implements MethodNameMatch
         return $this->will($stub);
     }
 
-    /**
-     * @param mixed $reference
-     */
+    /** {@inheritDoc} */
     public function willReturnReference(&$reference): self
     {
         $stub = new ReturnReference($reference);
@@ -116,9 +106,7 @@ final class InvocationMocker implements MethodNameMatch
         return $this->will($stub);
     }
 
-    /**
-     * @param callable $callback
-     */
+    /** {@inheritDoc} */
     public function willReturnCallback($callback): self
     {
         $stub = new ReturnCallback($callback);
@@ -161,7 +149,7 @@ final class InvocationMocker implements MethodNameMatch
     {
         $this->canDefineParameters();
 
-        $this->matcher->setParametersMatcher(new Matcher\Parameters($arguments));
+        $this->matcher->setParametersRule(new Rule\Parameters($arguments));
 
         return $this;
     }
@@ -175,7 +163,7 @@ final class InvocationMocker implements MethodNameMatch
     {
         $this->canDefineParameters();
 
-        $this->matcher->setParametersMatcher(new Matcher\ConsecutiveParameters($arguments));
+        $this->matcher->setParametersRule(new Rule\ConsecutiveParameters($arguments));
 
         return $this;
     }
@@ -187,7 +175,7 @@ final class InvocationMocker implements MethodNameMatch
     {
         $this->canDefineParameters();
 
-        $this->matcher->setParametersMatcher(new Matcher\AnyParameters);
+        $this->matcher->setParametersRule(new Rule\AnyParameters);
 
         return $this;
     }
@@ -199,9 +187,9 @@ final class InvocationMocker implements MethodNameMatch
      */
     public function method($constraint): self
     {
-        if ($this->matcher->hasMethodNameMatcher()) {
+        if ($this->matcher->hasMethodNameRule()) {
             throw new RuntimeException(
-                'Method name matcher is already defined, cannot redefine'
+                'Rule for method name is already defined, cannot redefine'
             );
         }
 
@@ -221,28 +209,28 @@ final class InvocationMocker implements MethodNameMatch
             );
         }
 
-        $this->matcher->setMethodNameMatcher(new Matcher\MethodName($constraint));
+        $this->matcher->setMethodNameRule(new Rule\MethodName($constraint));
 
         return $this;
     }
 
     /**
-     * Validate that a parameters matcher can be defined, throw exceptions otherwise.
+     * Validate that a parameters rule can be defined, throw exceptions otherwise.
      *
      * @throws RuntimeException
      */
     private function canDefineParameters(): void
     {
-        if (!$this->matcher->hasMethodNameMatcher()) {
+        if (!$this->matcher->hasMethodNameRule()) {
             throw new RuntimeException(
-                'Method name matcher is not defined, cannot define parameter ' .
-                'matcher without one'
+                'Rule for method name is not defined, cannot define rule for parameters ' .
+                'without one'
             );
         }
 
-        if ($this->matcher->hasParametersMatcher()) {
+        if ($this->matcher->hasParametersRule()) {
             throw new RuntimeException(
-                'Parameter matcher is already defined, cannot redefine'
+                'Rule for parameters is already defined, cannot redefine'
             );
         }
     }
@@ -252,7 +240,7 @@ final class InvocationMocker implements MethodNameMatch
         $configuredMethod = null;
 
         foreach ($this->configurableMethods as $configurableMethod) {
-            if ($this->matcher->getMethodNameMatcher()->matchesName($configurableMethod->getName())) {
+            if ($this->matcher->getMethodNameRule()->matchesName($configurableMethod->getName())) {
                 if ($configuredMethod !== null) {
                     return null;
                 }

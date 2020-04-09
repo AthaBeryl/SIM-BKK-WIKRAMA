@@ -97,6 +97,7 @@ final class Help
             ['arg'    => '--testdox', 'desc' => 'Report test execution progress in TestDox format'],
             ['arg'    => '--testdox-group', 'desc' => 'Only include tests from the specified group(s)'],
             ['arg'    => '--testdox-exclude-group', 'desc' => 'Exclude tests from the specified group(s)'],
+            ['arg'    => '--no-interaction', 'desc' => 'Disable TestDox progress animation'],
             ['arg'    => '--printer <printer>', 'desc' => 'TestListener implementation to use'],
             ['spacer' => ''],
 
@@ -155,7 +156,7 @@ final class Help
             $this->hasColor = $withColor;
         }
 
-        foreach (self::HELP_TEXT as $section => $options) {
+        foreach (self::HELP_TEXT as $options) {
             foreach ($options as $option) {
                 if (isset($option['arg'])) {
                     $this->maxArgLength = \max($this->maxArgLength, isset($option['arg']) ? \strlen($option['arg']) : 0);

@@ -111,3 +111,7 @@ Route::post('/infolowongan/active/{id}','InfoLowonganController@active');
 Route::post('/infolowongan/deactive/{id}','InfoLowonganController@deactive');
 Route::delete('infolowongan/delete/{id}','InfoLowonganController@destroy');
 
+//CV
+Route::get('/resume/{userId}','ResumeController@index');
+Route::get('/resume/download/{userId}','ResumeController@download');
+

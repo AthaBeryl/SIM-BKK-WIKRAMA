@@ -149,7 +149,7 @@ class Container
                 }
                 $class = $parts[0];
                 $parts[1] = str_replace(' ', '', $parts[1]);
-                $partialMethods = explode(',', strtolower(rtrim($parts[1], ']')));
+                $partialMethods = array_filter(explode(',', strtolower(rtrim($parts[1], ']'))));
                 $builder->addTarget($class);
                 foreach ($partialMethods as $partialMethod) {
                     if ($partialMethod[0] === '!') {
@@ -230,7 +230,7 @@ class Container
         $this->getLoader()->load($def);
 
         $mock = $this->_getInstance($def->getClassName(), $constructorArgs);
-        $mock->mockery_init($this, $config->getTargetObject());
+        $mock->mockery_init($this, $config->getTargetObject(), $config->isInstanceMock());
 
         if (!empty($quickdefs)) {
             $mock->shouldReceive($quickdefs)->byDefault();

@@ -2,10 +2,10 @@
 
 namespace Facade\FlareClient\Http;
 
-use Facade\FlareClient\Http\Exceptions\NotFound;
-use Facade\FlareClient\Http\Exceptions\InvalidData;
 use Facade\FlareClient\Http\Exceptions\BadResponseCode;
+use Facade\FlareClient\Http\Exceptions\InvalidData;
 use Facade\FlareClient\Http\Exceptions\MissingParameter;
+use Facade\FlareClient\Http\Exceptions\NotFound;
 
 class Client
 {
@@ -147,7 +147,7 @@ class Client
                 break;
 
             case 'get':
-                curl_setopt($curlHandle, CURLOPT_URL, $fullUrl.'&'.http_build_query($arguments));
+                curl_setopt($curlHandle, CURLOPT_URL, $fullUrl.'?'.http_build_query($arguments));
                 break;
 
             case 'delete':
