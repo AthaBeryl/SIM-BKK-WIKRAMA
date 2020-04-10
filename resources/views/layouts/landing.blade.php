@@ -5,6 +5,7 @@
   <title>Bursa Kerja Khusus &mdash; SMK WIKRAMA BOGOR</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
 
 
   <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
@@ -137,22 +138,23 @@
                   </ul>
                   <br>
               </div>
+              @guest
+              
+              @else
               <div class="col-md-2">
                   <h5 class="text-md-right">Kirim Pesan</h5>
                   <hr>
               </div>
               <div class="col-md-5">
-                  <form>
+                  <form id="formpesan">
                       <fieldset class="form-group">
-                          <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
-                      </fieldset>
-                      <fieldset class="form-group">
-                          <textarea class="form-control" id="exampleMessage" placeholder="Message"></textarea>
+                          <textarea class="form-control" name="pesan" id="pesan" rows="4" placeholder="Pesan"></textarea>
                       </fieldset>
                       <fieldset class="form-group text-xs-right">
-                          <button type="button" class="btn btn-secondary-outline btn-lg">Send</button>
+                          <button type="button" id="send" class="btn btn-secondary-outline btn-lg">Send</button>
                       </fieldset>
                   </form>
+              @endguest
               </div>
           </div>
       </div>
@@ -186,6 +188,7 @@
     <script src="landing/js/jquery.mb.YTPlayer.min.js"></script>
     <script src="landing/js/main.js"></script>
 
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     {{-- <script src="https://unpkg.com/simpleslider-js@1.9.0/dist/simpleSlider.min.js"></script>
     <script src="https://unpkg.com/simpleslider-js@1.9.0/dist/simpleSlider.min.css"></script> --}}
   <script>
@@ -205,6 +208,45 @@ $('.owl-carousel').owlCarousel({
         }
     }
 })
+
+//kirim pesan
+$("#send").click(function (e) {
+    $.ajaxSetup({ 
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }   
+    })
+    e.preventDefault();
+
+    $.ajax({
+      data: $('#formpesan').serialize(),
+      url: "{{ route('pesan.store') }}",
+      type: "POST",
+      dataType: 'json',
+      success: function (data) {
+        $('#formpesan').trigger("reset");
+        swal({
+          title: "Berhasil!",
+          text: "Pesan Terikirim!",
+          icon: "success",
+          button: false,
+          timer: 1500
+        });
+      },
+      error: function (data) {
+        console.log('Error:', data);
+        swal({
+          title: "Gagal!",
+          text: "Pesan Tidak Terkirim!",
+          icon: "error",
+          button: false,
+          timer: 1500
+        });
+      }
+    });
+  });
+
+
   </script>
   </body>
   

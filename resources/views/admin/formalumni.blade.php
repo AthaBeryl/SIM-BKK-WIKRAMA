@@ -411,7 +411,7 @@
           <!-- <label class="form-control-label col-lg-3 mt-4">Status</label> -->
           <div class="col-lg-9 mt-4">
             <div class="m-form__control">
-              <select name="status" id="status" class="form-control">
+              <select name="status" hidden id="status" class="form-control">
                 <!-- <option selected style="display: none">----Pilih Status-----</option> -->
                 <option value="4" selected>Belum Memilih</option>
                 @foreach($status as $s)
