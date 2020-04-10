@@ -70,6 +70,8 @@ Route::get('/EditProfil','HomeController@profiles')->name('profiles');
 Route::post('/EditProfil','HomeController@editProfiles')->name('edit.profiles');
 Route::get('/send/email','EmailController@reminder');
 Route::post('/EditDetail','HomeController@editDetail')->name('edit.detail');
+route::get('datatables','HomeController@datatables');
+Route::get('status_detail/delete/{id}', 'HomeController@destroy');
 
 //ColorPreset
 Route::get('/preset','PresetController@index')->name('preset');
@@ -79,7 +81,7 @@ Route::post('/preset/edit','PresetController@edit')->name('presetColor.submit');
 Route::get('/config','ConfigController@index')->name('config');
 Route::post('/config/edit','ConfigController@edit')->name('config.submit');
 //landing page
-Route::get('/','LandingsController@index');
+Route::get('/','LandingsController@index')->name('welcome');
 // Form Lowongan
 Route::get('/form-single-lowongan;{id}','LandingsController@form_single_lowongan');
 Route::get('/form-full-lowongan','LandingsController@form_full_lowongan');

@@ -112,7 +112,7 @@
             <div class="m-stack__item m-brand  m-brand--skin-light" style="background-color: {{$preset->headerKiri}}">
               <div class="m-stack m-stack--ver m-stack--general">
                 <div class="m-stack__item m-stack__item--middle m-brand__logo">
-                  <a href="index.html" class="m-brand__logo-wrapper">
+                  <a href="{{route('welcome')}}" class="m-brand__logo-wrapper">
                     <img
                       alt=""
                       src="{{asset('image/config/logo/wk.png')}}" style="max-width:150px;height:50px;object-fit:cover "
@@ -151,7 +151,7 @@
                   <!-- END -->
 
                   <!-- BEGIN: Topbar Toggler -->
-                  <a 
+                  <a
                     id="m_aside_header_topbar_mobile_toggle"
                     href="javascript:;"
                     class="m-brand__icon m--visible-tablet-and-mobile-inline-block"
@@ -177,9 +177,11 @@
                <div class="m-stack__item m-topbar__nav-wrapper">
                  <ul class="m-topbar__nav m-nav m-nav--inline flex">
                    <li id="view-frontend" class="m-nav__item">
-                     <a href="#" class="m-menu__link">
-                       <!-- <span class=" m-menu__link-text">View Frontend</span> -->
-                       <!-- <i class="m-menu__link-icon la la-external-link"></i> -->
+                   <a href="/resume/{{auth::user()->id}}" class="m-menu__link">
+                         @if(auth::user()->role == 'alumni')
+                       <span class=" m-menu__link-text">View Resume Page</span>
+                       <i class="m-menu__link-icon la la-external-link"></i>
+                       @endif
                      </a>
                    </li>
                    <li
@@ -341,10 +343,10 @@
           >
             <ul class="m-menu__nav  m-menu__nav--dropdown-submenu-arrow ">
               <li
-                class="m-menu__item @yield('dashboard')" 
+                class="m-menu__item @yield('dashboard')"
                 aria-haspopup="true"
               >
-             
+
             <a href="{{url('/home')}}" class="m-menu__link "
                   ><i class="m-menu__link-icon la la-dashboard"></i
                   ><span class="m-menu__link-title"
@@ -370,9 +372,9 @@
               </li> -->
 
               {{-- sub-aside admin --}}
-                              
+
               <li class="m-menu__item @yield('dataAlumni')" aria-haspopup="true">
-                <a href="{{url('/inputalumni')}}" class="m-menu__link m-menu__toggle" 
+                <a href="{{url('/inputalumni')}}" class="m-menu__link m-menu__toggle"
                   ><i class="m-menu__link-icon la la-graduation-cap"></i
                   ><span class="m-menu__link-text"> Data Alumni</span></a
                 >
@@ -440,7 +442,7 @@
                   ><span class="m-menu__link-text"> Status</span></a
                 >
               </li> --}}
-              
+
               {{-- <li class="m-menu__section ">
                 <h4 class="m-menu__section-text">Module</h4>
                 <i class="m-menu__section-icon flaticon-more-v2"></i>
@@ -561,7 +563,7 @@
                   ><span class="m-menu__link-text">Seluruh Jurusan</span></a
                 >
               </li>
-              <!-- //foreaech -->      
+              <!-- //foreaech -->
                         </ul>
                       </div>
                     </li>
@@ -581,18 +583,18 @@
                   ><span class="m-menu__link-text">Color Preset</span></a
                 >
               </li>
-              
+
               <li class="m-menu__item" aria-haspopup="true">
                 <a href="javascript:;" class="m-menu__link m-menu__toggle"
                   ><i class="m-menu__link-icon la la-flag-o"></i
                   ><span class="m-menu__link-text">Login Image</span></a
                 >
               </li>
-             
-                   
-                        
-                   
-          
+
+
+
+
+
                 @endif
                 @if(auth::user()->role == 'alumni')
                 <li class="m-menu__section ">

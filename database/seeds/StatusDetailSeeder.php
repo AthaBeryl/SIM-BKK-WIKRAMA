@@ -12,6 +12,7 @@ class StatusDetailSeeder extends Seeder
      */
     public function run()
     {
+
     	$faker = Faker::create('id_ID');
         for($i=1;$i<=350;$i++){
         db::table('status_details')->insert([

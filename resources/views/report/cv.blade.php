@@ -1,35 +1,28 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>{{$alumni->name}}'s Curiculum Vitae</title>
-
-<meta name="viewport" content="width=device-width"/>
-<meta name="description" content="The Curriculum Vitae of Joe Bloggs."/>
-<meta charset="UTF-8">
+<title>{{$data->first()->nama_siswa}}'s Curiculum Vitae</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
 <link type="text/css" rel="stylesheet" href="{{asset('cv/download/style.css')}}">
 <link href='http://fonts.googleapis.com/css?family=Rokkitt:400,700|Lato:400,300' rel='stylesheet' type='text/css'>
-
-<!--[if lt IE 9]>
-<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-<![endif]-->
 </head>
 <body id="top">
 <div id="cv" class="instae">
 	<div class="mainDetails">
 		<div id="headshot" class="quicke">
-			<img src="{{asset('image/profiles/'.$user->foto)}}" alt="Alan Smith" />
+			<img src="{{asset('image/profiles/'.$data->foto)}}" alt="Alan Smith" />
 		</div>
 
 		<div id="name">
-			<h1 class="quicke delayTwo">{{ $alumni->name}}</h1>
-			<h2 class="quicke delayThree">{{ $alumni->jabatan}}</h2>
+			<h1 class="quicke delayTwo">{{ $data->first()->name}}</h1>
+			<h2 class="quicke delayThree">{{ $data->first()->jabatan}}</h2>
 		</div>
 
 		<div id="contactDetails" class="quicke delayFour">
 			<ul>
-				<li>email: <a href="mailto:{{$alumni->email}}" target="_blank">{{$alumni->email}}</a></li>
-				<li>phone: <a href="tel:{{$alumni->telp}}">{{$alumni->telp}}</a></li>
+				<li>email: <a href="mailto:{{$data->first()->email}}" target="_blank">{{$data->first()->email}}</a></li>
+				<li>phone: <a href="tel:{{$data->first()->telp}}">{{$data->first()->telp}}</a></li>
 			</ul>
 		</div>
 		<div class="clear"></div>
@@ -56,7 +49,7 @@
 			</div>
 
 			<div class="sectionContent">
-                @foreach($kerja as $k)
+                @foreach($data as $k)
 				<article>
 					<h2>{{$k->jabatan}}</h2>
 					<p class="subDetails">{{$k->created_at->year}} - {{$k->updated_at->year}}</p>
@@ -96,11 +89,11 @@
 
 			<div class="sectionContent">
                 <article>
-					<h2>{{$alumni->jurusan}}</h2>
-					<p class="subDetails">{{$alumni->masuk}} - {{$alumni->lulus}}</p>
+					<h2>{{$data->first()->jurusan}}</h2>
+					<p class="subDetails">{{$data->first()->masuk}} - {{$data->first()->lulus}}</p>
 					<p> <p>SMK WIKRAMA , Bogor <br /></p>
                 </article>
-                @foreach($kuliah as $k)
+                @foreach($data as $k)
 				<article>
 					<h2>{{$k->durasi_kontrak}} {{$k->jabatan}}</h2>
 					<p class="subDetails">{{$k->created_at->year}} - {{$k->updated_at->year}}</p>

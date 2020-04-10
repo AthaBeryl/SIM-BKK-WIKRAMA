@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Siswa;
+use App\datastatus;
 use App\Jurusan;
 use App\Status;
 use App\Preset;
@@ -18,6 +19,8 @@ use App\Exports\AlumniExport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Rayon;
 use Carbon\Carbon;
+use DataTables;
+use Response;
 
 class HomeController extends Controller
 {
@@ -96,12 +99,6 @@ class HomeController extends Controller
         $preset = preset::where('status','active')->first();
         // end chart jejak alumni
         return view('dashboard',compact('jejakAlumni','preset','company','formNon','rayon','jejakJurusan','jurusan','siswa','kerja','kuliah','wirausaha','belumInput','status'));
-    }
-
-    public function export()
-    {
-        $date = carbon::now();
-        return Excel::download(new AlumniExport, 'Alumni '.$date.'.xlsx');
     }
 
     public function updateProfile(request $request){
@@ -193,5 +190,23 @@ class HomeController extends Controller
         ]);
         }
         return redirect()->back()->with('success',['Data Berhasil Diupdate']);
+    }
+
+    public function datatables(){
+        $data = datastatus::where('nis',auth::user()->data->nis);
+        return DataTables::of($data)
+        ->addColumn('action', function ($data) {
+            return '<a href="javascript:void(0);" id="delete-product" data-toggle="tooltip" data-original-title="Delete" data-id="{{ $id }}" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i></a>';
+        })
+        ->addColumn('created_at', function($data) {
+            return $data->created_at->format('Y-m-d');
+        })
+        ->make(true);
+    }
+
+    public function destroy($id)
+    {
+    $data = statusDetail::where('id',$id)->delete();
+    return Response::json($data);
     }
 }

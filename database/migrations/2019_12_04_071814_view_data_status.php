@@ -14,7 +14,7 @@ class ViewDataStatus extends Migration
     public function up()
     {
         DB::statement( 'CREATE VIEW dataStatus AS
-        SELECT siswas.user_id as user_id,status_details.nis,jurusans.jurusan,siswas.masuk,siswas.lulus,siswas.jk,jabatan,instansis.nama,instansis.alamat,instansis.kota,durasi_kontrak,pendapatan,statuses.status,status_details.created_at,status_details.updated_at FROM status_details
+        SELECT status_details.id,siswas.user_id as user_id,status_details.nis,jurusans.jurusan,siswas.masuk,siswas.lulus,siswas.jk,jabatan,instansis.nama,instansis.alamat,instansis.kota,durasi_kontrak,pendapatan,statuses.status,status_details.created_at,status_details.updated_at FROM status_details
         INNER JOIN siswas on siswas.nis = status_details.nis
         LEFT JOIN instansis on instansis.id = status_details.id_instansi
         INNER JOIN statuses on statuses.id = status_details.status_id
