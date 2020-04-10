@@ -119,3 +119,11 @@ Route::delete('infolowongan/delete/{id}','InfoLowonganController@destroy');
 Route::get('/resume/{userId}','ResumeController@index');
 Route::get('/resume/download/{userId}','ResumeController@download');
 
+//Pesan
+Route::resource('/pesan','PesanController');
+Route::get('/json/pesan','PesanController@json');
+Route::post('/pesan/active/{id}','PesanController@active');
+Route::post('/pesan/deactive/{id}','PesanController@deactive');
+Route::get('/pesan/detail/{id}','PesanController@detail');
+Route::delete('pesan/delete/{id}','PesanController@destroy');
+

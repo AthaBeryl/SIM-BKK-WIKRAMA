@@ -95,75 +95,28 @@
       </div>
   {{-- End Informasi Sekolah --}}
   <!-- carrousel of message -->
-  <div class="container mt-4">
+    <div class="container mt-4">
       <div class="section-title" data-spy="scroll" data-target="#pesan" id="pesan" data-offset="0" >
           <h2>Pesan</h2>
       </div>
       <div class="owl-carousel">
         {{-- cards --}}
-        <div class="card" style="width: 18rem;">
+        @foreach($pesan as $p)
+        <div class="card mb-4" style="width: 18rem;">
           <div class="card-header">
-            header
+            {{$p->name}}
           </div>
-            <img src="image/profiles/default.png" alt="image-alumni-copyright">
           <div class="card-body">
-            <p class="card-text">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Necessitatibus, ducimus suscipit perferendis nostrum consectetur temporibus, qui laborum cum modi similique ipsum iusto saepe dicta iure recusandae. Asperiores recusandae dolor animi.</p>
+            <p class="card-text">{{$p->pesan}}</p>
           </div>
           <div class="blockquote-footer card-footer text-center ">
-            footer
+            <!-- footer -->
           </div>
         </div>
-        <div class="card" style="width: 18rem;">
-          <div class="card-header">
-            header
-          </div>
-          <img src="image/profiles/default.png" class="image-rounded" alt="image-alumni-copyright">
-          <div class="card-body">
-            <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod, rem consequuntur praesentium ducimus minima animi doloremque sed minus aliquam debitis sequi commodi distinctio omnis non doloribus, veritatis ex, eum quo!
-            </p>
-          </div>
-          <div class="blockquote-footer card-footer text-center ">
-            footer
-          </div>
-        </div>
-        <div class="card" style="width: 18rem;">
-          <div class="card-header">
-            header
-          </div>
-          <img src="image/profiles/default.png" class="image-rounded" alt="image-alumni-copyright">
-          <div class="card-body">
-            <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat vitae quisquam ipsam repellat, soluta similique iure. Incidunt porro perspiciatis, optio a itaque ut eveniet natus nisi eligendi sed velit quisquam?</p>
-          </div>
-          <div class="blockquote-footer card-footer text-center ">
-            footer
-          </div>
-        </div>
-        <div class="card" style="width: 18rem;">
-          <div class="card-header">
-            header
-          </div>
-          <img src="image/profiles/default.png" class="image-rounded" alt="image-alumni-copyright">
-          <div class="card-body">
-            <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos aliquid saepe accusantium deleniti! Nulla, velit, architecto assumenda, vitae praesentium accusantium quidem officiis inventore ipsum quos itaque temporibus facilis eum delectus?</p>
-          </div>
-          <div class="blockquote-footer card-footer text-center ">
-            footer
-          </div>
-        </div>
-        <div class="card" style="width: 18rem;">
-          <div class="card-header">
-            header
-          </div>
-          <img src="image/profiles/default.png" class="image-rounded" alt="image-alumni-copyright">
-          <div class="card-body">
-            <p class="card-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sapiente laudantium impedit nam minus? Magnam natus illo architecto id corrupti, iure dolorem, quas veniam quis iusto distinctio nesciunt aut. Quos, temporibus.</p>
-          </div>
-          <div class="blockquote-footer card-footer text-center ">
-            footer
-          </div>
-        </div>
+        @endforeach
         {{-- End cards --}} 
       </div>
     </div>
   {{-- End carrousel Message --}}
+
 @endsection

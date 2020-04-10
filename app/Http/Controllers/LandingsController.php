@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Landing;
+use App\viewPesan;
 use App\InfoLowongan;
 use App\InfoSekolah;
 use Illuminate\Http\Request;
@@ -16,9 +17,10 @@ class LandingsController extends Controller
      */
     public function index()
     {
+        $pesan = viewPesan::where('status','Aktif')->get();
         $sekolah = InfoSekolah::where('status','Aktif')->orderBy('updated_at','desc')->limit(3)->get();
         $lowongan = InfoLowongan::where('status','Aktif')->orderBy('updated_at','desc')->limit(3)->get();
-        return view('landing.index',compact('sekolah','lowongan'));
+        return view('landing.index',compact('sekolah','lowongan','pesan'));
     }
 
     /**
@@ -34,13 +36,13 @@ class LandingsController extends Controller
     }
     public function form_full_sekolah()
     {
-        $sekolah = InfoSekolah::where('status','Aktif')->get();
+        $sekolah = InfoSekolah::where('status','Aktif')->orderBy('updated_at','desc')->get();
         return view('landing.form-full-sekolah',compact('sekolah'));
     }
     // Loker
     public function form_full_lowongan()
     {
-        $lowongan = InfoLowongan::where('status','Aktif')->get();
+        $lowongan = InfoLowongan::where('status','Aktif')->orderBy('updated_at','desc')->get();
         return view('landing.form-full-lowongan',compact('lowongan'));
     }
     public function form_single_lowongan($id)
