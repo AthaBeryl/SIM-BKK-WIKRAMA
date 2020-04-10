@@ -11,7 +11,7 @@
 <div id="cv" class="instae">
 	<div class="mainDetails">
 		<div id="headshot" class="quicke">
-			<img src="{{asset('image/profiles/'.$data->foto)}}" alt="Alan Smith" />
+			<img src="{{asset('image/profiles/'.$data->first()->foto)}}" alt="Alan Smith" />
 		</div>
 
 		<div id="name">

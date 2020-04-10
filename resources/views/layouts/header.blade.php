@@ -606,9 +606,9 @@
               {{-- sub-aside alumni --}}
 
               <li class="m-menu__item" aria-haspopup="true">
-                <a href="#" class="m-menu__link m-menu__toggle"
-                  ><i class="m-menu__link-icon la la-info-circle"></i
-                  ><span class="m-menu__link-text">Example</span></a
+              <a href="{{route('status.edit')}}" class="m-menu__link m-menu__toggle"
+                  ><i class="m-menu__link-icon fa fa-file"></i
+                  ><span class="m-menu__link-text">Data Saya</span></a
                 >
               </li>
               @endif

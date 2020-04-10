@@ -22,6 +22,7 @@ use Carbon\Carbon;
 use DataTables;
 use Response;
 
+
 class HomeController extends Controller
 {
     /**

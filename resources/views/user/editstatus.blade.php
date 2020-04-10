@@ -1,6 +1,9 @@
+@extends('layouts.header')
+@section('dataAlumni','m-menu__item--active')
+@section('title','SIMBKK | Edit Data dan Status')
+@section('content')
 <div class="container">
     <br>
-<h3>Selamat Datang {{auth::user()->name}}</h3>
 {{-- <a href=" user/{{auth::user()->data->id}}/edit/" class="btn {{$preset->buttonClass}} mb-4">Edit Data Belum Lengkap</a>   --}}
 <div class="accordion" id="accordionExample">
   <div class="card">
@@ -218,7 +221,7 @@
               <div class="col-xl-7" style="margin:10px;" >
                 <div class="card-body">
                   <!-- <h4 class="card-title">{{auth::user()->data->status_id}}</h4> -->
-                  
+
                   <div class="row ">
                   <form action="{{route('edit.detail')}}" method="post">
                   @csrf
@@ -302,14 +305,14 @@
     <!--End::Section-->
   </div>
 </div>
-                   
+
                     <!-- <div class="col-md-12">
                         <div class="form-group">
                             <label for="">{{$formNon[4]}}</label>
                             <textarea class="form-control" name="alamat" id="exampleFormControlTextarea1" rows="3">{{auth::user()->latestData->alamat}}</textarea>
                           </div>
                     </div> -->
-                    
+
                   {{-- End Row --}}
                   </div>
                   {{-- End --}}
@@ -329,7 +332,9 @@
 </div>
 <script type="text/javascript">
   $("#open-modal").click(function(){
-    $('#forminstansi').trigger("reset"); 
+    $('#forminstansi').trigger("reset");
     $('#modal-instansi').modal('show');
   });
   </script>
+@include('layouts.footer')
+@endsection

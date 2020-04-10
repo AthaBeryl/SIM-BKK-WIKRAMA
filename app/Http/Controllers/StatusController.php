@@ -4,7 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Status;
 use Illuminate\Http\Request;
-
+use App\Siswa;
+use App\Rayon;
+use App\Instansi;
+use App\statusDetail;
+use App\Jurusan;
+use App\preset;
 class StatusController extends Controller
 {
     /**
@@ -15,12 +20,18 @@ class StatusController extends Controller
 
     public function __construct()
     {
-        $this->middleware(['auth','admin']);
+
     }
 
     public function index()
     {
-        return view('status');
+        $jurusan = Jurusan::all();
+        $status = Status::all();
+        $company = Instansi::orderby('nama','asc')->where('nama','!=',null)->get();
+        $rayon = Rayon::orderby('rayon','asc')->get();
+        $preset = preset::where('status','active')->first();
+        // end chart jejak alumni
+        return view('user.editstatus',compact('jurusan','status','company','preset','rayon'));
     }
 
     /**

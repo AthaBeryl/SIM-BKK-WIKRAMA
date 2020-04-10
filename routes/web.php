@@ -65,13 +65,15 @@ Route::get('/user','UserController@index');
 
 //AlumniDashboard
 Route::post('/update/profile','HomeController@UpdateProfile')->name('profile.update');
-Route::post('/update/akademik','HomeController@UpdateAkademik')->name('akademik.update');
 Route::get('/EditProfil','HomeController@profiles')->name('profiles');
 Route::post('/EditProfil','HomeController@editProfiles')->name('edit.profiles');
-Route::get('/send/email','EmailController@reminder');
-Route::post('/EditDetail','HomeController@editDetail')->name('edit.detail');
 route::get('datatables','HomeController@datatables');
 Route::get('status_detail/delete/{id}', 'HomeController@destroy');
+
+//editstatus
+Route::get('/editstatus','StatusController@index')->name('status.edit');
+Route::post('/EditDetail','HomeController@editDetail')->name('edit.detail');
+Route::post('/update/akademik','HomeController@UpdateAkademik')->name('akademik.update');
 
 //ColorPreset
 Route::get('/preset','PresetController@index')->name('preset');
