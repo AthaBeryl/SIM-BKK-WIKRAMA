@@ -97,32 +97,22 @@
         </div>
         @endif
     </div>
-    <h3>Latest Status</h3>
-    <hr>
-    <table class="table table-bordered" id="table">
-        <thead>
-           <tr>
-              <th>Tanggal Sunting</th>
-              <th>Status</th>
-              <th>Nama instansi</th>
-              <th>Jabatan</th>
-              <th>alamat</th>
-              <th>kota</th>
-              <th>Kontrak (tahun)</th>
-              <th>Action</th>
-           </tr>
-        </thead>
-     </table>
+   
 </div>
+<br>
 
 <script>
-     $(document).ready( function () {
-   $.ajaxSetup({
-      headers: {
-          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-      }
-  });
-        var table =  $('#table').DataTable({
+
+
+$(function () {
+
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});
+
+var table =  $('#table').DataTable({
           processing: true,
           serverSide: true,
           ajax: '{{ url('datatables') }}',
@@ -137,24 +127,4 @@
                    { data: 'action', name: 'action', orderable: false , searchable: false},
                 ]
        });
-
-       $('body').on('click', '#delete-product', function () {
-
-  var data_id = $(this).data("id");
-  if(confirm("Are You sure want to delete !")){
-    $.ajax({
-        type: "DELETE",
-        url: "status_detail/delete/"+data_id,
-        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-        success: function (data) {
-        table.draw();
-        },
-        error: function (data) {
-            console.log('Error:', data);
-        }
-    });
-  }
-});
-
-});
     </script>

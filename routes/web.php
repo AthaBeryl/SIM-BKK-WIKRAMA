@@ -42,6 +42,11 @@ Route::resource('/inputjurusan','JurusanController');
 Route::get('/json/jurusan','JurusanController@json');
 Route::delete('inputjurusan/delete/{id}','JurusanController@destroy');
 
+//status
+Route::resource('/riwayatStatus','StatusDetailController');
+Route::get('/json/statusDetail','StatusDetailController@json');
+Route::delete('riwayatStatus/delete/{id}','StatusDetailController@destroy');
+
 //recycle bin
 Route::get('/trash','SiswaController@trash');
 Route::get('/json/alumni/trash','SiswaController@jsontrash');
@@ -117,7 +122,7 @@ Route::delete('infolowongan/delete/{id}','InfoLowonganController@destroy');
 
 //CV
 Route::get('/resume/{userId}','ResumeController@index');
-Route::get('/resume/download/{userId}','ResumeController@download');
+Route::get('/resume/download/{userId}','ResumeController@download')->name('cv.download');
 
 //Pesan
 Route::resource('/pesan','PesanController');

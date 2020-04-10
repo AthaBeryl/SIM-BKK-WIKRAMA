@@ -4,18 +4,18 @@
 <title>{{$data->first()->nama_siswa}}'s Curiculum Vitae</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
-<link type="text/css" rel="stylesheet" href="{{asset('cv/download/style.css')}}">
+<link type="text/css" rel="stylesheet" href="{{public_path('cv/download/style.css')}}">
 <link href='http://fonts.googleapis.com/css?family=Rokkitt:400,700|Lato:400,300' rel='stylesheet' type='text/css'>
 </head>
 <body id="top">
 <div id="cv" class="instae">
 	<div class="mainDetails">
 		<div id="headshot" class="quicke">
-			<img src="{{asset('image/profiles/'.$data->first()->foto)}}" alt="Alan Smith" />
+			<img src=""/>
 		</div>
 
 		<div id="name">
-			<h1 class="quicke delayTwo">{{ $data->first()->name}}</h1>
+			<h2 class="quicke delayTwo">{{ $data->first()->nama_siswa}}</h1>
 			<h2 class="quicke delayThree">{{ $data->first()->jabatan}}</h2>
 		</div>
 
@@ -49,7 +49,7 @@
 			</div>
 
 			<div class="sectionContent">
-                @foreach($data as $k)
+                @foreach($data->where('status','Kerja') as $k)
 				<article>
 					<h2>{{$k->jabatan}}</h2>
 					<p class="subDetails">{{$k->created_at->year}} - {{$k->updated_at->year}}</p>
@@ -59,29 +59,6 @@
 			</div>
 			<div class="clear"></div>
 		</section>
-
-
-		<section>
-			<div class="sectionTitle">
-				<h1>Kemampuan</h1>
-			</div>
-
-			<div class="sectionContent">
-				<ul class="keySkills">
-					<li>A Key Skill</li>
-					<li>A Key Skill</li>
-					<li>A Key Skill</li>
-					<li>A Key Skill</li>
-					<li>A Key Skill</li>
-					<li>A Key Skill</li>
-					<li>A Key Skill</li>
-					<li>A Key Skill</li>
-				</ul>
-			</div>
-			<div class="clear"></div>
-		</section>
-
-
 		<section>
 			<div class="sectionTitle">
 				<h1>Riwayat Pendidikan</h1>
@@ -93,7 +70,7 @@
 					<p class="subDetails">{{$data->first()->masuk}} - {{$data->first()->lulus}}</p>
 					<p> <p>SMK WIKRAMA , Bogor <br /></p>
                 </article>
-                @foreach($data as $k)
+                @foreach($data->where('status','Kuliah') as $k)
 				<article>
 					<h2>{{$k->durasi_kontrak}} {{$k->jabatan}}</h2>
 					<p class="subDetails">{{$k->created_at->year}} - {{$k->updated_at->year}}</p>

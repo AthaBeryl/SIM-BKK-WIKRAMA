@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use yajra\DataTables\DataTables;
 use App\Siswa;
 use App\Jurusan;
 use App\StatusDetail;
@@ -19,6 +20,8 @@ use App\Exports\AllAlumniExport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\AlumniImport;
 use Carbon\Carbon;
+use App\Resume;
+use App\datastatus;
 
 class LaporanController extends Controller
 {
@@ -41,6 +44,7 @@ class LaporanController extends Controller
 
     public function index()
     {
+        $year = "Keseluruhan";
         $preset = preset::where('status','active')->first();
         $kerja = Siswa::where('status_id','1')->count();
         $kuliah = Siswa::where('status_id','2')->count();
@@ -97,35 +101,46 @@ class LaporanController extends Controller
         $jabatan->displayAxes(false);
 
         // Chart  Tempat Kerja
-        $getDataAlumniTempatKerja = StatusDetail::whereIn('nis',$getSiswaNisForKerja)->selectRaw('COUNT(NIS) as jumlah_alumni , id_instansi')
-        ->groupby('id_instansi')->orderby('jumlah_alumni','desc')->limit(11)->get();
+        $getDataAlumniTempatKerja = datastatus::whereIn('nis',$getSiswaNisForKerja)->where('status','kerja')->selectRaw('COUNT(NIS) as jumlah_alumni , nama')
+        ->groupby('nama')->orderby('jumlah_alumni','desc')->limit(11)->get();
         $chartKerja = new kerja;
         $collectJumlahKerja = collect([]);
         $collectPerusahaan = collect([]);
         foreach($getDataAlumniTempatKerja as $k){
         $collectJumlahKerja->push($k->jumlah_alumni);
-        $collectPerusahaan->push($k->id_instansi);
+        $collectPerusahaan->push($k->nama);
         }
         $chartKerja->labels($collectPerusahaan);
         $chartKerja->dataset('Alumni','bar',$collectJumlahKerja);
+        $chartKerja->options([
+            'yAxis' => [
+                'allowDecimals' => false,
+            ]
+        ]);
         $chartKerja->displayAxes(true);
         $chartKerja->displayLegend(false);
 
         // Chart  Tempat Kuliah
-        $getDataAlumniTempatKuliah = StatusDetail::whereIn('nis',$getSiswaNisForKuliah)->selectRaw('COUNT(NIS) as jumlah_alumni , id_instansi')
-        ->groupby('id_instansi')->orderby('jumlah_alumni','desc')->limit(11)->get();
+        $getDataAlumniTempatKuliah = datastatus::whereIn('nis',$getSiswaNisForKerja)->where('status','kuliah')->selectRaw('COUNT(NIS) as jumlah_alumni , nama')
+        ->groupby('nama')->orderby('jumlah_alumni','desc')->limit(11)->get();
         $chartKuliah = new kuliah;
         $collectJumlahKuliah = collect([]);
         $collectGedung = collect([]);
         foreach($getDataAlumniTempatKuliah as $k){
         $collectJumlahKuliah->push($k->jumlah_alumni);
-        $collectGedung->push($k->id_instansi);
+        $collectGedung->push($k->nama);
         }
-        // $chartKuliah->labels($collectGedung);->klo data udh bener
-        $chartKuliah->labels(['Institut Teknologi Bandung','Institut Teknologi Papua NewGenea','Institut Teknologi Jakarta','Institut Teknologi Malang','Institut Teknologi Jayapura','Institut Teknologi Purwekerto','Institut Teknologi Surabaya','Institut Teknologi Bogor','Havard University','MIT','Wikrama']);
+        $chartKuliah->labels($collectGedung);
+        // $chartKuliah->labels(['Institut Teknologi Bandung','Institut Teknologi Papua NewGenea','Institut Teknologi Jakarta','Institut Teknologi Malang','Institut Teknologi Jayapura','Institut Teknologi Purwekerto','Institut Teknologi Surabaya','Institut Teknologi Bogor','Havard University','MIT','Wikrama']);
         $chartKuliah->dataset('Alumni','bar',$collectJumlahKuliah);
+        $chartKuliah->options([
+            'yAxis' => [
+                'allowDecimals' => false,
+            ]
+        ]);
         $chartKuliah->displayAxes(true);
         $chartKuliah->displayLegend(false);
+       
 
         // Chart Jurusan Kuliah
         $getDataAlumniJurusanKuliah = StatusDetail::whereIn('nis',$getSiswaNisForKuliah)->selectRaw('COUNT(NIS) as jumlah_alumni , jabatan')
@@ -156,22 +171,31 @@ class LaporanController extends Controller
             ]);
 
         //Filter
+        $alumni = 'Alumni';
         $tahunLulus = Siswa::select('lulus')->orderby('lulus','desc')->groupby('lulus')->get();
-        return view('admin.laporan',compact('jejakAlumni','preset','jejakJurusan','jabatan','jurusanKuliah','chartKerja','chartKuliah','pendapatan','jurusan','siswa','kerja','kuliah','wirausaha','belumInput','tahunLulus'));
+        return view('admin.laporan',compact('jejakAlumni','alumni','year','preset','jejakJurusan','jabatan','jurusanKuliah','chartKerja','chartKuliah','pendapatan','jurusan','siswa','kerja','kuliah','wirausaha','belumInput','tahunLulus'));
     }
 
     public function filtered(Request $request)
     {
+       
         $preset = preset::where('status','active')->first();
-        $kerja = Siswa::where('status_id','1')->whereRaw("(lulus = ".$request->tahunLulus.")")->whereRaw("(jurusan_id = ".$request->jurusan.")")->count();
-        $kuliah = Siswa::where('status_id','2')->whereRaw("(lulus = ".$request->tahunLulus.")")->whereRaw("(jurusan_id = ".$request->jurusan.")")->count();
-        $wirausaha = Siswa::where('status_id','3')->whereRaw("(lulus = ".$request->tahunLulus.")")->whereRaw("(jurusan_id = ".$request->jurusan.")")->count();
-        $belumInput = Siswa::where('status_id','4')->whereRaw("(lulus = ".$request->tahunLulus.")")->whereRaw("(jurusan_id = ".$request->jurusan.")")->count();
+        $kuliah = Siswa::where('status_id','2')->whereRaw("(lulus = ".$request->tahunLulus.")")->count();
+        $kerja = Siswa::where('status_id','1')->whereRaw("(lulus = ".$request->tahunLulus.")")->count();
+        $wirausaha = Siswa::where('status_id','3')->whereRaw("(lulus = ".$request->tahunLulus.")")->count();
+        $belumInput = Siswa::where('status_id','4')->whereRaw("(lulus = ".$request->tahunLulus.")")->count();
         $jurusan = Jurusan::all();
         $siswa = Siswa::whereRaw("(lulus = ".$request->tahunLulus.")")->whereRaw("(jurusan_id = ".$request->jurusan.")")->get();
         $collectAllSiswa = Siswa::whereRaw("(lulus = ".$request->tahunLulus.")")->whereRaw("(jurusan_id = ".$request->jurusan.")")->pluck('nis');
 
         //Chart Jejak Alumni
+        if($request->jurusan == "'--' or 1=1" ){
+
+            $alumni = 'Alumni';
+        }else{
+            $jurusan = Jurusan::where('id',$request->jurusan)->get();
+            $alumni = 'Alumni '. $jurusan->first()->jurusan;
+        }
         $jejakAlumni = new jejakAlumni;
         $jejakAlumni->labels(['kerja','kuliah','wirausaha','Belum Memilih']);
         $jejakAlumni->dataset('Alumni','line',[$kerja,$kuliah,$wirausaha,$belumInput])
@@ -217,34 +241,44 @@ class LaporanController extends Controller
             ]);
         $jabatan->displayAxes(false);
 
-        // Chart  Tempat Kerja
-        $getDataAlumniTempatKerja = StatusDetail::whereIn('nis',$getSiswaNisForKerja)->selectRaw('COUNT(NIS) as jumlah_alumni , id_instansi')
-        ->groupby('id_instansi')->orderby('jumlah_alumni','desc')->limit(11)->get();
+         // Chart  Tempat Kerja
+        $getDataAlumniTempatKerja = datastatus::whereIn('nis',$getSiswaNisForKerja)->where('status','kerja')->selectRaw('COUNT(NIS) as jumlah_alumni , nama')
+        ->groupby('nama')->orderby('jumlah_alumni','desc')->limit(11)->get();
         $chartKerja = new kerja;
         $collectJumlahKerja = collect([]);
         $collectPerusahaan = collect([]);
         foreach($getDataAlumniTempatKerja as $k){
         $collectJumlahKerja->push($k->jumlah_alumni);
-        $collectPerusahaan->push($k->id_instansi);
+        $collectPerusahaan->push($k->nama);
         }
         $chartKerja->labels($collectPerusahaan);
         $chartKerja->dataset('Alumni','bar',$collectJumlahKerja);
+        $chartKerja->options([
+            'yAxis' => [
+                'allowDecimals' => false,
+            ]
+        ]);
         $chartKerja->displayAxes(true);
         $chartKerja->displayLegend(false);
 
         // Chart  Tempat Kuliah
-        $getDataAlumniTempatKuliah = StatusDetail::whereIn('nis',$getSiswaNisForKuliah)->selectRaw('COUNT(NIS) as jumlah_alumni , id_instansi')
-        ->groupby('id_instansi')->orderby('jumlah_alumni','desc')->limit(11)->get();
+        $getDataAlumniTempatKuliah = datastatus::whereIn('nis',$getSiswaNisForKerja)->where('status','kuliah')->selectRaw('COUNT(NIS) as jumlah_alumni , nama')
+        ->groupby('nama')->orderby('jumlah_alumni','desc')->limit(11)->get();
         $chartKuliah = new kuliah;
         $collectJumlahKuliah = collect([]);
         $collectGedung = collect([]);
         foreach($getDataAlumniTempatKuliah as $k){
         $collectJumlahKuliah->push($k->jumlah_alumni);
-        $collectGedung->push($k->id_instansi);
+        $collectGedung->push($k->nama);
         }
-        // $chartKuliah->labels($collectGedung);->klo data udh bener
-        $chartKuliah->labels(['Institut Teknologi Bandung','Institut Teknologi Papua NewGenea','Institut Teknologi Jakarta','Institut Teknologi Malang','Institut Teknologi Jayapura','Institut Teknologi Purwekerto','Institut Teknologi Surabaya','Institut Teknologi Bogor','Havard University','MIT','Wikrama']);
+        $chartKuliah->labels($collectGedung);
+        // $chartKuliah->labels(['Institut Teknologi Bandung','Institut Teknologi Papua NewGenea','Institut Teknologi Jakarta','Institut Teknologi Malang','Institut Teknologi Jayapura','Institut Teknologi Purwekerto','Institut Teknologi Surabaya','Institut Teknologi Bogor','Havard University','MIT','Wikrama']);
         $chartKuliah->dataset('Alumni','bar',$collectJumlahKuliah);
+        $chartKuliah->options([
+            'yAxis' => [
+                'allowDecimals' => false,
+            ]
+        ]);
         $chartKuliah->displayAxes(true);
         $chartKuliah->displayLegend(false);
 
@@ -280,12 +314,19 @@ class LaporanController extends Controller
         $jurusanf = $request->jurusan;
         $jtahunf = $request->tahunLulus;
         $tahunLulus = Siswa::select('lulus')->orderby('lulus','desc')->groupby('lulus')->get();
-        return view('admin.laporan',compact('jejakAlumni','preset','jejakJurusan','jabatan','jurusanKuliah','chartKerja','chartKuliah','pendapatan','jurusan','siswa','kerja','kuliah','wirausaha','belumInput','tahunLulus'));
+        $year = $request->tahunLulus;
+       
+        if($request->tahunLulus == "'--' or 1=1"){
+            $year = 'Keseluruhan';
+        }
+       
+   
+        return view('admin.laporan',compact('jejakAlumni','alumni','year','preset','jejakJurusan','jabatan','jurusanKuliah','chartKerja','chartKuliah','pendapatan','jurusan','siswa','kerja','kuliah','wirausaha','belumInput','tahunLulus'));
     }
 
 
 
-    public function export()
+    public function export(request $request)
     {
         $tahunLulus = Siswa::select('lulus')->orderby('lulus','desc')->groupby('lulus')->first();
         return Excel::download(new AllAlumniExport(), 'Alumni '.Carbon::now().'.xlsx');

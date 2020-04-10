@@ -10,6 +10,7 @@ use App\Instansi;
 use App\statusDetail;
 use App\Jurusan;
 use App\preset;
+use Illuminate\Support\Facades\Auth;
 class StatusController extends Controller
 {
     /**
@@ -31,7 +32,27 @@ class StatusController extends Controller
         $rayon = Rayon::orderby('rayon','asc')->get();
         $preset = preset::where('status','active')->first();
         // end chart jejak alumni
-        return view('user.editstatus',compact('jurusan','status','company','preset','rayon'));
+        if(auth::user()->role != 'admin'){
+            switch (auth::user()->data->status_id) {
+                case 1:
+                    $formNon = ['Nama Instansi','Divisi','Durasi Kontrak Kerja','Pendapatan Bulanan','Alamat Instansi'];
+                    break;
+
+                case 2:
+                    $formNon = ['Nama Fakultas','Jurusan','Tingkatan','Pendapatan Bulanan','Alamat Fakultas'];
+                    break;
+                case 3:
+                    $formNon = ['Nama Perusahaan','Jenis Perusahaan','Lama Berdiri','Pendapatan Bulanan','Alamat Perusahaan'];
+                    break;
+                default:
+                    $formNon = ['Nama Instansi','Divisi','Durasi Kontrak Kerja','Pendapatan Bulanan','Alamat Instansi'];
+                    break;
+            }
+        }else{
+
+            $formNon = 'admin';
+        }
+        return view('user.editstatus',compact('jurusan','status','company','preset','rayon','formNon'));
     }
 
     /**
@@ -95,8 +116,9 @@ class StatusController extends Controller
      * @param  \App\Status  $status
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Status $status)
+    public function destroy($id)
     {
-        //
+        statusDetails::find($id)->delete();
+        return response()->json(['success'=>'Product deleted successfully.']);
     }
 }

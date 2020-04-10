@@ -27,7 +27,7 @@ class UserSeeder extends Seeder
             db::table('users')->insert([
                 'name'=> $faker->name(),
                 'username'=> '1170'. (6000+$i),
-                'email'=> $faker->email,
+                'email'=> $faker->uniqueEmail,
                 'password'=> Hash::make( '1170'. (6000+$i) ) ,
                 'role'=>'alumni',
                 'foto'=>'default.png'

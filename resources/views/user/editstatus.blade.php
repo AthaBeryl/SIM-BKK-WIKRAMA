@@ -4,6 +4,14 @@
 @section('content')
 <div class="container">
     <br>
+    @if ($message = Session::get('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+  <strong>Update Sukses</strong> data anda berhasil di update
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+        @endif
 {{-- <a href=" user/{{auth::user()->data->id}}/edit/" class="btn {{$preset->buttonClass}} mb-4">Edit Data Belum Lengkap</a>   --}}
 <div class="accordion" id="accordionExample">
   <div class="card">
@@ -65,11 +73,11 @@
                     <label for="">Jenis Kelamin</label>
                   <div class="m-radio-inline">
                   <label class="m-radio m-radio--solid m-radio--primary">
-                    <input type="radio" name="jk" value="male" @if(auth::user()->data->jk == 'male') checked @endif>Laki-Laki
+                    <input type="radio" name="jk" value="Laki-laki" @if(auth::user()->data->jk == 'Laki-laki') checked @endif>Laki-Laki
                     <span></span>
                     </label>
                     <label class="m-radio m-radio--solid m-radio--primary">
-                    <input type="radio" name="jk" value="female" @if(auth::user()->data->jk == 'female') checked @endif> Perempuan
+                    <input type="radio" name="jk" value="Perempuan" @if(auth::user()->data->jk == 'Perempuan') checked @endif> Perempuan
                     <span></span>
                   </label>
                   </div>
@@ -131,13 +139,13 @@
                   <div class="col-md-12">
                       <div class="form-group">
                         <label for="">NISN</label>
-                      <input placeholder="NISN" name="nisn" class="form-control" value="{{auth::user()->data->nisn}}">
+                      <input disabled placeholder="NISN" name="nisn" class="form-control" value="{{auth::user()->data->nisn}}">
                       </div>
                   </div>
                       <div class="col-md-12">
                           <div class="form-group">
                             <label for="">NIS</label>
-                             <input placeholder="NIS" name="nis" class="form-control" value="{{auth::user()->data->nis}}">
+                             <input disabled placeholder="NIS" name="nis" class="form-control" value="{{auth::user()->data->nis}}">
                           </div>
                       </div>
                       <div class="col-md-12">

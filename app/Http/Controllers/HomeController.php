@@ -21,7 +21,7 @@ use App\Rayon;
 use Carbon\Carbon;
 use DataTables;
 use Response;
-
+use Validator;
 
 class HomeController extends Controller
 {
@@ -146,34 +146,65 @@ class HomeController extends Controller
     }
 
     public function editProfiles(request $request){
+        $user = user::where('id',auth::user()->id);
     if($request->has('foto')){
         $request->validate([
             'foto' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
         $imageName = time().'.'.$request->foto->getClientOriginalExtension();
         $request->foto->move(public_path('image/profiles'), $imageName);
-    }else{
-        $imageName =  auth::user()->foto;
-    }
-    if($request->newPassword != null ){
-       $password = Hash::make($request->newPassword);
-    }else{
-        $password = auth::user()->password;
-    }
-    $user = user::where('id',auth::user()->id);
         $user->update([
-            'username' => $request->username,
-            'password' => $password,
-            'foto' => $imageName,
+            'foto' => $imageName
         ]);
-
+    }else{
+         // custom validator
+         Validator::extend('password', function ($attribute, $value, $parameters, $validator) {
+            return Hash::check($value, \Auth::user()->password);
+        });
+         // message for custom validation
+         $messages = [
+            'password' => 'Invalid current password.',
+        ];
+         // validate form
+        if($request->password != null ){
+            $validator = Validator::make(request()->all(), [
+                'current_password'      => 'required|password',
+                'password'              => 'min:6|confirmed',
+                'password_confirmation' => 'required',
+            ], $messages);
+            $password = Hash::make($request->password);
+        }else{
+            $validator = Validator::make(request()->all(), [
+                'current_password'      => 'required|password',
+            ], $messages);
+            $password = Hash::make($request->current_password);
+        }
+         
+        
+        if ($validator->fails()) {
+            return redirect()
+                ->back()
+                ->withErrors($validator->errors());
+        }
+       
+        $imageName =  auth::user()->foto;
+         if($request->username != auth::user()->name){
+             $user->update([
+                 'username' => $request->username,
+                 'password' => $password,
+                 'foto' => $imageName,
+             ]);
+        }
+     
+    }
+  
        return redirect()->back()->with('success',['Data Berhasil Diupdate']);
     }
 
     public function editDetail(request $request){
         $statusDetail = statusDetail::where('nis',auth::user()->data->nis);
         $latest = $statusDetail->where('id',$statusDetail->max('id'));
-        if($latest->first()->id_instansi == null || $latest->first()->id_instansi == 1){
+        if($request->nama == $latest->first()->id_instansi){
         $latest->update([
         'id_instansi' => $request->nama,
         'jabatan' => $request->jabatan,
@@ -191,23 +222,5 @@ class HomeController extends Controller
         ]);
         }
         return redirect()->back()->with('success',['Data Berhasil Diupdate']);
-    }
-
-    public function datatables(){
-        $data = datastatus::where('nis',auth::user()->data->nis);
-        return DataTables::of($data)
-        ->addColumn('action', function ($data) {
-            return '<a href="javascript:void(0);" id="delete-product" data-toggle="tooltip" data-original-title="Delete" data-id="{{ $id }}" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i></a>';
-        })
-        ->addColumn('created_at', function($data) {
-            return $data->created_at->format('Y-m-d');
-        })
-        ->make(true);
-    }
-
-    public function destroy($id)
-    {
-    $data = statusDetail::where('id',$id)->delete();
-    return Response::json($data);
     }
 }

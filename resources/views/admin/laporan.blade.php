@@ -9,6 +9,7 @@
             <div class="d-flex align-items-center">
               <div class="mr-auto">
                 <h3 class="m-subheader__title ">Laporan</h3>
+                <a href="{{route('export.siswa')}}" class="m-nav__link">Download Rekap</a>
 
               </div>
               <div>
@@ -16,16 +17,23 @@
                     <div class="row">
                         <div class="col-md-5">
                             <select class="form-control" name="tahunLulus">
-                                <option selected value="'--' or 1=1">Seluruh Lulusan</option>
+                                <option value="'--' or 1=1">Seluruh Lulusan</option>
                                 @foreach($tahunLulus as $lulusan)
-                                <option value="{{$lulusan->lulus}}">{{$lulusan->lulus}}</option>
+                                @if($lulusan->lulus == $year)
+                                <option value="{{$lulusan->lulus}}" selected>Lulusan {{$lulusan->lulus}}</option>
+                                @endif
+                                <option value="{{$lulusan->lulus}}">Lulusan {{$lulusan->lulus}}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="col-md-5">
                             <select class="form-control" name="jurusan">
-                                <option selected value="'--' or 1=1">Seluruh Jurusan</option>
+                                <option value="'--' or 1=1">Seluruh Jurusan</option>
                                 @foreach($jurusan as $j)
+                                @if('Alumni '.$j->jurusan == $alumni){
+                                  <option value="{{$j->id}}" selected>{{$j->jurusan}}</option>
+                                }
+                                @endif
                             <option value="{{$j->id}}">{{$j->jurusan}}</option>
                                 @endforeach
                             </select>
@@ -54,7 +62,7 @@
                     <div class="m-portlet__head-caption">
                       <div class="m-portlet__head-title">
                         <h3 class="m-portlet__head-text">
-                          Jejak Alumni
+                          Jejak {{$alumni}} {{$year}}
                         </h3>
                       </div>
                     </div>
@@ -124,53 +132,9 @@
                     <div class="m-portlet__head-caption">
                       <div class="m-portlet__head-title">
                         <h3 class="m-portlet__head-text m--font-light">
-                          Jejak Alumni
+                          Jejak {{$alumni}} {{$year}}
                         </h3>
                       </div>
-                    </div>
-                    <div class="m-portlet__head-tools">
-                      <ul class="m-portlet__nav">
-                        <li
-                          class="m-portlet__nav-item m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push"
-                          m-dropdown-toggle="hover"
-                        >
-                          <a
-                            href="#"
-                            class="m-portlet__nav-link m-portlet__nav-link--icon m-portlet__nav-link--icon-xl"
-                          >
-                            <i class="fa fa-genderless m--font-light"></i>
-                          </a>
-                          <div class="m-dropdown__wrapper">
-                            <span
-                              class="m-dropdown__arrow m-dropdown__arrow--right m-dropdown__arrow--adjust"
-                            ></span>
-                            <div class="m-dropdown__inner">
-                              <div class="m-dropdown__body">
-                                <div class="m-dropdown__content">
-                                  <ul class="m-nav">
-
-                                    <li class="m-nav__item">
-                                        <a href="{{route('export.siswa')}}" class="m-nav__link">
-                                            <i
-                                              class="m-nav__link-icon la la-download"
-                                            ></i>
-                                            <span class="m-nav__link-text"
-                                              >Export Data Alumni</span
-                                            >
-                                          </a>
-                                    </li>
-
-                                    <li
-                                      class="m-nav__separator m-nav__separator--fit"
-                                    ></li>
-
-                                  </ul>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </li>
-                      </ul>
                     </div>
                   </div>
                   <div class="m-portlet__body">
@@ -255,7 +219,7 @@
                     <div class="m-portlet__head-caption">
                       <div class="m-portlet__head-title">
                         <h3 class="m-portlet__head-text">
-                          Jabatan Populer Alumni
+                          Jabatan Populer {{$alumni}} {{$year}}
                         </h3>
                       </div>
                     </div>
@@ -299,7 +263,7 @@
                                 <div class="m-portlet__head-caption">
                                   <div class="m-portlet__head-title">
                                     <h3 class="m-portlet__head-text">
-                                      Penyebaran Tempat Kerja Alumni
+                                      Penyebaran Tempat Kerja {{$alumni}} {{$year}}
                                     </h3>
                                   </div>
                                 </div>
@@ -356,14 +320,6 @@
 
 
                                    <div class="m-widget4__info">
-                                    <table>
-                                        <tr>
-                                            <td>asd</td>
-                                            <td>asd</td>
-                                            <td>asd</td>
-                                            <td>asd</td>
-                                        </tr>
-                                    </table>
                                    </div>
 
                                  </div>
@@ -389,7 +345,7 @@
                                             <div class="m-portlet__head-caption">
                                               <div class="m-portlet__head-title">
                                                 <h3 class="m-portlet__head-text">
-                                                  Penyebaran Tempat Kuliah Alumni
+                                                  Penyebaran Tempat Kuliah {{$alumni}} {{$year}}
                                                 </h3>
                                               </div>
                                             </div>
@@ -446,14 +402,7 @@
 
 
                                                <div class="m-widget4__info">
-                                                <table>
-                                                    <tr>
-                                                        <td>asd</td>
-                                                        <td>asd</td>
-                                                        <td>asd</td>
-                                                        <td>asd</td>
-                                                    </tr>
-                                                </table>
+                                               <!-- disini -->
                                                </div>
 
                                              </div>
@@ -480,7 +429,7 @@
                                                         <div class="m-portlet__head-caption">
                                                           <div class="m-portlet__head-title">
                                                             <h3 class="m-portlet__head-text">
-                                                              Jurusan Populer Alumni
+                                                              Jurusan Populer {{$alumni}} {{$year}}
                                                             </h3>
                                                           </div>
                                                         </div>
@@ -524,7 +473,7 @@
                     <div class="m-portlet__head-caption">
                       <div class="m-portlet__head-title">
                         <h3 class="m-portlet__head-text">
-                          Rasio Pendapatan Alumni
+                          Rasio Pendapatan {{$alumni}} {{$year}}
                         </h3>
                       </div>
                     </div>

@@ -20,9 +20,9 @@ class ResumeController extends Controller
     }
 
     public function download($userId){
-        $data = Resume::where('user_id',$userId)->get();
-        // $pdf = PDF::loadView('report.cv', compact('data'));
-        // return $pdf->download($data->first()->nama_siswa."'s CV.pdf");
-        return view('report.cv', compact('data'));
+        $css = public_path('css/app.css');
+        $data = Resume::where('user_id',$userId)->latest()->limit(5)->get();
+        $pdf = PDF::loadView('report.cv', compact('data'));
+        return $pdf->download($data->first()->nama_siswa."'s CV.pdf");
     }
 }

@@ -4,6 +4,14 @@
 @section('content')
     <div class="container">
         <br>
+        @if ($message = Session::get('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+  <strong>Update Sukses</strong> data anda berhasil di update
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+        @endif
     <form action="{{route('edit.profiles')}}" method="post" enctype="multipart/form-data">
         <input type="hidden" name="method" value="post">
         @csrf
@@ -18,25 +26,37 @@
               <input type="file" name="foto" id="">
             </div>
             <div class="col-md-8">
-                <div class="form-group">
-                    <label for="Username">Username</label>
-        <input required autofocus type="text" class="form-control" id="Username" name="username" placeholder="Username" value="{{auth::user()->username}}">
+                <div class="form-group{{ $errors->has('username') ? ' has-error' : '' }}">
+                    <label for="Username"class="col-md-4 control-label">Username</label>
+        <input required autofocus type="text" class="form-control" id="username" name="username" placeholder="Username" value="{{auth::user()->username}}">
+        <span class="help-block">{{ $errors->first('username') }}</span>
     </div>
 
-    <div class="form-group">
-        <label for="password">Password Lama</label>
-        <input type="password" class="form-control" id="password" name="password" placeholder="Password Lama">
-    </div>
-
-            <div class="form-group">
-                <label for="password">Password Baru</label>
-                <input type="password" class="form-control" id="password" name="newPassword" placeholder="Password Baru">
+    <div class="form-group{{ $errors->has('current_password') ? ' has-error' : '' }}">
+            <label for="current_password" class="col-md-4 control-label">Password Lama</label>
+               
+                    <input id="current_password" type="password" class="form-control" name="current_password" autofocus>
+                    <span class="help-block">{{ $errors->first('current_password') }}</span>
+               
             </div>
 
-            <div class="form-group">
-                <label for="password">  konfirmasi Password Baru</label>
-                <input  type="password" class="form-control" id="password" name="conPassword" placeholder=" konfirmasi Password Baru">
-            </div>
+            <h5>Ganti Password</h5>
+            <hr>
+            <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
+                 <label for="password" class="col-md-4 control-label">Password Baru</label>   
+                  <div>
+                     <input id="password" type="password" class="form-control" name="password">
+                     <span class="help-block">{{ $errors->first('password') }}</span>
+                 </div>
+             </div>
+
+             <div class="form-group{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
+                            <label for="password_confirmation" class="col-md-4 control-label">Konfrimasi Password Baru</label>
+                            <div>
+                                <input id="password_confirmation" type="password" class="form-control" name="password_confirmation">
+                                <span class="help-block">{{ $errors->first('password_confirmation') }}</span>
+                            </div>
+                        </div>
         </div>
 
 

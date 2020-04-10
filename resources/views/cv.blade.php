@@ -44,7 +44,7 @@
           <div class="cc-profile-image"><a href="#"><img src="{{asset('image/profiles/'.$user->foto)}}" alt="Image"/></a></div>
           <div class="h2 title">{{$alumni->name}}</div>
 
-          <p class="category text-white">@if($alumni->status_id == 4){{$alumni->jurusan}}@elseif($alumni->status_id == 1 || $alumni->status_id == 2){{$status->jabatan}}@else Wirausahan @endif</p><a class="btn btn-primary smooth-scroll mr-2" href="#contact" data-aos="zoom-in" data-aos-anchor="data-aos-anchor">Contact Me</a><a class="btn btn-primary" href="#" data-aos="zoom-in" data-aos-anchor="data-aos-anchor">Download CV</a>
+          <p class="category text-white">@if($alumni->status_id == 4){{$alumni->jurusan}}@elseif($alumni->status_id == 1 || $alumni->status_id == 2){{$status->jabatan}}@else Wirausahan @endif</p><a class="btn btn-primary smooth-scroll mr-2" href="#contact" data-aos="zoom-in" data-aos-anchor="data-aos-anchor">Contact Me</a><a class="btn btn-primary" href="{{route('cv.download',$alumni->user_id)}}" data-aos="zoom-in" data-aos-anchor="data-aos-anchor">Download CV</a>
         </div>
       </div>
       <div class="section">
@@ -91,7 +91,7 @@
     </div>
   </div>
 </div>
-<div class="section" id="skill">
+<!-- <div class="section" id="skill">
   <div class="container">
     <div class="h4 text-center mb-4 title">Professional Skills</div>
     <div class="card" data-aos="fade-up" data-aos-anchor-placement="top-bottom">
@@ -111,8 +111,8 @@
       </div>
     </div>
   </div>
-</div>
-<div class="section" id="portfolio">
+</div> -->
+<!-- <div class="section" id="portfolio">
   <div class="container">
     <div class="row">
       <div class="col-md-6 ml-auto mr-auto">
@@ -243,7 +243,7 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
 <div class="section" id="experience">
   <div class="container cc-experience">
     <div class="h4 text-center mb-4 title">Work Experience</div>
