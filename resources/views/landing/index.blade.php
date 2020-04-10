@@ -1,6 +1,15 @@
 @extends('layouts.landing')
 @section('title','SMK WIKRAMA BOGOR')
 @section('content')
+<style>
+.isi{
+  display: -webkit-box;
+  -webkit-line-clamp: 6;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+</style>
 <!-- Jumbotron -->
 <div class="card card-image" style="background-image: url(landing/images/bg1.jpg);height:500px;">
   <div class="text-white text-center rgba-stylish-strong py-5 px-4 mt-6">
