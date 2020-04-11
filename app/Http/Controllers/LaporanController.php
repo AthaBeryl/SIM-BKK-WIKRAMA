@@ -262,7 +262,7 @@ class LaporanController extends Controller
         $chartKerja->displayLegend(false);
 
         // Chart  Tempat Kuliah
-        $getDataAlumniTempatKuliah = datastatus::whereIn('nis',$getSiswaNisForKerja)->where('status','kuliah')->selectRaw('COUNT(NIS) as jumlah_alumni , nama')
+        $getDataAlumniTempatKuliah = datastatus::whereIn('nis',$getSiswaNisForKuliah)->where('status','kuliah')->selectRaw('COUNT(NIS) as jumlah_alumni , nama')
         ->groupby('nama')->orderby('jumlah_alumni','desc')->limit(11)->get();
         $chartKuliah = new kuliah;
         $collectJumlahKuliah = collect([]);
@@ -294,7 +294,7 @@ class LaporanController extends Controller
         }
         // $jurusanKuliah->labels($collectJurusanKuliah); -> klo data udh fix
         $jurusanKuliah->labels(['Sistem Informatika','Teknik Informatika','Desain Komunikasi Visual','Manejemen Bisnis','Komunikasi','Ilmu Komputer','Tehnik','Kimia','Fisika','Matematika Terapan','Matematika Murni']);
-        $jurusanKuliah->dataset('Alumni','doughnut',$collectJumlah)->options([
+        $jurusanKuliah->dataset('Alumni','doughnut',$collectJumlahMahasiswa)->options([
             'backgroundColor' => ['#49ACF8','#FFC44F','#FF5CF5','#4FFF8A','#0F3CFF','#FF4B4B','#49ACF1','#FFC45F','#FF5CF9','#4FFF5A','#0F3CCF','#FF4B4E']
             ]);
         $jurusanKuliah->displayAxes(false);
