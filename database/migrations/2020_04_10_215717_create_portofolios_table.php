@@ -18,6 +18,7 @@ class CreatePortofoliosTable extends Migration
             $table->string('judul');
             $table->longText('isi');
             $table->longText('foto');
+            $table->longText('author_id');
             $table->enum('status', ['Aktif', 'Tidak Aktif']);
             $table->timestamps();
         });
