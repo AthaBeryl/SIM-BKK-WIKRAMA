@@ -98,7 +98,7 @@ class StatusDetailController extends Controller
      */
     public function destroy($id)
     {
-        Resume::find($id)->delete();
+        statusDetail::find($id)->delete();
         return response()->json();
     }
 }
