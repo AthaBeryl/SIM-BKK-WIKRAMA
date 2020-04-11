@@ -23,8 +23,11 @@
   <div class="container">
   
     <div class="row">
+    <div class="col-md-6">
+    <a class="btn {{$preset->buttonClass}}">Rollback</a>
+    </div>
     
-       <div class="col-xl-3">
+       <!-- <div class="col-xl-3">
         <div class="m-portlet m-portlet--mobile ">
           <div class="m-portlet__head">
             <div class="m-portlet__head-caption">
@@ -95,7 +98,7 @@
         </div>
         </form>
 
-        
+         -->
     </div>
   </div>
 

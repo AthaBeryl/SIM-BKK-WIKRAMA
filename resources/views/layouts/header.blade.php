@@ -567,10 +567,10 @@
                         </ul>
                       </div>
                     </li>
-                    <li class="m-menu__section ">
+                    <!-- <li class="m-menu__section ">
                 <h4 class="m-menu__section-text">Website Configuration</h4>
                 <i class="m-menu__section-icon flaticon-more-v2"></i>
-              <!-- </li>
+              </li>
               <li class="m-menu__item @yield('config')" aria-haspopup="true">
                 <a href="{{route('config')}}" class="m-menu__link m-menu__toggle"
                   ><i class="m-menu__link-icon la la-sliders"></i

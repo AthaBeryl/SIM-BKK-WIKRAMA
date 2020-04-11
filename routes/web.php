@@ -145,5 +145,5 @@ Route::post('/portofolio/deactive/{id}','PortofolioController@deactive');
 Route::delete('portofolio/delete/{id}','PortofolioController@destroy');
 
 // Web Config
-route::get('/piconfig','PicConfigController@index');
+route::get('/piconfig','PicConfigController@index')->name('piconfig');
 
