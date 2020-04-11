@@ -570,13 +570,13 @@
                     <li class="m-menu__section ">
                 <h4 class="m-menu__section-text">Website Configuration</h4>
                 <i class="m-menu__section-icon flaticon-more-v2"></i>
-              </li>
+              <!-- </li>
               <li class="m-menu__item @yield('config')" aria-haspopup="true">
                 <a href="{{route('config')}}" class="m-menu__link m-menu__toggle"
                   ><i class="m-menu__link-icon la la-sliders"></i
                   ><span class="m-menu__link-text">Website Configuration</span></a
                 >
-              </li>
+              </li> -->
                     <li class="m-menu__item @yield('color')" aria-haspopup="true">
                 <a href="{{route('preset')}}" class="m-menu__link m-menu__toggle"
                   ><i class="m-menu__link-icon la la-gears"></i
@@ -584,12 +584,12 @@
                 >
               </li>
 
-              <li class="m-menu__item" aria-haspopup="true">
+              <!-- <li class="m-menu__item" aria-haspopup="true">
                 <a href="javascript:;" class="m-menu__link m-menu__toggle"
                   ><i class="m-menu__link-icon la la-flag-o"></i
                   ><span class="m-menu__link-text">Login Image</span></a
                 >
-              </li>
+              </li> -->
 
 
 

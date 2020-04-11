@@ -1,5 +1,5 @@
 @extends('layouts.header')
-@section('color','m-menu__item--active')
+@section('config','m-menu__item--active')
 @section('title','SIMBKK |  Website Configuration')
 @section('content')
 <!-- END: Left Aside -->
@@ -10,9 +10,9 @@
         <h3 class="m-subheader__title ">Web Config</h3>
        
       </div>
-      <form action="{{route('presetColor.submit')}}" method="post">
-        <input type="hidden" name="method" value="post">
-      @csrf
+      <form>
+
+   
    
     </div>
   </div>
@@ -29,6 +29,7 @@
           <div class="m-portlet__head">
             <div class="m-portlet__head-caption">
              <h5>Gambar Frontend</h5>
+             <form action="">
           <button class="btn {{$preset->buttonClass}}">Update</button>
             </div>
 
@@ -37,6 +38,7 @@
             
             <img src="{{asset('landing/images/bg1.jpg')}}" style="object-fit:cover;width:200px;height:150px">
            <input type="file" name="" id="">
+             </form>
             </div>
     
           </div>
@@ -50,6 +52,7 @@
             <div class="m-portlet__head-caption">
               <div class="m-portlet__head-title">
               <h5>Gambar Logo Dashboard</h5>
+              <form action="">
               <button class="btn {{$preset->buttonClass}}">Update</button>
               </div>
             </div>
@@ -58,6 +61,7 @@
           <div class="m-portlet__body">
           <img src="{{asset('landing/images/bg1.jpg')}}" style="object-fit:cover;width:200px;height:200px">
           <input type="file" name="" id="">
+              </form>
 
           </div>
         </div> 
@@ -69,6 +73,7 @@
             <div class="m-portlet__head-caption">
               <div class="m-portlet__head-title">
               <h5>Gambar Login </h5>
+              <form action="">
               <button class="btn {{$preset->buttonClass}}">Update</button>
               </div>
             </div>
@@ -81,6 +86,7 @@
           <img src="{{asset('landing/images/bg1.jpg')}}" style="object-fit:cover;width:70px;height:70px">
           <img src="{{asset('landing/images/bg1.jpg')}}" style="object-fit:cover;width:70px;height:70px">
           <input type="file" name="" id="">
+              </form>
 
           </div>
         </div> 

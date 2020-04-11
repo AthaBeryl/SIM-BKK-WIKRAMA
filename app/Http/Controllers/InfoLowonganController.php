@@ -121,8 +121,6 @@ class InfoLowonganController extends Controller
         if ($request->hasFile('foto')) {
             $gambar = InfoLowongan::where('id',$id)->first();
 	        File::delete('image/InfoLowongan/'.$gambar->foto);
-
-
             $path = public_path().'/image/InfoLowongan/';
             File::makeDirectory($path, $mode = 0777, true, true);
             $file = $request->file('foto');
