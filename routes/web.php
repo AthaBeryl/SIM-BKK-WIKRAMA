@@ -132,3 +132,18 @@ Route::post('/pesan/deactive/{id}','PesanController@deactive');
 Route::get('/pesan/detail/{id}','PesanController@detail');
 Route::delete('pesan/delete/{id}','PesanController@destroy');
 
+// Input Info Sekolah
+Route::get('/portofolio','PortofolioController@index')->name('portofolio');
+Route::get('/json/portofolio','PortofolioController@json');
+Route::get('/inputportofolio','PortofolioController@create');
+Route::post('/inputportofolio/store','PortofolioController@store');
+Route::get('/editportofolio;{id}','PortofolioController@edit');
+Route::post('/editportofolio/update;{id}','PortofolioController@update');
+
+Route::post('/portofolio/active/{id}','PortofolioController@active');
+Route::post('/portofolio/deactive/{id}','PortofolioController@deactive');
+Route::delete('portofolio/delete/{id}','PortofolioController@destroy');
+
+// Web Config
+route::get('/piconfig','PicConfigController@index');
+

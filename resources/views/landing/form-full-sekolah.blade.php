@@ -30,7 +30,7 @@
                             <div class="contents">
                               <h2><a href="/form-single-sekolah;{{$data->id}}">{{$data->judul}}</a></h2>
                               <div class="post-meta">
-                               <p class="isi">{{$data->isi}}</p>
+                               <p class="isi">{!!$data->isi!!}</p>
                                 <span class="date-read">{{substr($data->updated_at,0,10)}}<span class="mx-1">&bullet;</span></span>
                               </div>
                             </div>

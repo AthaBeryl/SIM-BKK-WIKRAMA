@@ -1,7 +1,7 @@
 @extends('layouts.landing')
 @section('title','SMK WIKRAMA BOGOR')
 @section('content')
-
+<div id="fb-root"></div>
 @foreach($sekolah as $data)
 <div class="site-section">
     <div class="container">
@@ -18,7 +18,7 @@
        </div>
 
        <div class="col-md-12">
-            <p style="color:black;font-size:16px;" class="mb-4">{{$data->isi}}</p>
+            <p style="color:black;font-size:16px;" class="mb-4">{!!$data->isi!!}</p>
        </div>
 
       <div class="col-md-6">
@@ -29,5 +29,5 @@
      </div>
     </div>
 @endforeach
-
+<hr>
 @endsection

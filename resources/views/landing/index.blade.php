@@ -18,8 +18,11 @@
       <!-- Content -->
       <h2 class="card-title text-black h2">Sistem Informasi Bursa Kerja Khusus</h2>
       <h5 class="h5 text-black mb-4">SMK WIKRAMA BOGOR</h5>
+      @guest
     <a href="{{route('login')}}" class="btn peach-gradient hover-login">Login</a>
-
+      @else
+      <a href="{{route('home')}}" class="btn peach-gradient hover-login">Dashboard</a>
+      @endguest
     </div>
   </div>
 </div>
@@ -38,18 +41,22 @@
                                 </div>
                               </div>
                                 <div class="col-md-12">
-                                  @foreach($lowongan as $data)
+                                  @forelse($lowongan as $data)
                                   <div class="post-entry-2 d-flex">
                                     <div class="thumbnail zoom" style="border-radius:10px;background-image: url('image/InfoLowongan/{{$data->foto}}')"></div>
                                     <div class="contents">
                                       <h2><a href="/form-single-lowongan;{{$data->id}}">{{$data->judul}}</a></h2>
                                       <div class="post-meta">
-                                       <p class="isi">{{$data->isi}}</p>
+                                       <p class="isi"> {!!$data->isi!!}</p>
                                         <span class="date-read">{{substr($data->updated_at,0,10)}}<span class="mx-1">&bullet;</span></span>
                                       </div>
                                     </div>
                                   </div>
-                                  @endforeach
+                                  @empty
+    
+                                  <center><i class="far fa-sad-tear"></i><h1>Belum Tersedia</h1></center>
+                                 @endforelse
+
                                   {{-- More --}}
                                   <p>
                                         <a href="{{url('/form-full-lowongan')}}" class="more">Lainnya<span class="icon-keyboard_arrow_right"></span></a>
@@ -77,7 +84,7 @@
                             </div>
                           </div>
                             <div class="col-md-12">
-                              @foreach($sekolah as $data)
+                              @forelse($sekolah as $data)
                               <div class="post-entry-2 d-flex">
                                 <div class="thumbnail zoom" style="border-radius:10px;background-image: url('image/InfoSekolah/{{$data->foto}}')"></div>
                                 <div class="contents">
@@ -88,7 +95,11 @@
                                   </div>
                                 </div>
                               </div>
-                              @endforeach
+                              @empty
+    
+                              <center><i class="far fa-sad-tear"></i><h1>Belum Tersedia</h1></center>
+                              @endforelse
+
                               {{-- More --}}
                               <p>
                                     <a href="{{url('/form-full-sekolah')}}" class="more">Lainnya<span class="icon-keyboard_arrow_right"></span></a>
@@ -110,7 +121,7 @@
       </div>
       <div class="owl-carousel">
         {{-- cards --}}
-        @foreach($pesan as $p)
+        @forelse($pesan as $p)
         <div class="card mb-4" style="width: 18rem;">
           <div class="card-header">
             {{$p->name}}
@@ -122,7 +133,10 @@
             <!-- footer -->
           </div>
         </div>
-        @endforeach
+        @empty
+    
+    @endforelse
+
         {{-- End cards --}} 
       </div>
     </div>

@@ -36,6 +36,7 @@ class InfoLowonganController extends Controller
 
     public function json()
     {
+       
         return Datatables::of(InfoLowongan::all())->make(true);
     }
 

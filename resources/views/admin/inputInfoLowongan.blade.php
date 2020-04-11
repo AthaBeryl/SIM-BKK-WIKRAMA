@@ -45,7 +45,7 @@
 
               <h5><label id="isi" class="form-control-label col-lg-3 mt-4">Isi</label></h5>
               <div class="col-lg-12">
-                <textarea name="isi" id="isi" required class="form-control" cols="30" rows="10"></textarea>
+                <textarea name="isi" id="isi" class="form-control" cols="30" rows="10"></textarea>
               </div>
 
               <h5><label id="foto" class="form-control-label col-lg-3 mt-4">Foto</label></h5>
@@ -71,6 +71,20 @@
   </div>
 </div>
 </div>
+<script src="https://cdn.tiny.cloud/1/6qed0blc4b73g5p5uwh7acq07ay1sli0skekw9shc6wz2sbc/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+<script>
+   tinymce.init({
+  selector: 'textarea',
+  height: 500,
+  plugins: [
+  'advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker',
+  'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',
+  'table emoticons template paste help'
+],
+toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media fullpage | forecolor backcolor emoticons',
+  content_css: '//www.tiny.cloud/css/codepen.min.css'
+});
+  </script>
 <script>
 function readURL(input) {
   if (input.files && input.files[0]) {

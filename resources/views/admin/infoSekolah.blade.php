@@ -15,6 +15,7 @@
   text-overflow: ellipsis;
 }
 </style>
+
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <!-- END: Left Aside -->
 <div class="m-grid__item m-grid__item--fluid m-wrapper">
@@ -76,6 +77,7 @@
   </div>
 </div>
 </div>
+
 <script type="text/javascript">
 
   var table = $('#table').DataTable({
