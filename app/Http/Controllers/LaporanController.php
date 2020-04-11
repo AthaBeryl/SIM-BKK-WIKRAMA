@@ -180,10 +180,10 @@ class LaporanController extends Controller
     {
        
         $preset = preset::where('status','active')->first();
-        $kuliah = Siswa::where('status_id','2')->whereRaw("(lulus = ".$request->tahunLulus.")")->count();
-        $kerja = Siswa::where('status_id','1')->whereRaw("(lulus = ".$request->tahunLulus.")")->count();
-        $wirausaha = Siswa::where('status_id','3')->whereRaw("(lulus = ".$request->tahunLulus.")")->count();
-        $belumInput = Siswa::where('status_id','4')->whereRaw("(lulus = ".$request->tahunLulus.")")->count();
+        $kuliah = Siswa::where('status_id','2')->whereRaw("(lulus = ".$request->tahunLulus.")")->whereRaw("(jurusan_id = ".$request->jurusan.")")->count();
+        $kerja = Siswa::where('status_id','1')->whereRaw("(lulus = ".$request->tahunLulus.")")->whereRaw("(jurusan_id = ".$request->jurusan.")")->count();
+        $wirausaha = Siswa::where('status_id','3')->whereRaw("(lulus = ".$request->tahunLulus.")")->whereRaw("(jurusan_id = ".$request->jurusan.")")->count();
+        $belumInput = Siswa::where('status_id','4')->whereRaw("(lulus = ".$request->tahunLulus.")")->whereRaw("(jurusan_id = ".$request->jurusan.")")->count();
         $jurusan = Jurusan::all();
         $siswa = Siswa::whereRaw("(lulus = ".$request->tahunLulus.")")->whereRaw("(jurusan_id = ".$request->jurusan.")")->get();
         $collectAllSiswa = Siswa::whereRaw("(lulus = ".$request->tahunLulus.")")->whereRaw("(jurusan_id = ".$request->jurusan.")")->pluck('nis');
@@ -302,8 +302,8 @@ class LaporanController extends Controller
         //chart pendapatan
         $pendapatan = new pendapatan;
         $RevenueA = StatusDetail::wherein('nis',$collectAllSiswa)->where('pendapatan','>=',10000000)->count();
-        $RevenueB = StatusDetail::wherein('nis',$collectAllSiswa)->where('pendapatan','>=',3000000)->count();
-        $RevenueC = StatusDetail::wherein('nis',$collectAllSiswa)->where('pendapatan','>=',1000000)->count();
+        $RevenueB = StatusDetail::wherein('nis',$collectAllSiswa)->where('pendapatan','>=',3000000)->where('pendapatan','<=',10000000)->count();
+        $RevenueC = StatusDetail::wherein('nis',$collectAllSiswa)->where('pendapatan','>=',1000000)->where('pendapatan','<=',3000000)->count();
         $RevenueD = StatusDetail::wherein('nis',$collectAllSiswa)->where('pendapatan','<=',500000)->count();
         $pendapatan->labels(['>= 10.000.000','>= 3.000.000','>= 1.000.000','<= 500.000']);
         $pendapatan->dataset('Jumlah Alumni','pie',[$RevenueA,$RevenueB,$RevenueC,$RevenueD])->options([
