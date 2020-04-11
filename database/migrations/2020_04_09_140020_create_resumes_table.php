@@ -14,7 +14,7 @@ class CreateResumesTable extends Migration
     public function up()
     {
         DB::statement('CREATE view Resume as
-        SELECT siswas.user_id as user_id,users.name as nama_siswa,status_details.nis,jurusans.jurusan,rayons.rayon,siswas.alamat as alamat_siswa,siswas.telp,email,siswas.masuk,siswas.lulus,siswas.jk,jabatan,instansis.nama,instansis.alamat,instansis.kota,durasi_kontrak,pendapatan,statuses.status,status_details.created_at,status_details.updated_at,users.foto FROM status_details
+        SELECT status_details.id, siswas.user_id as user_id,users.name as nama_siswa,status_details.nis,jurusans.jurusan,rayons.rayon,siswas.alamat as alamat_siswa,siswas.telp,email,siswas.masuk,siswas.lulus,siswas.jk,jabatan,instansis.nama,instansis.alamat,instansis.kota,durasi_kontrak,pendapatan,statuses.status,status_details.created_at,status_details.updated_at,users.foto FROM status_details
               INNER JOIN siswas on siswas.nis = status_details.nis
               LEFT JOIN instansis on instansis.id = status_details.id_instansi
               INNER JOIN statuses on statuses.id = status_details.status_id

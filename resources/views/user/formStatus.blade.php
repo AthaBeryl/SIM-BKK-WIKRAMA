@@ -37,13 +37,14 @@
               <thead>
                 <tr>
                   <th>No</th>
-                  <th>created_at</th>
-                  <th>status</th>
-                  <th>nama</th>
-                  <th>jabatan</th>
-                  <th>alamat</th>
-                  <th>kota</th>
-                  <th>durasi_kontrak</th>
+                  <th style="width:120px">created_at</th>
+                  <th>Status</th>
+                  <th>Nama</th>
+                  <th>Jenis</th>
+                  <th>Alamat</th>
+                  <th>Kota</th>
+                  <th>Durasi</th>
+                  <th>Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -83,17 +84,19 @@
   { data: 'alamat', name: 'alamat' },
   { data: 'kota', name: 'kota' },
   { data: 'durasi_kontrak', name: 'durasi_kontrak'},
-//   {data: "id",
-//   "searchable": false,
-//   "sortable": false,
-//   render: function (id, type, full, meta) {
-//     return '<div class="btn-group"><a href="javascript:void(0)" data-toggle="tooltip" id="edit"  data-id="'+id+'" data-original-title="Delete" class="btn btn-warning btn-sm"><i class="fa fa-edit" style="color:white;"></i></a>  <a href="javascript:void(0)" data-toggle="tooltip" id="delete"  data-id="'+id+'" data-original-title="Delete" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a></div>';
-//   },
-// }, -> error
+  {data: "id",
+  "searchable": false,
+  "sortable": false,
+  render: function (id, type, full, meta) {
+    return '<div class="btn-group"><a href="javascript:void(0)" data-toggle="tooltip" id="delete"  data-id="'+id+'" data-original-title="Delete" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a></div>';
+  },
+},
 ],
 });
 
   $(document).on('click','#delete',function(){
+    var id = $(this).data("id");
+    console.log(id);
   swal({
   title: 'Apakah Anda yakin?',
   type: 'warning',
