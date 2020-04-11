@@ -130,11 +130,21 @@
             <p class="card-text">{{$p->pesan}}</p>
           </div>
           <div class="blockquote-footer card-footer text-center ">
-            <!-- footer -->
+            {{$p->jurusan}}
           </div>
         </div>
         @empty
-    
+        <div class="card mb-4" style="width: 18rem;">
+          <div class="card-header">
+            Belum Ada Data
+          </div>
+          <div class="card-body">
+            <p class="card-text"> Belum Ada Data</p>
+          </div>
+          <div class="blockquote-footer card-footer text-center ">
+          Belum Ada Data
+          </div>
+        </div>
     @endforelse
 
         {{-- End cards --}} 
