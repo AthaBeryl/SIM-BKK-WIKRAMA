@@ -28,7 +28,7 @@ ide dari pembuatan simbkk ini adalah untuk mendigitalisasi proses proses yang di
     
 ## INSTALASI APLIKASI
 1. clone aplikasi ini pada local server anda
-2. buat datatabase kosong dengan nama SIMBKK2019
+2. buat datatabase kosong dengan nama simbkk2019
 3. jalankan git bash atau cmd pada direktori projeck ini
 4. jalankan perintah : php artisan migrate --seed
 5. tunggu proses selesai
