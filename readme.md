@@ -29,11 +29,12 @@ ide dari pembuatan simbkk ini adalah untuk mendigitalisasi proses proses yang di
 ## INSTALASI APLIKASI
 1. clone aplikasi ini pada local server anda
 2. Extrak File MissingFiles.rar
-2. buat datatabase kosong dengan nama simbkk2019
-3. jalankan git bash atau cmd pada direktori projeck ini
-4. jalankan perintah : php artisan migrate --seed
-5. tunggu proses selesai
-6. login menggunakan username dan password default
+3. buat datatabase kosong dengan nama simbkk2019
+4. jalankan git bash atau cmd pada direktori projeck ini
+6. jalankan perintah : php artisan config:cache
+7. jalankan perintah : php artisan migrate --seed
+8. tunggu proses selesai
+9. login menggunakan username dan password default
 - admin
     - username : admin
     - password : admin12345
