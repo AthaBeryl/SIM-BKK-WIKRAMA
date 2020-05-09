@@ -566,6 +566,7 @@ class ComposerStaticInit307f1352319bc20c2548101b2debf350
         'App\\Http\\Controllers\\LandingsController' => __DIR__ . '/../..' . '/app/Http/Controllers/LandingsController.php',
         'App\\Http\\Controllers\\LaporanController' => __DIR__ . '/../..' . '/app/Http/Controllers/LaporanController.php',
         'App\\Http\\Controllers\\PesanController' => __DIR__ . '/../..' . '/app/Http/Controllers/PesanController.php',
+        'App\\Http\\Controllers\\PicConfigController' => __DIR__ . '/../..' . '/app/Http/Controllers/PicConfigController.php',
         'App\\Http\\Controllers\\PortofolioController' => __DIR__ . '/../..' . '/app/Http/Controllers/PortofolioController.php',
         'App\\Http\\Controllers\\PresetController' => __DIR__ . '/../..' . '/app/Http/Controllers/PresetController.php',
         'App\\Http\\Controllers\\ProductController' => __DIR__ . '/../..' . '/app/Http/Controllers/ProductController.php',

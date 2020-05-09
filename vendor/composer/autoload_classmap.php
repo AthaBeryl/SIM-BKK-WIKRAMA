@@ -35,6 +35,7 @@ return array(
     'App\\Http\\Controllers\\LandingsController' => $baseDir . '/app/Http/Controllers/LandingsController.php',
     'App\\Http\\Controllers\\LaporanController' => $baseDir . '/app/Http/Controllers/LaporanController.php',
     'App\\Http\\Controllers\\PesanController' => $baseDir . '/app/Http/Controllers/PesanController.php',
+    'App\\Http\\Controllers\\PicConfigController' => $baseDir . '/app/Http/Controllers/PicConfigController.php',
     'App\\Http\\Controllers\\PortofolioController' => $baseDir . '/app/Http/Controllers/PortofolioController.php',
     'App\\Http\\Controllers\\PresetController' => $baseDir . '/app/Http/Controllers/PresetController.php',
     'App\\Http\\Controllers\\ProductController' => $baseDir . '/app/Http/Controllers/ProductController.php',
