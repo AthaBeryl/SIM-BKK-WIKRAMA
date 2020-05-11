@@ -1,28 +1,35 @@
 /* Base */
 html {
-  overflow-x: hidden; }
+  overflow-x: hidden; 
+  margin: 0;
+}
   .zoom {
     padding: 50px;
     background-color: green;
     transition: transform .2s; /* Animation */
     width: 200px;
     height: 200px;
-    margin: 0 auto;
+    margin: 0;
+    min-height: 100%;
   }
   
   .zoom:hover {
     transform: scale(1.5); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
   }
-      html {
-    position: relative;
-    min-height: 100%;
+  @media only screen and (max-width: 768px) {
+    .sizefootertextarea{
+      width: 250px;
+      margin-left: 50px;
+    }
+
   }
-  body {
-    /* Margin bottom by footer height */
-    margin-bottom: 300px;
-  }
+  html, body {
+    margin:0;
+    padding:0;
+    height:100%;
+ }
   .footer {
-    position: absolute;
+    position: relative;
     bottom: 0;
     width: 100%;
     /* Set the fixed height of the footer here */

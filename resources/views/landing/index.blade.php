@@ -116,7 +116,7 @@
                                   </div>
                                   @empty
     
-                                  <center><i class="far fa-sad-tear"></i><h1>Belum ada Info Sekolah</h1></center>
+                                  <center><i class="far fa-sad-tear"></i><h4>Belum ada Info Sekolah</h4></center>
                                  @endforelse
 
                                   {{-- More --}}
@@ -159,7 +159,7 @@
                               </div>
                               @empty
     
-                              <center><i class="far fa-sad-tear"></i><h1>Belum ada Info Lowongan</h1></center>
+                              <center><i class="far fa-sad-tear"></i><h4>Belum ada Info Lowongan</h4></center>
                               @endforelse
 
                               {{-- More --}}
@@ -209,7 +209,7 @@
         </div>
       </div>
       @empty
-      <center><i class="far fa-sad-tear"></i><h1>Belum ada Pesan</h1></center>
+      <center><i class="far fa-sad-tear"></i><h4>Belum ada Pesan</h4></center>
       @endforelse
     </div>
     <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">

@@ -17,7 +17,7 @@
   <link rel="stylesheet" href="landing/css/owl.carousel.min.css">
   <link rel="stylesheet" href="landing/css/owl.theme.default.min.css">
   <link rel="stylesheet" href="landing/css/owl.theme.default.min.css">
-
+  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
   <link rel="stylesheet" href="landing/css/jquery.fancybox.min.css">
 
   <link rel="stylesheet" href="landing/css/bootstrap-datepicker.css">
@@ -113,51 +113,76 @@
   {{-- Body --}}
   @yield('content')
   {{-- End Body --}}
-  <footer class="footer">
-      <div class="container">
-          <div class="row">
-              <div class="col-md-5">
-                  <h4>Bursa Kerja Khusus</h4>
-                  <h5>SMK WIKRAMA BOGOR</h5>
-                  <div class="row">
-                      <div class="col-md-12">
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa quae animi, laboriosam voluptatibus neque ipsum quidem quas eius assumenda quam magnam, eos dolorem architecto sequi esse omnis veniam tenetur ad!</p>
-                      </div>
-                  </div>
-                  <ul class="nav">
-                      <li class="nav-item"><a href="" class="nav-link pl-0"><i class="fa fa-facebook fa-lg"></i></a></li>
-                      <li class="nav-item"><a href="" class="nav-link"><i class="fa fa-twitter fa-lg"></i></a></li>
-                      <li class="nav-item"><a href="" class="nav-link"><i class="fa fa-github fa-lg"></i></a></li>
-                      <li class="nav-item"><a href="" class="nav-link"><i class="fa fa-instagram fa-lg"></i></a></li>
-                  </ul>
-                  <br>
-              </div>
-              @guest
-              
-              @else
-              <div class="col-md-2">
-                  <h5 class="text-md-right">Kirim Pesan</h5>
-                  <hr>
-              </div>
-              <div class="col-md-5">
-                  <form id="formpesan">
-                      <fieldset class="form-group">
-                          <textarea class="form-control" name="pesan" id="pesan" rows="4" placeholder="Pesan"></textarea>
-                      </fieldset>
-                      <fieldset class="form-group text-xs-right">
-                          <button type="button" id="send" class="btn btn-secondary-outline btn-lg">Send</button>
-                      </fieldset>
-                  </form>
-              @endguest
-              </div>
-          </div>
+ <!-- Footer -->
+<footer class="page-footer font-small stylish-color-dark pt-4">
+
+  <!-- Footer Links -->
+  <div class="container text-center text-md-left">
+
+    <!-- Grid row -->
+    <div class="row">
+
+      <!-- Grid column -->
+      <div class="col-md-4 mx-auto">
+
+        <!-- Content -->
+        <h4 class="font-weight-bold text-uppercase ">Bursa kerja Khusus</h4>
+        <h5 class="mb-2">SMK WIKRAMA BOGOR</h5>
+        <p>adalah sebuah lembaga yang dibentuk di Sekolah Menengah Kejuruan Negeri dan Swasta, sebagai unit pelaksana yang memberikan pelayanan dan informasi lowongan kerja, pelaksana pemasaran, penyaluran dan penempatan tenaga kerja, merupakan mitra Dinas Tenaga Kerja dan Transmigrasi.</p>
+
       </div>
-      <p class="mt-2">
-          <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-          Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart text-danger" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank" >Colorlib</a>
-          <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-          </p>
-  </footer>
+      <!-- Grid column -->
+
+      <hr class="clearfix w-100 d-md-none">
+
+      <!-- Grid column -->
+      <div class="col-md-2 mx-auto">
+
+        <!-- Links -->
+        <h5 class="font-weight-bold text-uppercase mt-3 mb-4">Hotline : </h5>
+
+        <ul class="list-unstyled">
+          <li>
+            <i class="fab fa-whatsapp"></i> 087775086000
+          </li>
+        </ul>
+
+      </div>
+      <!-- Grid column -->
+
+      <hr class="clearfix w-100 d-md-none">
+
+      <!-- Grid column -->
+      <div class="col-md-6 mx-auto">
+        @guest
+        
+        @else
+        <h5 class="font-weight-bold text-uppercase mt-3 mb-4">Kirim Pesan</h5>
+        
+          <form id="formpesan">
+          <fieldset class="form-group">
+              <textarea class="form-control sizefootertextarea" name="pesan" id="pesan" rows="4" placeholder="Pesan"></textarea>
+          </fieldset>
+          <fieldset class="form-group text-xs-right">
+              <button type="button" id="send" class="btn btn-secondary-outline btn-lg">Send</button>
+          </fieldset>
+      </form>
+@endguest
+      </div>
+      <!-- Grid column -->
+    </div>
+    <!-- Grid row -->
+  </div>
+  <!-- Copyright -->
+  <div class="footer-copyright text-center py-3">
+   <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+   Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart text-danger" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank" >Colorlib</a>
+   <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+  </div>
+  <!-- Copyright -->
+
+</footer>
+<!-- Footer -->
 
   
     <!-- .site-wrap -->
