@@ -56,6 +56,12 @@
               <div class="col-lg-12">
                 <input type="file" name="foto" id="filePhoto" class="form-control m-input">
               </div>
+
+              <h5><label id="expired" class="form-control-label col-lg-12 mt-4">Expired Date</label></h5>
+              <div class="col-lg-12">
+                <input type="date" name="expired" required id="expired" value="{{$d->expired}}" class="form-control m-input">
+              </div>
+
               <div class="col-lg-12 mt-4">
                 <button type="input" class="btn {{$preset->buttonClass}}">Save Data</button>
               </div>

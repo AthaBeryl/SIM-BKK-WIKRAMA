@@ -38,7 +38,7 @@
           {{ csrf_field() }}
             <div class="form-group m-form__group row">
               <input type="hidden" name="id" id="id" class="form-control m-input">
-              <h5><label id="isi" class="form-control-label col-lg-3 mt-4">Judul</label></h5>
+              <h5><label id="judul" class="form-control-label col-lg-3 mt-4">Judul</label></h5>
               <div class="col-lg-12">
                 <input type="text" name="judul" required id="judul" class="form-control m-input">
               </div>
@@ -55,6 +55,12 @@
               <div class="col-lg-12">
                 <input type="file" name="foto" id="filePhoto" class="form-control m-input">
               </div>
+
+              <h5><label id="expired" class="form-control-label col-lg-12 mt-4">Expired Date</label></h5>
+              <div class="col-lg-12">
+                <input type="date" name="expired" required id="expired" class="form-control m-input">
+              </div>
+
               <div class="col-lg-12 mt-4">
                 <button type="input" class="btn {{$preset->buttonClass}}">Save Data</button>
               </div>

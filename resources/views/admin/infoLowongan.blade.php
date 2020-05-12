@@ -55,7 +55,8 @@
                   <th>Judul</th>
                   <th style="width:300px">Isi</th>
                   <th style="width:100px">Foto</th>
-                  <th style="width:100px">Status</th>
+                  <th style="width:50px">Status</th>
+                  <th style="width:80px">Expired Date</th>
                   <th style="width:140px">Action</th>
                 </tr>
               </thead>
@@ -93,23 +94,29 @@
   {data: "isi",
   "searchable": false,
   "sortable": false,
-  render: function (id, type, full, meta) {
+  render: function (id) {
     return '<div class="isi">'+id+'</div>';
   },
 },
   {data: "foto",
   "searchable": false,
   "sortable": false,
-  render: function (id, type, full, meta) {
+  render: function (id) {
     return '<img src="/image/infolowongan/'+id+'" alt="'+id+'" height="100" width="100">';
   },
 },
   {data: 'status'},
+  {data: 'expired'},
   {data: "id",
   "searchable": false,
   "sortable": false,
-  render: function (id, type, full, meta) {
-    return '<div class="btn-group"><a href="javascript:void(0)" data-toggle="tooltip" id="active"  data-id="'+id+'" class="btn btn-success btn-sm"><i class="fa fa-check" style="color:white;"></i></a><a href="javascript:void(0)" data-toggle="tooltip" id="deactive"  data-id="'+id+'" class="btn btn-danger btn-sm"><i class="fa fa-times" style="color:white;"></i></a>&nbsp&nbsp</div><div class="btn-group"><a href="/editinfolowongan;'+id+'" data-toggle="tooltip" id="edit"  data-id="'+id+'" class="btn btn-warning btn-sm"><i class="fa fa-edit" style="color:white;"></i></a>  <a href="javascript:void(0)" data-toggle="tooltip" id="delete"  data-id="'+id+'" data-original-title="Delete" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a></div>';
+  render: function (id, type, row) {
+    if (row.status === 'Expired') {
+      return '<div class="btn-group"><a class="btn btn-success btn-sm disabled"><i class="fa fa-check" style="color:white;"></i></a><a class="btn btn-danger btn-sm disabled"><i class="fa fa-times" style="color:white;"></i></a>&nbsp&nbsp</div><div class="btn-group"><a class="btn btn-warning btn-sm disabled"><i class="fa fa-edit" style="color:white;"></i></a>  <a href="javascript:void(0)" data-toggle="tooltip" id="delete"  data-id="'+id+'" data-original-title="Delete" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a></div>';
+    }
+    else {
+      return '<div class="btn-group"><a href="javascript:void(0)" data-toggle="tooltip" id="active"  data-id="'+id+'" class="btn btn-success btn-sm"><i class="fa fa-check" style="color:white;"></i></a><a href="javascript:void(0)" data-toggle="tooltip" id="deactive"  data-id="'+id+'" class="btn btn-danger btn-sm"><i class="fa fa-times" style="color:white;"></i></a>&nbsp&nbsp</div><div class="btn-group"><a href="/editinfolowongan;'+id+'" data-toggle="tooltip" id="edit"  data-id="'+id+'" class="btn btn-warning btn-sm"><i class="fa fa-edit" style="color:white;"></i></a>  <a href="javascript:void(0)" data-toggle="tooltip" id="delete"  data-id="'+id+'" data-original-title="Delete" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a></div>';
+    }
   },
 },
 ],

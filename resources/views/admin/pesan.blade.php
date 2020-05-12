@@ -21,7 +21,7 @@
   <div class="m-subheader ">
     <div class="d-flex align-items-center">
       <div class="mr-auto">
-        <h3 class="m-subheader__title ">Info Sekolah</h3>
+        <h3 class="m-subheader__title ">Pesan</h3>
       </div>
     </div>
   </div>
@@ -30,17 +30,13 @@
   <br>
   <div class="container">
     <div class="row">
-      <div class="col-xl-12 mb-4">
-        <a href="/inputinfosekolah"><div class="btn {{$preset->buttonClass}}" >Masukkan Info Sekolah</div></a>
-      </div>
-
       <div class="col-xl-12">
         <div class="m-portlet m-portlet--mobile ">
           <div class="m-portlet__head">
             <div class="m-portlet__head-caption">
               <div class="m-portlet__head-title">
                 <h3 class="m-portlet__head-text">
-                  Info Sekolah
+                  Pesan
                 </h3>
               </div>
             </div>

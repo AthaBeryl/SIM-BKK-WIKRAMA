@@ -6,6 +6,7 @@ use App\InfoLowongan;
 use App\Preset;
 use DataTables;
 use File;
+use Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -36,7 +37,6 @@ class InfoLowonganController extends Controller
 
     public function json()
     {
-       
         return Datatables::of(InfoLowongan::all())->make(true);
     }
 
@@ -76,6 +76,7 @@ class InfoLowonganController extends Controller
     		'judul' => $request->judul,
             'isi' => $request->isi,
             'foto' => $nama_file,
+            'expired' => $request->expired,
             'status' => 'Aktif'
         ]);
 
@@ -118,6 +119,7 @@ class InfoLowonganController extends Controller
         $lowongan = InfoLowongan::find($id);
         $lowongan->judul = $request->judul;
         $lowongan->isi = $request->isi;
+        $lowongan->expired = $request->expired;
         if ($request->hasFile('foto')) {
             $gambar = InfoLowongan::where('id',$id)->first();
 	        File::delete('image/InfoLowongan/'.$gambar->foto);

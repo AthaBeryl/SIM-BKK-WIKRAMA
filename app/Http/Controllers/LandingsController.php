@@ -15,6 +15,12 @@ class LandingsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        InfoLowongan::where('expired','<=',\Carbon\Carbon::now()->format('Y-m-d'))
+                    ->update(['status' => 'Expired']);
+    }
+
     public function index()
     {
         $pesan = viewPesan::where('status','Aktif')->get();
